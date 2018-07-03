@@ -1,7 +1,9 @@
 package com.padshift.sonic.controller;
 
 import com.padshift.sonic.entities.User;
+import com.padshift.sonic.entities.Video;
 import com.padshift.sonic.service.UserService;
+import com.padshift.sonic.service.VideoService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -28,6 +31,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    VideoService videoService;
 
     @RequestMapping("/homepage")
     public String showLoginPage(){
@@ -49,6 +55,10 @@ public class UserController {
         return "UserProfile";
     }
 
+
+
+
+
     @RequestMapping("/request")
     public String showFYAPI(){
         try {
@@ -64,7 +74,7 @@ public class UserController {
 
             );
 
-            //TESTING NI REGILSZZ
+
             String inputLine;
             StringBuffer response = new StringBuffer();
             while((inputLine = in.readLine())!=null){
@@ -72,6 +82,8 @@ public class UserController {
             }
 
             in.close();
+
+
             System.out.println(response.toString());
 
             JSONObject myresponse = null;
@@ -88,13 +100,10 @@ public class UserController {
                     JSONObject vidTitle = vid.getJSONObject("snippet");
 
                     System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title"));
-
+                    this.saveMV(vidId.getString("videoId"),vidTitle.getString("title"));
 
                 }
 
-//                String vidUrl = "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=2Vv-BfVoq4g&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
-//                URL vidobj = new URL(url);
-//                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
                 //System.out.println("TEST: " + videos.getJSONObject());
 
@@ -109,8 +118,26 @@ public class UserController {
             e.printStackTrace();
         }
 
-
         return "FetchYoutubeAPI";
+    }
+
+
+    public void saveMV(String vidId, String title){
+        Video newVideo = new Video();
+
+        newVideo.setVideoid(vidId);
+        newVideo.setMvtitle(title);
+        videoService.saveVideo(newVideo);
+
+    }
+
+    @RequestMapping("/request2")
+    public String showTesting() throws IOException {
+
+
+
+
+        return "testing";
     }
 
 
