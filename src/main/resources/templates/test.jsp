@@ -1,5 +1,6 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 
 <!-- Mirrored from uselooper.com/user-profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 30 Apr 2018 08:08:05 GMT -->
 <head>
@@ -53,7 +54,6 @@
     <!-- BEGIN THEME STYLES -->
     <link rel="stylesheet" href="/stylesheets/main.min.css">
     <link rel="stylesheet" href="/stylesheets/custom.css">
-
     <!-- END THEME STYLES -->
 </head>
 <body>
@@ -1530,7 +1530,7 @@
                         <!-- .section-block -->
                         <div class="section-block">
                             <h2 class="section-title" style="color: white;"> Videos Recently Watched </h2>
-                           
+
                         </div>
                         <!-- /.section-block -->
                         <!-- grid row -->
@@ -1997,23 +1997,87 @@
 
                         </div>
                         <!-- /.section-block -->
-                        <div class="col-xl-3 col-lg-4 col-sm-6" th:each="vid : ${vids}">
-                            <!-- .card -->
-                            <section class="card card-figure">
-                                <!-- .card-figure -->
-
-
-                                <iframe width="560" height="315" th:src="@{https://www.youtube.com/embed/{url} (url=${vid.videoid})}"   frameborder="0" alt="no video attached" allowfullscreen="1"></iframe>
-
-
-                                <!-- /.card-figure -->
-                            </section>
-                            <!-- /.card -->
-                        </div>
-
-
                         <!-- grid row -->
+                        <div class="row pswp-gallery">
+                            <!-- grid column -->
+                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                                <!-- .card -->
+                                <section class="card card-figure">
+                                    <!-- .card-figure -->
+                                    <figure class="figure">
+                                        <!-- .figure-img -->
+                                        <div class="figure-img">
+                                            <img class="img-fluid" src="/images/dummy/img-5.jpg" alt="Card image cap">
+                                            <a href="/images/dummy/img-5-lg.jpg" class="img-link" data-size="1000x1000">
+                                                <div class="tile tile-circle bg-danger">
+                                                    <span class="oi oi-eye"></span>
+                                                </div>
+                                            </a>
+                                            <div class="figure-action">
+                                                <a href="#" class="btn btn-block btn-sm btn-primary">View Details</a>
+                                            </div>
+                                        </div>
+                                        <!-- /.figure-img -->
+                                        <!-- .figure-caption -->
+                                        <figcaption class="figure-caption" data-caption="Image caption goes here">
+                                            <ul class="list-inline text-muted mb-0">
+                                                <li class="list-inline-item">
+                                                    <span class="oi oi-paperclip"></span> 0.62MB </li>
+                                                <li class="list-inline-item float-right">
+                                                    <span class="oi oi-calendar"></span>
+                                                </li>
+                                            </ul>
+                                        </figcaption>
+                                        <!-- /.figure-caption -->
+                                    </figure>
+                                    <!-- /.card-figure -->
+                                </section>
+                                <!-- /.card -->
+                            </div>
+                            <!-- /grid column -->
+                            <!-- grid column -->
+                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                                <!-- .card -->
+                                <section class="card card-figure">
+                                    <!-- .card-figure -->
+                                    <figure class="figure">
+                                        <!-- .figure-img -->
+                                        <div class="figure-img">
+                                            <img class="img-fluid" src="/images/dummy/img-6.jpg" alt="Card image cap">
+                                            <a href="/images/dummy/img-6-lg.jpg" class="img-link" data-size="1000x1000">
+                                                <div class="tile tile-circle bg-danger">
+                                                    <span class="oi oi-eye"></span>
+                                                </div>
+                                            </a>
+                                            <div class="figure-action">
+                                                <a href="#" class="btn btn-block btn-sm btn-primary">View Details</a>
+                                            </div>
+                                        </div>
+                                        <!-- /.figure-img -->
+                                        <!-- .figure-caption -->
+                                        <figcaption class="figure-caption" data-caption="Image caption goes here">
+                                            <ul class="list-inline text-muted mb-0">
+                                                <li class="list-inline-item">
+                                                    <span class="oi oi-paperclip"></span> 0.62MB </li>
+                                                <li class="list-inline-item float-right">
+                                                    <span class="oi oi-calendar"></span>
+                                                </li>
+                                            </ul>
+                                        </figcaption>
+                                        <!-- /.figure-caption -->
+                                    </figure>
+                                    <!-- /.card-figure -->
+                                </section>
+                                <!-- /.card -->
+                            </div>
+                            <!-- /grid column -->
+                            <!-- grid column -->
 
+                            <!-- /grid column -->
+                            <!-- grid column -->
+
+                            <!-- /grid column -->
+                        </div>
                         <!-- PhotoSwipe (.pswp) element -->
                         <div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
                             <!-- .pswp__bg -->

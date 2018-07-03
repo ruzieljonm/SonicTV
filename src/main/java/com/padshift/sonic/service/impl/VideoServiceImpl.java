@@ -7,6 +7,8 @@ import com.padshift.sonic.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by ruzieljonm on 03/07/2018.
  */
@@ -20,5 +22,12 @@ public class VideoServiceImpl implements VideoService {
     public void saveVideo(Video video) {
         videoRepository.save(video);
     }
+
+    @Override
+    public List<Video> findAll() {
+        return videoRepository.findAll();
+    }
+
+
 
 }

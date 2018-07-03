@@ -8,7 +8,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by ruzieljonm on 26/06/2018.
@@ -50,12 +54,24 @@ public class UserController {
         return "VideoPlayer";
     }
 
+//    @RequestMapping("/profile")
+//    public String showUserProfile(){
+//        return "UserProfile";
+//    }
+
     @RequestMapping("/profile")
-    public String showUserProfile(){
+    public String showUserProfile(HttpServletRequest request, Model model) {
+        List<Video> videoList = videoService.findAll();
+        for (int i =0; i<videoList.size(); i++){
+            System.out.println(videoList.get(i).getVideoid());
+
+        }
+        String link = "https://www.youtube.com/embed/";
+        model.addAttribute("vids", videoList);
+
+        
         return "UserProfile";
     }
-
-
 
 
 
