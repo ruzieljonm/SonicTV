@@ -63,6 +63,8 @@ public class UserController {
                     new InputStreamReader(con.getInputStream())
 
             );
+
+            //TESTING NI REGILSZZ
             String inputLine;
             StringBuffer response = new StringBuffer();
             while((inputLine = in.readLine())!=null){
