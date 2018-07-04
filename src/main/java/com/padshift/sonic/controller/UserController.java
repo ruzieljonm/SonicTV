@@ -66,7 +66,10 @@ public class UserController {
             System.out.println(videoList.get(i).getVideoid());
 
         }
-        String link = "https://www.youtube.com/embed/";
+
+
+
+        //String link = "https://www.youtube.com/embed/";
         model.addAttribute("vids", videoList);
 
         
