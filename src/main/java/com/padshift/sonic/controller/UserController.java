@@ -148,8 +148,9 @@ public class UserController {
     }
 
     @RequestMapping("/request2")
-    public String showTesting() throws IOException {
-
+    public String showTesting(Model model) throws IOException {
+        String msg = "hello";
+        model.addAttribute("msg",msg);
 
 
 
