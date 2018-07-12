@@ -214,19 +214,7 @@ public class UserController {
 
             // Once you have the userID, you can search for tracks, artists or albums easily.
             System.out.println("Search Track:");
-            GracenoteMetadata results = api.searchTrack("Moby", "Play", "Porcelin");
-            results.print();
-
-            System.out.println("Search Artist:");
-            results = api.searchArtist("Moby");
-            results.print();
-
-            System.out.println("Search Album:");
-            results = api.searchAlbum("Moby", "Play");
-            results.print();
-
-            System.out.println("Fetch Album:");
-            results = api.fetchAlbum("97474325-8C600076B380712C6D1C5DC5DC5674F1");
+            GracenoteMetadata results = api.searchTrack("", "Ed Sheeran", "Shape of You [Official Video]");
             results.print();
         }
         catch (GracenoteException e)
