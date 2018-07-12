@@ -16,6 +16,10 @@ public class Video implements Serializable {
     @Column(name="mvtitle")
     private String mvtitle;
 
+
+    @Column(name="thumbnail")
+    private String thumbnail;
+
     public String getVideoid() {
         return videoid;
     }
@@ -31,4 +35,14 @@ public class Video implements Serializable {
     public void setMvtitle(String mvtitle) {
         this.mvtitle = mvtitle;
     }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+
 }

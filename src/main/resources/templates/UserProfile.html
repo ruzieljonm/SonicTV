@@ -1534,17 +1534,17 @@
                         </div>
                         <!-- /.section-block -->
                         <!-- grid row -->
-                        <div class="row">
+                        <div class="row" >
 
                             <!-- grid column zoom action-->
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                            <div class="col-xl-3 col-lg-4 col-sm-6" th:each="vid : ${vids}">
                                 <!-- .card -->
                                 <section class="card card-figure">
                                     <!-- .card-figure -->
                                     <figure class="figure">
                                         <!-- .figure-img -->
                                         <div class="figure-img">
-                                            <img class="img-fluid" src="/images/dummy/img-4.jpg" alt="Card image cap">
+                                            <img th:src="${vid.thumbnail}" style="width:250px;height:200px;"/>
                                             <a href="#" class="img-link">
                                                 <div class="tile tile-circle bg-danger">
                                                     <span class="oi oi-eye"></span>
@@ -1555,9 +1555,8 @@
                                         <!-- .figure-caption -->
                                         <figcaption class="figure-caption">
                                             <h6 class="figure-title">
-                                                <a href="#">Zoom action</a>
+                                                <p th:text="${vid.mvtitle}">
                                             </h6>
-                                            <p class="text-muted mb-0"> Give some text description </p>
                                         </figcaption>
                                         <!-- /.figure-caption -->
                                     </figure>
@@ -1566,216 +1565,7 @@
                                 <!-- /.card -->
                             </div>
                             <!-- /grid column -->
-                            <!-- grid column zoom action-->
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
-                                <!-- .card -->
-                                <section class="card card-figure">
-                                    <!-- .card-figure -->
-                                    <figure class="figure">
-                                        <!-- .figure-img -->
-                                        <div class="figure-img">
-                                            <img class="img-fluid" src="/images/dummy/img-4.jpg" alt="Card image cap">
-                                            <a href="#" class="img-link">
-                                                <div class="tile tile-circle bg-danger">
-                                                    <span class="oi oi-eye"></span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!-- /.figure-img -->
-                                        <!-- .figure-caption -->
-                                        <figcaption class="figure-caption">
-                                            <h6 class="figure-title">
-                                                <a href="#">Zoom action</a>
-                                            </h6>
-                                            <p class="text-muted mb-0"> Give some text description </p>
-                                        </figcaption>
-                                        <!-- /.figure-caption -->
-                                    </figure>
-                                    <!-- /.card-figure -->
-                                </section>
-                                <!-- /.card -->
-                            </div>
-                            <!-- /grid column -->
-                            <!-- grid column zoom action-->
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
-                                <!-- .card -->
-                                <section class="card card-figure">
-                                    <!-- .card-figure -->
-                                    <figure class="figure">
-                                        <!-- .figure-img -->
-                                        <div class="figure-img">
-                                            <img class="img-fluid" src="/images/dummy/img-4.jpg" alt="Card image cap">
-                                            <a href="#" class="img-link">
-                                                <div class="tile tile-circle bg-danger">
-                                                    <span class="oi oi-eye"></span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!-- /.figure-img -->
-                                        <!-- .figure-caption -->
-                                        <figcaption class="figure-caption">
-                                            <h6 class="figure-title">
-                                                <a href="#">Zoom action</a>
-                                            </h6>
-                                            <p class="text-muted mb-0"> Give some text description </p>
-                                        </figcaption>
-                                        <!-- /.figure-caption -->
-                                    </figure>
-                                    <!-- /.card-figure -->
-                                </section>
-                                <!-- /.card -->
-                            </div>
-                            <!-- /grid column -->
-                            <!-- grid column zoom action-->
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
-                                <!-- .card -->
-                                <section class="card card-figure">
-                                    <!-- .card-figure -->
-                                    <figure class="figure">
-                                        <!-- .figure-img -->
-                                        <div class="figure-img">
-                                            <img class="img-fluid" src="/images/dummy/img-4.jpg" alt="Card image cap">
-                                            <a href="#" class="img-link">
-                                                <div class="tile tile-circle bg-danger">
-                                                    <span class="oi oi-eye"></span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!-- /.figure-img -->
-                                        <!-- .figure-caption -->
-                                        <figcaption class="figure-caption">
-                                            <h6 class="figure-title">
-                                                <a href="#">Zoom action</a>
-                                            </h6>
-                                            <p class="text-muted mb-0"> Give some text description </p>
-                                        </figcaption>
-                                        <!-- /.figure-caption -->
-                                    </figure>
-                                    <!-- /.card-figure -->
-                                </section>
-                                <!-- /.card -->
-                            </div>
-                            <!-- /grid column -->
-                            <!-- grid column zoom action-->
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
-                                <!-- .card -->
-                                <section class="card card-figure">
-                                    <!-- .card-figure -->
-                                    <figure class="figure">
-                                        <!-- .figure-img -->
-                                        <div class="figure-img">
-                                            <img class="img-fluid" src="/images/dummy/img-4.jpg" alt="Card image cap">
-                                            <a href="#" class="img-link">
-                                                <div class="tile tile-circle bg-danger">
-                                                    <span class="oi oi-eye"></span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!-- /.figure-img -->
-                                        <!-- .figure-caption -->
-                                        <figcaption class="figure-caption">
-                                            <h6 class="figure-title">
-                                                <a href="#">Zoom action</a>
-                                            </h6>
-                                            <p class="text-muted mb-0"> Give some text description </p>
-                                        </figcaption>
-                                        <!-- /.figure-caption -->
-                                    </figure>
-                                    <!-- /.card-figure -->
-                                </section>
-                                <!-- /.card -->
-                            </div>
-                            <!-- /grid column -->
-                            <!-- grid column zoom action-->
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
-                                <!-- .card -->
-                                <section class="card card-figure">
-                                    <!-- .card-figure -->
-                                    <figure class="figure">
-                                        <!-- .figure-img -->
-                                        <div class="figure-img">
-                                            <img class="img-fluid" src="/images/dummy/img-4.jpg" alt="Card image cap">
-                                            <a href="#" class="img-link">
-                                                <div class="tile tile-circle bg-danger">
-                                                    <span class="oi oi-eye"></span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!-- /.figure-img -->
-                                        <!-- .figure-caption -->
-                                        <figcaption class="figure-caption">
-                                            <h6 class="figure-title">
-                                                <a href="#">Zoom action</a>
-                                            </h6>
-                                            <p class="text-muted mb-0"> Give some text description </p>
-                                        </figcaption>
-                                        <!-- /.figure-caption -->
-                                    </figure>
-                                    <!-- /.card-figure -->
-                                </section>
-                                <!-- /.card -->
-                            </div>
-                            <!-- /grid column -->
-                            <!-- grid column zoom action-->
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
-                                <!-- .card -->
-                                <section class="card card-figure">
-                                    <!-- .card-figure -->
-                                    <figure class="figure">
-                                        <!-- .figure-img -->
-                                        <div class="figure-img">
-                                            <img class="img-fluid" src="/images/dummy/img-4.jpg" alt="Card image cap">
-                                            <a href="#" class="img-link">
-                                                <div class="tile tile-circle bg-danger">
-                                                    <span class="oi oi-eye"></span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!-- /.figure-img -->
-                                        <!-- .figure-caption -->
-                                        <figcaption class="figure-caption">
-                                            <h6 class="figure-title">
-                                                <a href="#">Zoom action</a>
-                                            </h6>
-                                            <p class="text-muted mb-0"> Give some text description </p>
-                                        </figcaption>
-                                        <!-- /.figure-caption -->
-                                    </figure>
-                                    <!-- /.card-figure -->
-                                </section>
-                                <!-- /.card -->
-                            </div>
-                            <!-- /grid column -->
-                            <!-- grid column zoom action-->
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
-                                <!-- .card -->
-                                <section class="card card-figure">
-                                    <!-- .card-figure -->
-                                    <figure class="figure">
-                                        <!-- .figure-img -->
-                                        <div class="figure-img">
-                                            <img class="img-fluid" src="/images/dummy/img-4.jpg" alt="Card image cap">
-                                            <a href="#" class="img-link">
-                                                <div class="tile tile-circle bg-danger">
-                                                    <span class="oi oi-eye"></span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!-- /.figure-img -->
-                                        <!-- .figure-caption -->
-                                        <figcaption class="figure-caption">
-                                            <h6 class="figure-title">
-                                                <a href="#">Zoom action</a>
-                                            </h6>
-                                            <p class="text-muted mb-0"> Give some text description </p>
-                                        </figcaption>
-                                        <!-- /.figure-caption -->
-                                    </figure>
-                                    <!-- /.card-figure -->
-                                </section>
-                                <!-- /.card -->
-                            </div>
-                            <!-- /grid column -->
+
 
                         </div>
                         <!-- /grid row -->
@@ -1791,11 +1581,40 @@
                         <!-- /.section-block -->
                         <div class="col-xl-3 col-lg-4 col-sm-6" th:each="vid : ${vids}">
                             <!-- .card -->
-                            <section class="card card-figure" style="width: 220%">
+
+                            <section class="card card-figure">
                                 <!-- .card-figure -->
-                                   <iframe width="560" height="315" th:src="@{https://www.youtube.com/embed/{url} (url=${vid.videoid})}"   frameborder="0" alt="no video attached" allowfullscreen="1"></iframe>
+                                <figure class="figure">
+                                    <!-- .figure-img -->
+                                    <div class="figure-img">
+                                        <img th:src="${vid.thumbnail}"/>
+                                        <a href="#" class="img-link">
+                                            <div class="tile tile-circle bg-danger">
+                                                <span class="oi oi-eye"></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <!-- /.figure-img -->
+                                    <!-- .figure-caption -->
+                                    <figcaption class="figure-caption">
+                                        <h6 class="figure-title">
+                                            <a href="#">Zoom action</a>
+                                        </h6>
+                                        <p class="text-muted mb-0"> Give some text description </p>
+                                    </figcaption>
+                                    <!-- /.figure-caption -->
+                                </figure>
                                 <!-- /.card-figure -->
                             </section>
+
+                            <!--<section class="card card-figure" style="width: 220%">-->
+                                <!--&lt;!&ndash; .card-figure &ndash;&gt;-->
+                                    <!--<a target="_blank" href="@{${vid.thumbnail}}">-->
+                                        <!--<img th:src="${vid.thumbnail}"/>-->
+                                    <!--</a>-->
+
+                                <!--&lt;!&ndash; /.card-figure &ndash;&gt;-->
+                            <!--</section>-->
                             <!-- /.card -->
 
                         </div>

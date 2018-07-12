@@ -51,6 +51,7 @@ public class UserController {
 
     @RequestMapping("/vplayer")
     public String showVideoPlayer(){
+
         return "VideoPlayer";
     }
 
@@ -117,9 +118,10 @@ public class UserController {
 
                     JSONObject vidId = vid.getJSONObject("id");
                     JSONObject vidTitle = vid.getJSONObject("snippet");
+                    JSONObject thumbnail = (vidTitle.getJSONObject("thumbnails")).getJSONObject("high");
 
-                    System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title"));
-                    this.saveMV(vidId.getString("videoId"),vidTitle.getString("title"));
+                    System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url") );
+                    this.saveMV(vidId.getString("videoId"),vidTitle.getString("title"),thumbnail.getString("url"));
 
                 }
 
@@ -141,11 +143,12 @@ public class UserController {
     }
 
 
-    public void saveMV(String vidId, String title){
+    public void saveMV(String vidId, String title, String url){
         Video newVideo = new Video();
 
         newVideo.setVideoid(vidId);
         newVideo.setMvtitle(title);
+        newVideo.setThumbnail(url);
         videoService.saveVideo(newVideo);
 
     }
