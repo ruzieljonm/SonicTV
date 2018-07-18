@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +46,42 @@ public class UserController {
     @RequestMapping("/homepage")
     public String showLoginPage(){
         return "loginPage";
+    }
+
+    @RequestMapping("/homepagev2")
+    public String showHomepage(Model model){
+        List<Video> videoList = videoService.findAll();
+        ArrayList<String> r1vids = new ArrayList<String>();;
+        ArrayList<String> r2vids = new ArrayList<String>();
+        ArrayList<String> r3vids = new ArrayList<String>();
+        ArrayList<String> r4vids = new ArrayList<String>();
+        for (int i =0; i<videoList.size(); i++){
+            if(i<=4) {
+                r1vids.add(videoList.get(i).getThumbnail());
+                System.out.println(videoList.get(i).getThumbnail());
+            }
+
+            if(i>=5 && i<=9){
+                r2vids.add(videoList.get(i).getThumbnail());
+            }
+
+            if(i>=10 && i<=14){
+                r3vids.add(videoList.get(i).getThumbnail());
+            }
+
+            if(i>=15 && i<20){
+                r4vids.add(videoList.get(i).getThumbnail());
+            }
+
+
+        }
+
+
+        model.addAttribute("r1", r1vids);
+        model.addAttribute("r2", r2vids);
+        model.addAttribute("r3", r3vids);
+        model.addAttribute("r4", r4vids);
+        return "Homepage";
     }
 
     @RequestMapping("/signup")
@@ -71,8 +108,6 @@ public class UserController {
             System.out.println(videoList.get(i).getVideoid());
 
         }
-
-
 
         //String link = "https://www.youtube.com/embed/";
         model.addAttribute("vids", videoList);
@@ -122,7 +157,7 @@ public class UserController {
 
                     JSONObject vidId = vid.getJSONObject("id");
                     JSONObject vidTitle = vid.getJSONObject("snippet");
-                    JSONObject thumbnail = (vidTitle.getJSONObject("thumbnails")).getJSONObject("high");
+                    JSONObject thumbnail = (vidTitle.getJSONObject("thumbnails")).getJSONObject("medium");
 
                     System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url") );
                     this.saveMV(vidId.getString("videoId"),vidTitle.getString("title"),thumbnail.getString("url"));
@@ -215,7 +250,7 @@ public class UserController {
 
             // Once you have the userID, you can search for tracks, artists or albums easily.
             System.out.println("Search Track:");
-            GracenoteMetadata results = api.searchTrack("", "Ed Sheeran", "Shape of You [Official Video]");
+            GracenoteMetadata results = api.searchTrack("Camila Cabello", "Camila", "Havana");
             results.print();
         }
         catch (GracenoteException e)
@@ -225,6 +260,8 @@ public class UserController {
 
         return "metadata";
     }
+
+
 
 
 

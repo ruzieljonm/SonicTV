@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/stylesheets/homepage.css">
+</head>
+<body>
+
+<header class="page-head"></header>
+
+<div>
+    <table>
+        <tr>
+            <ul class="items">
+
+                <li th:each="rv1 : ${r1}">
+
+                    <img th:src="${rv1}" />
+                    <a href="#">
+                        <div class="content">
+                            <h2>Orange is the new black</h2>
+                        </div>
+                    </a>
+                </li>
+
+
+                <br><br>
+
+                <li th:each="rv2 : ${r2}">
+
+                    <img th:src="${rv2}" />
+                    <a href="#">
+                        <div class="content">
+                            <h2>Orange is the new black</h2>
+                        </div>
+                    </a>
+                </li>
+
+
+
+
+                <br><br>
+
+                <li th:each="rv3 : ${r3}">
+
+                    <img th:src="${rv3}" />
+                    <a href="#">
+                        <div class="content">
+                            <h2>Orange is the new black</h2>
+                        </div>
+                    </a>
+                </li>
+
+
+
+
+                <br><br>
+
+                <li th:each="rv4 : ${r4}">
+
+                    <img th:src="${rv4}" />
+                    <a href="#">
+                        <div class="content">
+                            <h2>Orange is the new black</h2>
+                        </div>
+                    </a>
+                </li>
+
+
+
+
+
+
+
+
+
+
+
+            </ul>
+        </tr>
+
+    </table>
+
+
+</div>
+
+
+
+
+</body>
+</html>
