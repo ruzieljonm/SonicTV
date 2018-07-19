@@ -1,6 +1,7 @@
 package com.padshift.sonic.controller;
 
 import com.padshift.sonic.entities.User;
+import com.padshift.sonic.entities.UserPreference;
 import com.padshift.sonic.entities.Video;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
@@ -28,6 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -198,8 +200,6 @@ public class UserController {
     public String showTesting() throws IOException {
 
 
-
-
         return "testing";
     }
 
@@ -207,7 +207,7 @@ public class UserController {
 
 
     @RequestMapping(value="/signup", method=RequestMethod.POST)
-    public String generalSignup(HttpServletRequest request, ModelMap map) {
+    public String generalSignup(HttpServletRequest request, ModelMap map, HttpSession session) {
 
         User newUser = new User();
 
@@ -216,7 +216,54 @@ public class UserController {
         newUser.setUserEmail(request.getParameter("inputEmail"));
         userService.saveUser(newUser);
 
-        return "loginPage";
+        session.setAttribute("username", request.getParameter("inputUserName"));
+
+
+        return "RegistrationGenre";
+    }
+
+    @RequestMapping(value="/submitpref", method=RequestMethod.POST)
+    public String submitPreference(HttpServletRequest request, HttpSession session){
+        String[] pref = request.getParameterValues("preference");
+        float percentage = (100/pref.length-1)+(100%pref.length);
+
+        String username = (String) session.getAttribute("username");
+
+        User user = userService.findUserByUsername(username);
+        UserPreference userpref = new UserPreference();
+        userpref.setUserId(user.getUserId());
+        if(Arrays.asList(pref).contains("pop")){
+            userpref.setPop(percentage);
+        }
+
+        if(Arrays.asList(pref).contains("classical")){
+            userpref.setClassical(percentage);
+        }
+
+        if(Arrays.asList(pref).contains("country")){
+            userpref.setCountry(percentage);
+        }
+
+        if(Arrays.asList(pref).contains("rnb")){
+            userpref.setRnb(percentage);
+        }
+
+        if(Arrays.asList(pref).contains("electronic")){
+            userpref.setElectronic(percentage);
+        }
+
+        if(Arrays.asList(pref).contains("rock")){
+            userpref.setRock(percentage);
+        }
+
+        userService.saveUserPreference(userpref);
+
+
+
+
+       return "Homepage";
+
+
     }
 
 
@@ -237,6 +284,8 @@ public class UserController {
         }
 
     }
+
+
 
     @RequestMapping("/metadata")
     public String showmetadata(){

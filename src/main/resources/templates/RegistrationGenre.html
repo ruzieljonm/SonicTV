@@ -7,53 +7,70 @@
 </head>
 <body>
 
-    <div class="container">
-        <input type="checkbox" id="cb-1"/>
-        <label for="cb-1">
 
-            <h2>POP MUSIC</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
-        </label>
+    <form method="post" action="/submitpref">
 
-        <input type="checkbox" id="cb-2"/>
-        <label for="cb-2">
+        <div class="container">
+            <input type="checkbox" id="cb-1" name="preference" value="pop"/>
+            <label for="cb-1">
 
-            <h2>CLASSICAL MUSIC</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
-        </label>
+                <h2>POP MUSIC</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
+            </label>
 
+            <input type="checkbox" id="cb-2" name="preference" value="classical"/>
+            <label for="cb-2">
 
-        <input type="checkbox" id="cb-3"/>
-        <label for="cb-3">
-
-            <h2>COUNTRY MUSIC</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
-        </label>
+                <h2>CLASSICAL MUSIC</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
+            </label>
 
 
-        <input type="checkbox" id="cb-4"/>
-        <label for="cb-4">
+            <input type="checkbox" id="cb-3" name="preference" value="country"/>
+            <label for="cb-3">
 
-            <h2>RHYTHM AND BLUES</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
-        </label>
-
-
-        <input type="checkbox" id="cb-5"/>
-        <label for="cb-5">
-
-            <h2>COUNTRY MUSIC</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
-        </label>
+                <h2>COUNTRY MUSIC</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
+            </label>
 
 
-        <input type="checkbox" id="cb-6"/>
-        <label for="cb-6">
+            <input type="checkbox" id="cb-4" name="preference" value="rnb"/>
+            <label for="cb-4">
 
-            <h2>ROCK MUSIC</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
-        </label>
-    </div>
+                <h2>RHYTHM AND BLUES</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
+            </label>
+
+
+            <input type="checkbox" id="cb-5" name="preference" value="electronic"/>
+            <label for="cb-5">
+
+                <h2>ELECTRONIC MUSIC</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
+            </label>
+
+
+            <input type="checkbox" id="cb-6" name="preference" value="rock"/>
+            <label for="cb-6">
+
+                <h2>ROCK MUSIC</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur vel ullam, non expedita veritatis praesentium earum neque dolor adipisci voluptatem quam! Quia qui sapiente similique nulla debitis temporibus sint facere?</p>
+            </label>
+
+        </div>
+
+        <div id="btnpref">
+            <button class="submitpref" type="submit">Submit</button>
+        </div>
+
+
+
+    </form>
+
+
+
+
+
 
 </body>
 </html>
