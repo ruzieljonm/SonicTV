@@ -270,6 +270,7 @@ public class GracenoteWebAPI
     protected GracenoteMetadata _parseResponse(String response)
     {
         Document xml = this._checkResponse(response);
+        //System.out.println(xml.toString());
         return new GracenoteMetadata(this, xml);
     }
 }

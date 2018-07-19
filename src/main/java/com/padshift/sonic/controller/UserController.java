@@ -20,6 +20,7 @@ import radams.gracenote.webapi.GracenoteMetadata;
 import radams.gracenote.webapi.GracenoteWebAPI;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -84,6 +85,11 @@ public class UserController {
         return "Homepage";
     }
 
+    @RequestMapping("/reggen")
+    public String showRegGenre(){
+        return "RegistrationGenre";
+    }
+
     @RequestMapping("/signup")
     public String showSignUpPage(){
         return "signupPage";
@@ -95,11 +101,7 @@ public class UserController {
         return "VideoPlayer";
     }
 
-//    @RequestMapping("/profile")
-//    public String showUserProfile(){
-//        return "UserProfile";
-//    }
-// this is meeeeeeeeeeeee
+
 
     @RequestMapping("/profile")
     public String showUserProfile(HttpServletRequest request, Model model) {
@@ -219,14 +221,17 @@ public class UserController {
 
 
     @RequestMapping(value="/signin", method= RequestMethod.POST)
-    public String generalSigninPost(HttpServletRequest request, ModelMap map) {
+    public String generalSigninPost(HttpServletRequest request, ModelMap map, HttpSession session) {
         String userName = request.getParameter("inputUserName");
         String userPass = request.getParameter("inputPassword");
 
         User checkUser = userService.findUserByUsernameAndPassword(userName,userPass);
 
         if(checkUser!=null){
-            return "VideoPlayer";
+            session.setAttribute("username", userName);
+            session.setAttribute("userpass", userPass);
+            map.addAttribute("username", userName);
+            return "Homepage";
         }else {
             return "loginPage";
         }
@@ -250,7 +255,7 @@ public class UserController {
 
             // Once you have the userID, you can search for tracks, artists or albums easily.
             System.out.println("Search Track:");
-            GracenoteMetadata results = api.searchTrack("Camila Cabello", "Camila", "Havana");
+            GracenoteMetadata results = api.searchTrack("Celine Dion", "", "My Heart Will Go On");
             results.print();
         }
         catch (GracenoteException e)

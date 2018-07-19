@@ -21,6 +21,8 @@ public class GracenoteMetadata
         Element root = xml.getDocumentElement();
 
         NodeList nl = root.getElementsByTagName("ALBUM");
+        System.out.println(nl.toString());
+        System.out.println("tang ina");
         for (int i = 0; i < nl.getLength(); i++)
         {
             Element e = (Element)nl.item(i);
@@ -115,6 +117,7 @@ public class GracenoteMetadata
 
     private String _getTextValue(Element ele, String tagName)
     {
+
         String textVal = null;
         NodeList nl = ele.getElementsByTagName(tagName);
         if(nl != null && nl.getLength() > 0)
