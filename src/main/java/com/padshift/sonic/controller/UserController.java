@@ -214,8 +214,9 @@ public class UserController {
 
             // Once you have the userID, you can search for tracks, artists or albums easily.
             System.out.println("Search Track:");
-            GracenoteMetadata results = api.searchTrack("", "Ed Sheeran", "Shape of You [Official Video]");
+            GracenoteMetadata results = api.searchTrack("Moira Dela Torre", "", "Tagpuan (Official Music Video)");
             results.print();
+            
         }
         catch (GracenoteException e)
         {

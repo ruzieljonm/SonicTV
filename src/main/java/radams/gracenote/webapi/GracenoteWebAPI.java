@@ -11,6 +11,8 @@ import java.net.URL;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.json.JSONObject;
+import org.json.XML;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -83,6 +85,7 @@ public class GracenoteWebAPI
 
         String body = this._constructQueryBody(artistName, albumTitle, trackTitle);
         String data = this._constructQueryRequest(body);
+        System.out.println(data);
         return this._execute(data);
     }
 
@@ -97,6 +100,8 @@ public class GracenoteWebAPI
     {
         return this.searchTrack(artistName, albumTitle, "");
     }
+
+
 
     // This looks up an album directly using it's Gracenote identifier. Will return all the
     // additional GOET data.
@@ -129,6 +134,15 @@ public class GracenoteWebAPI
     protected GracenoteMetadata _execute(String data)
     {
         String response = this._httpPostRequest(this._apiURL, data);
+        JSONObject musicvid = XML.toJSONObject(response);
+
+        JSONObject musicvid_responses = musicvid.getJSONObject("RESPONSES");
+        JSONObject musicvid_response = musicvid_responses.getJSONObject("RESPONSE");
+        JSONObject musicvid_album = musicvid_response.getJSONObject("ALBUM");
+        JSONObject musicvid_genre = musicvid_album.getJSONObject("GENRE");
+        JSONObject musicvid_track = musicvid_album.getJSONObject("TRACK");
+
+        System.out.println("TITLE: "+musicvid_track.getString("TITLE")+" GENRE: "+musicvid_genre.getString("content"));
         return this._parseResponse(response);
     }
 
@@ -241,7 +255,6 @@ public class GracenoteWebAPI
             // Get and parse into a document
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new InputSource(new StringReader(response)));
-
             // Navigate to the status code and read it.
             Element root = doc.getDocumentElement();
             NodeList nl = root.getElementsByTagName("RESPONSE");

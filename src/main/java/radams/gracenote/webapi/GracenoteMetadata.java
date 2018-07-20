@@ -19,12 +19,10 @@ public class GracenoteMetadata
     public GracenoteMetadata(GracenoteWebAPI api, Document xml)
     {
         Element root = xml.getDocumentElement();
-
         NodeList nl = root.getElementsByTagName("ALBUM");
         for (int i = 0; i < nl.getLength(); i++)
         {
             Element e = (Element)nl.item(i);
-
             // Album data map
             Map<String, Object> albumData = new HashMap<String, Object>();
 
@@ -121,7 +119,7 @@ public class GracenoteMetadata
         {
             Element el = (Element)nl.item(0);
             textVal = el.getFirstChild().getNodeValue();
-        }
+    }
 
         return textVal;
     }
