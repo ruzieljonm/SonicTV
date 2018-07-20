@@ -1,6 +1,7 @@
 package com.padshift.sonic.repository;
 
 import com.padshift.sonic.entities.User;
+import com.padshift.sonic.entities.UserPreference;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("userRepository")
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User,Long>  {
     User findByUserNameAndUserPass(String userName, String userPass);
+
+    User findByUserName(String userName);
+
+
 }
