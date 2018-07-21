@@ -84,6 +84,20 @@
 			<version> 5.0.12.Final </version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.ibm.watson.developer_cloud</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>5.1.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-iam -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-iam</artifactId>
+			<version>1.9.21</version>
+		</dependency>
+
+
 
 	</dependencies>
 

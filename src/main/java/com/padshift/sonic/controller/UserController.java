@@ -1,7 +1,14 @@
 package com.padshift.sonic.controller;
 
+import com.ibm.watson.developer_cloud.discovery.v1.Discovery;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalyzeOptions;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.CategoriesOptions;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.padshift.sonic.entities.User;
 import com.padshift.sonic.entities.Video;
+import com.padshift.sonic.entities.VideoDetails;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
 import org.json.JSONArray;
@@ -121,7 +128,7 @@ public class UserController {
 
                     JSONObject vidId = vid.getJSONObject("id");
                     JSONObject vidTitle = vid.getJSONObject("snippet");
-                    JSONObject thumbnail = (vidTitle.getJSONObject("thumbnails")).getJSONObject("high");
+                    JSONObject thumbnail = (vidTitle.getJSONObject("thumbnails")).getJSONObject("medium");
 
                     System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url") );
                     this.saveMV(vidId.getString("videoId"),vidTitle.getString("title"),thumbnail.getString("url"));
@@ -144,6 +151,38 @@ public class UserController {
 
         return "FetchYoutubeAPI";
     }
+//    @RequestMapping("/nlu")
+//    public void NLU(){
+//
+//
+//
+//
+//        NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
+//                "2018-03-16",
+//                "{ruzieljonmantalaba@gmail.com}",
+//                "{Software.engineer123}"
+//        );
+//
+//        service.setEndPoint("https://gateway-fra.watsonplatform.net/natural-language-understanding/api");
+//
+//        String text = "Moira Dela Torre";
+//
+//        CategoriesOptions categories = new CategoriesOptions();
+//
+//        Features features = new Features.Builder()
+//                .categories(categories)
+//                .build();
+//
+//        AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+//                .text(text)
+//                .features(features)
+//                .build();
+//
+//        AnalysisResults response = service
+//                .analyze(parameters)
+//                .execute();
+//        System.out.println(response);
+//    }
 
 
     public void saveMV(String vidId, String title, String url){
@@ -197,11 +236,14 @@ public class UserController {
 
     }
 
+
+
+
     @RequestMapping("/metadata")
     public String showmetadata(){
         String clientID  = "2034677681"; // Put your clientID here.
         String clientTag = "75917E36EEDFB95B94EC9E68E804B835"; // Put your clientTag here.
-        String tracktitle, artist, albumdate, genre;
+        String tracktitle, artist, albumdate, genre, album;
 
         try
         {
@@ -213,21 +255,24 @@ public class UserController {
             String userID = api.register();
             System.out.println("UserID = " + userID);
 
+
+
 //            GracenoteWebAPI._execute();
             // Once you have the userID, you can search for tracks, artists or albums easily.
             System.out.println("Search Track:");
-            api.searchTrack("Moira dela Torre", "", "tagpuan (official music vide)");
 
-            tracktitle = api.getTracktitle();
-            artist = api.getArtist();
-            albumdate = api.getAlbumDate();
-            genre = api.getGenre();
+            List<Video> videoList = videoService.findAll();
+            for(int i=0;i<videoList.size();i++){
+                api.searchTrack(videoList.get(i).getMvtitle(),"",videoList.get(i).getMvtitle());
+                tracktitle = api.getTracktitle();
+                artist = api.getArtist();
 
-//            List<Video> videoList = videoService.findAll();
-//            for(int i=0;i<videoList.size();i++){
-//                //api.searchTrack(videoList.get(i).)
-//            }
-            System.out.println("TITLE: "+tracktitle+" ARTIST: "+artist+" DATE: "+albumdate+" GENRE: "+genre);
+                albumdate = api.getAlbumDate();
+                genre = api.getGenre();
+                System.out.println("TITLE: "+tracktitle+" ARTIST: "+artist+" DATE: "+albumdate+" GENRE: "+genre);
+                saveMVDetails(videoList.get(i).getVideoid(),tracktitle,artist,albumdate,genre);
+            }
+
 
         }
         catch (GracenoteException e)
@@ -236,6 +281,26 @@ public class UserController {
         }
 
         return "metadata";
+    }
+
+
+    public void saveMVDetails(String vidId, String title, String artist, String date, String genre){
+
+        VideoDetails newMVDetails = new VideoDetails();
+        newMVDetails.setVideoid(vidId);
+        newMVDetails.setTitle(title);
+        newMVDetails.setArtist(artist);
+
+        newMVDetails.setDate(date);
+        newMVDetails.setGenre(genre);
+
+        videoService.saveVideoDetails(newMVDetails);
+//        Video newVideo = new Video();
+//
+//        newVideo.setVideoid(vidId);
+//        newVideo.setMvtitle(title);
+//        newVideo.setThumbnail(url);
+//        videoService.saveVideo(newVideo);
     }
 
 

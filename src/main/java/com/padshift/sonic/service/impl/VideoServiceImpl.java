@@ -1,6 +1,8 @@
 package com.padshift.sonic.service.impl;
 
 import com.padshift.sonic.entities.Video;
+import com.padshift.sonic.entities.VideoDetails;
+import com.padshift.sonic.repository.VideoDetailsRepository;
 import com.padshift.sonic.repository.VideoRepository;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
@@ -17,6 +19,8 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     public VideoRepository videoRepository;
+    @Autowired
+    public VideoDetailsRepository videoDetailsRepository;
 
     @Override
     public void saveVideo(Video video) {
@@ -28,6 +32,10 @@ public class VideoServiceImpl implements VideoService {
         return videoRepository.findAll();
     }
 
+    @Override
+    public void saveVideoDetails(VideoDetails newMVDetails) {
+        videoDetailsRepository.save(newMVDetails);
+    }
 
 
 }
