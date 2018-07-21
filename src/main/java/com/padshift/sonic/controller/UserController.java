@@ -201,6 +201,7 @@ public class UserController {
     public String showmetadata(){
         String clientID  = "2034677681"; // Put your clientID here.
         String clientTag = "75917E36EEDFB95B94EC9E68E804B835"; // Put your clientTag here.
+        String tracktitle, artist, albumdate, genre;
 
         try
         {
@@ -212,11 +213,23 @@ public class UserController {
             String userID = api.register();
             System.out.println("UserID = " + userID);
 
+//            GracenoteWebAPI._execute();
             // Once you have the userID, you can search for tracks, artists or albums easily.
             System.out.println("Search Track:");
-            GracenoteMetadata results = api.searchTrack("Moira Dela Torre", "", "Tagpuan (Official Music Video)");
-            results.print();
-            
+            //api.searchTrack("moira dela torre - tagpuan (official music vide)", "", "moira dela torre - tagpuan (official music vide)");
+            api.searchTrack("Tyga - Taste (Official Video) ft. Offset", "", "Tyga - Taste (Official Video) ft. Offset");
+
+            tracktitle = api.getTracktitle();
+            artist = api.getArtist();
+            albumdate = api.getAlbumDate();
+            genre = api.getGenre();
+
+            List<Video> videoList = videoService.findAll();
+            for(int i=0;i<videoList.size();i++){
+                //api.searchTrack(videoList.get(i).)
+            }
+            System.out.println("TITLE: "+tracktitle+" ARTIST: "+artist+" DATE: "+albumdate+" GENRE: "+genre);
+
         }
         catch (GracenoteException e)
         {

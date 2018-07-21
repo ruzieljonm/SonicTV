@@ -20,8 +20,6 @@ public class GracenoteMetadata
     {
         Element root = xml.getDocumentElement();
         NodeList nl = root.getElementsByTagName("ALBUM");
-        System.out.println(nl.toString());
-        System.out.println("tang ina");
         for (int i = 0; i < nl.getLength(); i++)
         {
             Element e = (Element)nl.item(i);

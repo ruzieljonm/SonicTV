@@ -22,6 +22,10 @@ import org.xml.sax.InputSource;
 
 public class GracenoteWebAPI
 {
+    public String tracktitle;
+    public String genre;
+    public String albumDate;
+    public String artist;
     // Members
     private String _clientID  = "";
     private String _clientTag = "";
@@ -131,7 +135,7 @@ public class GracenoteWebAPI
     }
 
     // Simply executes the query to Gracenote WebAPI
-    protected GracenoteMetadata _execute(String data)
+    public GracenoteMetadata _execute(String data)
     {
         String response = this._httpPostRequest(this._apiURL, data);
         JSONObject musicvid = XML.toJSONObject(response);
@@ -142,8 +146,31 @@ public class GracenoteWebAPI
         JSONObject musicvid_genre = musicvid_album.getJSONObject("GENRE");
         JSONObject musicvid_track = musicvid_album.getJSONObject("TRACK");
 
-        System.out.println("TITLE: "+musicvid_track.getString("TITLE")+" GENRE: "+musicvid_genre.getString("content"));
+        this.artist = musicvid_album.getString("ARTIST");
+        this.albumDate = musicvid_album.get("DATE").toString();
+
+        this.tracktitle = musicvid_track.getString("TITLE");
+        this.genre = musicvid_genre.getString("content");
+
+//        System.out.println("TITLE: "+musicvid_track.getString("TITLE")+" GENRE: "+musicvid_genre.getString("content")+" ARTIST: "+musicvid_album.getString("ARTIST")+" DATE: "+musicvid_album.get("DATE").toString());
+//        System.out.println("========"+this._parseResponse(response).toString());
         return this._parseResponse(response);
+    }
+
+    public String getTracktitle(){
+        return this.tracktitle;
+    };
+
+    public String getGenre(){
+        return this.genre;
+    }
+
+    public String getArtist(){
+        return this.artist;
+    }
+
+    public String getAlbumDate(){
+        return this.albumDate;
     }
 
     // Performs a HTTP POST request and returns the response as a string.
@@ -283,7 +310,6 @@ public class GracenoteWebAPI
     protected GracenoteMetadata _parseResponse(String response)
     {
         Document xml = this._checkResponse(response);
-        //System.out.println(xml.toString());
         return new GracenoteMetadata(this, xml);
     }
 }

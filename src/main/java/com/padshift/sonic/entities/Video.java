@@ -16,6 +16,9 @@ public class Video implements Serializable {
     @Column(name="mvtitle")
     private String mvtitle;
 
+    @Column(name="artist")
+    private String artist;
+
 
     @Column(name="thumbnail")
     private String thumbnail;
@@ -45,4 +48,11 @@ public class Video implements Serializable {
     }
 
 
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
 }
