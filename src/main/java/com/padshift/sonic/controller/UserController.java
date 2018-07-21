@@ -216,18 +216,17 @@ public class UserController {
 //            GracenoteWebAPI._execute();
             // Once you have the userID, you can search for tracks, artists or albums easily.
             System.out.println("Search Track:");
-            //api.searchTrack("moira dela torre - tagpuan (official music vide)", "", "moira dela torre - tagpuan (official music vide)");
-            api.searchTrack("Tyga - Taste (Official Video) ft. Offset", "", "Tyga - Taste (Official Video) ft. Offset");
+            api.searchTrack("Moira dela Torre", "", "tagpuan (official music vide)");
 
             tracktitle = api.getTracktitle();
             artist = api.getArtist();
             albumdate = api.getAlbumDate();
             genre = api.getGenre();
 
-            List<Video> videoList = videoService.findAll();
-            for(int i=0;i<videoList.size();i++){
-                //api.searchTrack(videoList.get(i).)
-            }
+//            List<Video> videoList = videoService.findAll();
+//            for(int i=0;i<videoList.size();i++){
+//                //api.searchTrack(videoList.get(i).)
+//            }
             System.out.println("TITLE: "+tracktitle+" ARTIST: "+artist+" DATE: "+albumdate+" GENRE: "+genre);
 
         }
