@@ -18,4 +18,7 @@ public interface VideoService {
     void saveVideoDetails(VideoDetails newMVDetails);
 
     List<VideoDetails> findAllByGenre(String s);
+
+
+    VideoDetails findByVideoid(String vididtoplay);
 }

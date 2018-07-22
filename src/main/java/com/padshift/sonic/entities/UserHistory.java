@@ -12,11 +12,15 @@ import java.io.Serializable;
 public class UserHistory implements Serializable{
 
     @Id
+    @GeneratedValue
+    @Column(name="whid")
+    private int whid;
+
     @Column(name="userId")
     private int userId;
 
     @Column(name="videoid")
-    private float videoid;
+    private String videoid;
 
     public int getUserId() {
         return userId;
@@ -26,11 +30,11 @@ public class UserHistory implements Serializable{
         this.userId = userId;
     }
 
-    public float getVideoid() {
+    public String getVideoid() {
         return videoid;
     }
 
-    public void setVideoid(float videoid) {
+    public void setVideoid(String videoid) {
         this.videoid = videoid;
     }
 }

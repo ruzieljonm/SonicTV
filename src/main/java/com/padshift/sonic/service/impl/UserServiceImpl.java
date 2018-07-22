@@ -1,7 +1,9 @@
 package com.padshift.sonic.service.impl;
 
 import com.padshift.sonic.entities.User;
+import com.padshift.sonic.entities.UserHistory;
 import com.padshift.sonic.entities.UserPreference;
+import com.padshift.sonic.repository.UserHistoryRepository;
 import com.padshift.sonic.repository.UserPreferenceRepository;
 import com.padshift.sonic.repository.UserRepository;
 import com.padshift.sonic.service.UserService;
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public UserPreferenceRepository userPreferenceRepository;
 
+    @Autowired
+    public UserHistoryRepository userHistoryRepository;
+
     @Override
     public void saveUser(User user) {
         userRepository.save(user);
@@ -31,10 +36,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUserNameAndUserPass(userName,userPass);
     }
 
-    @Override
-    public User findUserByUsername(String userName) {
-        return userRepository.findByUserName(userName);
-    }
+
 
     @Override
     public void saveUserPreference(UserPreference userpref) {
@@ -44,6 +46,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserPreference findUserPreferenceByUserId(int userId) {
         return userPreferenceRepository.findByUserId(userId);
+    }
+
+    @Override
+    public void saveUserHistory(UserHistory userhist) {
+        userHistoryRepository.save(userhist);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUserName(username);
     }
 
 

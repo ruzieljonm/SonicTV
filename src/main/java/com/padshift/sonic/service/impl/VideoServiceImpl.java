@@ -42,5 +42,10 @@ public class VideoServiceImpl implements VideoService {
         return videoDetailsRepository.findAllByGenre(s);
     }
 
+    @Override
+    public VideoDetails findByVideoid(String vididtoplay) {
+        return videoDetailsRepository.findByVideoid(vididtoplay);
+    }
+
 
 }

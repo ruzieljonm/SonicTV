@@ -6,12 +6,10 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.An
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalyzeOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.CategoriesOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
-import com.padshift.sonic.entities.User;
-import com.padshift.sonic.entities.UserPreference;
-import com.padshift.sonic.entities.Video;
-import com.padshift.sonic.entities.VideoDetails;
+import com.padshift.sonic.entities.*;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
+import org.hibernate.annotations.SourceType;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -96,7 +95,7 @@ public class UserController {
 
         String username = (String) session.getAttribute("username");
 
-        User user = userService.findUserByUsername(username);
+        User user = userService.findByUsername(username);
         UserPreference userpref = new UserPreference();
         userpref.setUserId(user.getUserId());
         if (Arrays.asList(pref).contains("pop")) {
@@ -124,6 +123,142 @@ public class UserController {
         }
         userService.saveUserPreference(userpref);
         return showHomepage(model, session);
+
+    }
+
+    @RequestMapping("/homepagev2")
+    public String showHomepage(Model model, HttpSession session) {
+
+        String username = (String) session.getAttribute("username");
+        User usertemp= userService.findByUsername(username);
+        System.out.println("kapoy:" + username);
+
+
+
+
+        System.out.println("TANG INA:" + usertemp.getUserId());
+        String userid = Integer.toString(usertemp.getUserId());
+        session.setAttribute("userid",userid);
+        System.out.println("THE USER ID:" + userid);
+
+
+        User user = userService.findByUsername(username);
+        UserPreference up = userService.findUserPreferenceByUserId(user.getUserId());
+        ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
+
+
+        if (up.getPop() > 10) {
+            ArrayList<VideoDetails> asianPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Asian Pop");
+            ArrayList<VideoDetails> westernPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Pop");
+            for (int i = 0; i < asianPop.size(); i++) {
+                videoList.add(asianPop.get(i));
+            }
+            for (int i = 0; i < westernPop.size(); i++) {
+                videoList.add(westernPop.get(i));
+            }
+        }
+
+        if (up.getRnb() > 10) {
+            ArrayList<VideoDetails> conrnb = (ArrayList<VideoDetails>) videoService.findAllByGenre("Contemporary R&B/Soul");
+            for (int i = 0; i < conrnb.size(); i++) {
+                videoList.add(conrnb.get(i));
+            }
+        }
+
+        if (up.getElectronic() > 10) {
+            ArrayList<VideoDetails> electhiphop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Hip-Hop/Rap");
+            for (int i = 0; i < electhiphop.size(); i++) {
+                videoList.add(electhiphop.get(i));
+            }
+        }
+
+
+        for (int i = 0; i < videoList.size(); i++) {
+            //videoList.get(i).getTitle();
+            System.out.println(videoList.get(i).getTitle() + " - " + videoList.get(i).getGenre());
+        }
+
+
+        ArrayList<VVD> vr1 = new ArrayList<VVD>();
+        ArrayList<VVD> vr2 = new ArrayList<VVD>();
+        ArrayList<VVD> vr3 = new ArrayList<VVD>();
+        ArrayList<VVD> vr4 = new ArrayList<VVD>();
+
+       //VVD vid = new VVD();
+
+        for (int i = 0; i < videoList.size(); i++) {
+            if (i <= 4) {
+                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
+                vr1.add(vid);
+                vid = null;
+
+
+            }
+            if (i >= 5 && i <= 9) {
+                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
+                vr2.add(vid);
+                vid = null;
+            }
+            if (i >= 10 && i <= 14) {
+                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
+                vr3.add(vid);
+                vid = null;
+            }
+            if (i >= 15 && i < 20) {
+                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
+                vr4.add(vid);
+                vid = null;
+            }
+        }
+
+
+
+        model.addAttribute("r1", vr1);
+        model.addAttribute("r2", vr2);
+        model.addAttribute("r3", vr3);
+        model.addAttribute("r4", vr4);
+
+        return "Homepage";
+    }
+
+
+    @RequestMapping("/gotoPlayer")
+    public String gotoPlayer(HttpServletRequest request, Model model, HttpSession session){
+        String vididtoplay = request.getParameter("clicked");
+
+        System.out.println(vididtoplay);
+        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
+
+        UserHistory userhist = new UserHistory();
+        userhist.setUserId(Integer.parseInt((String) session.getAttribute("userid")));
+        userhist.setVideoid(vididtoplay);
+
+        System.out.println(userhist.getUserId() + "tangina" + userhist.getVideoid());
+
+        userService.saveUserHistory(userhist);
+
+        VideoDetails playvid = videoService.findByVideoid(vididtoplay);
+        ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Pop");
+        Collections.shuffle(upnext);
+
+        System.out.println(playvid.getTitle() + " " + playvid.getArtist());
+
+        String url = "https://www.youtube.com/embed/" + playvid.getVideoid();
+
+        String thumbnail1 = "https://i.ytimg.com/vi/" + upnext.get(1).getVideoid() +"/mqdefault.jpg";
+        String thumbnail2 = "https://i.ytimg.com/vi/" + upnext.get(2).getVideoid() +"/mqdefault.jpg";
+        String thumbnail3 = "https://i.ytimg.com/vi/" + upnext.get(3).getVideoid() +"/mqdefault.jpg";
+
+
+        model.addAttribute("emblink", url);
+        model.addAttribute("upnext1", upnext.get(1));
+        model.addAttribute("upnext2", upnext.get(2));
+        model.addAttribute("upnext3", upnext.get(3));
+
+        model.addAttribute("tn1", thumbnail1);
+        model.addAttribute("tn2", thumbnail2);
+        model.addAttribute("tn3", thumbnail3);
+        return "VideoPlayerV2";
 
     }
 
@@ -238,71 +373,7 @@ public class UserController {
 
 
 
-    @RequestMapping("/homepagev2")
-    public String showHomepage(Model model, HttpSession session) {
 
-        String username = (String) session.getAttribute("username");
-        User user = userService.findUserByUsername(username);
-        UserPreference up = userService.findUserPreferenceByUserId(user.getUserId());
-        ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
-
-
-        if (up.getPop() > 10) {
-            ArrayList<VideoDetails> asianPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Asian Pop");
-            ArrayList<VideoDetails> westernPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Pop");
-            for (int i = 0; i < asianPop.size(); i++) {
-                videoList.add(asianPop.get(i));
-            }
-            for (int i = 0; i < westernPop.size(); i++) {
-                videoList.add(westernPop.get(i));
-            }
-        }
-
-        if (up.getRnb() > 10) {
-            ArrayList<VideoDetails> conrnb = (ArrayList<VideoDetails>) videoService.findAllByGenre("Contemporary R&B/Soul");
-            for (int i = 0; i < conrnb.size(); i++) {
-                videoList.add(conrnb.get(i));
-            }
-        }
-
-        if (up.getElectronic() > 10) {
-            ArrayList<VideoDetails> electhiphop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Hip-Hop/Rap");
-            for (int i = 0; i < electhiphop.size(); i++) {
-                videoList.add(electhiphop.get(i));
-            }
-        }
-
-        for (int i = 0; i < videoList.size(); i++) {
-            System.out.println(videoList.get(i).getTitle() + " - " + videoList.get(i).getGenre());
-        }
-
-
-        ArrayList<String> r1vids = new ArrayList<String>();
-        ArrayList<String> r2vids = new ArrayList<String>();
-        ArrayList<String> r3vids = new ArrayList<String>();
-        ArrayList<String> r4vids = new ArrayList<String>();
-
-        for (int i = 0; i < videoList.size(); i++) {
-            if (i <= 4) {
-                r1vids.add("https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-            }
-            if (i >= 5 && i <= 9) {
-                r2vids.add("https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-            }
-            if (i >= 10 && i <= 14) {
-                r3vids.add("https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-            }
-            if (i >= 15 && i < 20) {
-                r4vids.add("https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-            }
-        }
-
-        model.addAttribute("r1", r1vids);
-        model.addAttribute("r2", r2vids);
-        model.addAttribute("r3", r3vids);
-        model.addAttribute("r4", r4vids);
-        return "Homepage";
-    }
 
 
     @RequestMapping("/metadata")
@@ -359,6 +430,8 @@ public class UserController {
         videoService.saveVideoDetails(newMVDetails);
 
     }
+
+
 
 
 }

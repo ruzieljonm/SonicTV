@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class Video implements Serializable {
     @Id
     @Column(name="videoid")
-        private String videoid;
+    private String videoid;
 
     @Column(name="mvtitle")
     private String mvtitle;
