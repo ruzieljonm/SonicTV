@@ -303,6 +303,11 @@ public class UserController {
 //        videoService.saveVideo(newVideo);
     }
 
+    @RequestMapping("/vplayer2")
+    public String showVideoPlayer2(){
+        return "VideoPlayerV2";
+    }
+
 
 }
 
