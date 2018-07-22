@@ -17,4 +17,10 @@ public interface UserService {
     User findUserByUsername(String userName);
 
     void saveUserPreference(UserPreference userpref);
+
+
+
+    UserPreference findUserPreferenceByUserId(int userId);
+
+    ;
 }

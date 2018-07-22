@@ -16,4 +16,6 @@ public interface VideoService {
     List<Video> findAll();
 
     void saveVideoDetails(VideoDetails newMVDetails);
+
+    List<VideoDetails> findAllByGenre(String s);
 }

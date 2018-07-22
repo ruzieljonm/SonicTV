@@ -41,5 +41,10 @@ public class UserServiceImpl implements UserService {
         userPreferenceRepository.save(userpref);
     }
 
+    @Override
+    public UserPreference findUserPreferenceByUserId(int userId) {
+        return userPreferenceRepository.findByUserId(userId);
+    }
+
 
 }
