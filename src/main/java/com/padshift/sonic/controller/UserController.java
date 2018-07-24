@@ -212,7 +212,6 @@ public class UserController {
         }
 
 
-
         model.addAttribute("r1", vr1);
         model.addAttribute("r2", vr2);
         model.addAttribute("r3", vr3);
@@ -280,87 +279,6 @@ public class UserController {
     }
 
 
-    @RequestMapping("/request")
-    public String showFYAPI() {
-        try {
-            String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=music+video&type=video&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            int responseCode = con.getResponseCode();
-
-            System.out.println("\nSending'Get' request to URL : " + url);
-            System.out.println("Response Code : " + responseCode);
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream())
-            );
-
-
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-
-            in.close();
-            System.out.println(response.toString());
-
-            JSONObject myresponse = null;
-            try {
-                myresponse = new JSONObject(response.toString());
-                System.out.println(myresponse);
-
-                JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
-                for (int i = 0; i < videos.length(); i++) {
-                    JSONObject vid = videos.getJSONObject(i);
-
-                    JSONObject vidId = vid.getJSONObject("id");
-                    JSONObject vidTitle = vid.getJSONObject("snippet");
-                    JSONObject thumbnail = (vidTitle.getJSONObject("thumbnails")).getJSONObject("medium");
-
-                    System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url"));
-                    this.saveMV(vidId.getString("videoId"), vidTitle.getString("title"), thumbnail.getString("url"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "FetchYoutubeAPI";
-    }
-//    @RequestMapping("/nlu")
-//    public void NLU(){
-//
-//
-//
-//
-//        NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
-//                "2018-03-16",
-//                "{ruzieljonmantalaba@gmail.com}",
-//                "{Software.engineer123}"
-//        );
-//
-//        service.setEndPoint("https://gateway-fra.watsonplatform.net/natural-language-understanding/api");
-//
-//        String text = "Moira Dela Torre";
-//
-//        CategoriesOptions categories = new CategoriesOptions();
-//
-//        Features features = new Features.Builder()
-//                .categories(categories)
-//                .build();
-//
-//        AnalyzeOptions parameters = new AnalyzeOptions.Builder()
-//                .text(text)
-//                .features(features)
-//                .build();
-//
-//        AnalysisResults response = service
-//                .analyze(parameters)
-//                .execute();
-//        System.out.println(response);
-//    }
 
     public void saveMV(String vidId, String title, String url) {
         Video newVideo = new Video();
@@ -372,67 +290,10 @@ public class UserController {
 
 
 
-
-
-
-
-    @RequestMapping("/metadata")
-    public String showmetadata() {
-        String clientID = "2034677681"; // Put your clientID here.
-        String clientTag = "75917E36EEDFB95B94EC9E68E804B835"; // Put your clientTag here.
-        String tracktitle, artist, albumdate, genre, album;
-
-        try {
-            /* You first need to register your client information in order to get a userID.
-            Best practice is for an application to call this only once, and then cache the userID in
-            persistent storage, then only use the userID for subsequent API calls. The class will cache
-            it for just this session on your behalf, but you should store it yourself. */
-            GracenoteWebAPI api = new GracenoteWebAPI(clientID, clientTag); // If you have a userID, you can specify it as the third parameter to constructor.
-            String userID = api.register();
-            System.out.println("UserID = " + userID);
-
-
-//            GracenoteWebAPI._execute();
-            // Once you have the userID, you can search for tracks, artists or albums easily.
-            System.out.println("Search Track:");
-
-            List<Video> videoList = videoService.findAll();
-            for (int i = 0; i < videoList.size(); i++) {
-                api.searchTrack(videoList.get(i).getMvtitle(), "", videoList.get(i).getMvtitle());
-                tracktitle = api.getTracktitle();
-                artist = api.getArtist();
-
-                albumdate = api.getAlbumDate();
-                genre = api.getGenre();
-                System.out.println("TITLE: " + tracktitle + " ARTIST: " + artist + " DATE: " + albumdate + " GENRE: " + genre);
-                saveMVDetails(videoList.get(i).getVideoid(), tracktitle, artist, albumdate, genre);
-            }
-
-
-        } catch (GracenoteException e) {
-            e.printStackTrace();
-        }
-
-        return "metadata";
-    }
-
-
-    public void saveMVDetails(String vidId, String title, String artist, String date, String genre) {
-
-        VideoDetails newMVDetails = new VideoDetails();
-        newMVDetails.setVideoid(vidId);
-        newMVDetails.setTitle(title);
-        newMVDetails.setArtist(artist);
-
-        newMVDetails.setDate(date);
-        newMVDetails.setGenre(genre);
-
-        videoService.saveVideoDetails(newMVDetails);
-
     }
 
 
 
 
-}
+
 
