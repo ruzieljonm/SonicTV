@@ -84,7 +84,7 @@ public class UserController {
         newUser.setUserEmail(request.getParameter("inputEmail"));
         userService.saveUser(newUser);
         session.setAttribute("username", request.getParameter("inputUserName"));
-        map.addAttribute("username", session.getAttribute("username"));
+        //map.addAttribute("username", session.getAttribute("username"));
         return "RegistrationGenre";
     }
 
@@ -232,7 +232,10 @@ public class UserController {
         userhist.setUserId(Integer.parseInt((String) session.getAttribute("userid")));
         userhist.setVideoid(vididtoplay);
 
-        System.out.println(userhist.getUserId() + "tangina" + userhist.getVideoid());
+//        VideoDetails video = videoService.findByVideoid(vididtoplay);
+//        String genre = "%"+video.getGenre()+"%";
+
+       // System.out.println(userhist.getUserId() + userhist.getVideoid());
 
         userService.saveUserHistory(userhist);
 
