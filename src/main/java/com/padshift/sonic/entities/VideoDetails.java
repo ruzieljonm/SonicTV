@@ -13,13 +13,14 @@ public class VideoDetails implements Serializable{
     @Column(name="videoid")
     private String videoid;
 
-    @Column(name="track")
-    private String track;
+    @Column(name="title")
+    private String title;
 
-    @Column(name="album")
-    private String album;
+    @Column(name="artist")
+    private String artist;
 
-    @Column(name="album date")
+
+    @Column(name="date")
     private String date;
 
     @Column(name="genre")
@@ -33,21 +34,22 @@ public class VideoDetails implements Serializable{
         this.videoid = videoid;
     }
 
-    public String getTrack() {
-        return track;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTrack(String track) {
-        this.track = track;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAlbum() {
-        return album;
+    public String getArtist() {
+        return artist;
     }
 
-    public void setAlbum(String album) {
-        this.album = album;
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
+
 
     public String getDate() {
         return date;

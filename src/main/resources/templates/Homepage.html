@@ -6,87 +6,58 @@
     <link rel="stylesheet" href="/stylesheets/homepage.css">
 </head>
 <body>
-
 <header class="page-head"></header>
 
 <div>
-    <table>
-        <tr>
-            <ul class="items">
 
-                <li th:each="rv1 : ${r1}">
+    <form id="form1" action="/gotoPlayer" method="post">
+        <table>
+            <tr>
+                <ul class="items">
+                    <li th:each="rv1 : ${r1}">
+                        <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                            <img th:src="${rv1.thumbnail}"/>
+                        </a>
+                        <input type="hidden" name="clicked" th:value="${rv1.videoid}"/>
+                        <a href="#">
+                            <div class="content">
+                                <h2 th:text="${rv1.title}"/>
+                            </div>
+                        </a>
+                    </li>
+                    <br><br>
+                    <li th:each="rv2 : ${r2}">
+                        <img th:src="${rv2.thumbnail}"/>
+                        <a href="#">
+                            <div class="content">
+                                <h2 th:text="${rv2.title}"/>
+                            </div>
+                        </a>
+                    </li>
+                    <br><br>
+                    <li th:each="rv3 : ${r3}">
+                        <img th:src="${rv3.thumbnail}"/>
+                        <a href="#">
+                            <div class="content">
+                                <h2 th:text="${rv3.title}"/>
+                            </div>
+                        </a>
+                    </li>
+                    <br><br>
+                    <li th:each="rv4 : ${r4}">
+                        <img th:src="${rv4.thumbnail}"/>
+                        <a href="#">
+                            <div class="content">
+                                <h2 th:text="${rv4.title}"/>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </tr>
+        </table>
 
-                    <img th:src="${rv1}" />
-                    <a href="#">
-                        <div class="content">
-                            <h2>Orange is the new black</h2>
-                        </div>
-                    </a>
-                </li>
-
-
-                <br><br>
-
-                <li th:each="rv2 : ${r2}">
-
-                    <img th:src="${rv2}" />
-                    <a href="#">
-                        <div class="content">
-                            <h2>Orange is the new black</h2>
-                        </div>
-                    </a>
-                </li>
-
-
-
-
-                <br><br>
-
-                <li th:each="rv3 : ${r3}">
-
-                    <img th:src="${rv3}" />
-                    <a href="#">
-                        <div class="content">
-                            <h2>Orange is the new black</h2>
-                        </div>
-                    </a>
-                </li>
-
-
-
-
-                <br><br>
-
-                <li th:each="rv4 : ${r4}">
-
-                    <img th:src="${rv4}" />
-                    <a href="#">
-                        <div class="content">
-                            <h2>Orange is the new black</h2>
-                        </div>
-                    </a>
-                </li>
-
-
-
-
-
-
-
-
-
-
-
-            </ul>
-        </tr>
-
-    </table>
-
+    </form>
 
 </div>
-
-
-
-
 </body>
 </html>

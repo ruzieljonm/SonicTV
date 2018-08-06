@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("userPreferenceRepository")
 public interface UserPreferenceRepository extends JpaRepository<UserPreference,Long> {
+
+
+    UserPreference findByUserId(int userId);
 }

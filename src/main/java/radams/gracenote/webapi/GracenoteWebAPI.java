@@ -142,15 +142,32 @@ public class GracenoteWebAPI
 
         JSONObject musicvid_responses = musicvid.getJSONObject("RESPONSES");
         JSONObject musicvid_response = musicvid_responses.getJSONObject("RESPONSE");
-        JSONObject musicvid_album = musicvid_response.getJSONObject("ALBUM");
-        JSONObject musicvid_genre = musicvid_album.getJSONObject("GENRE");
-        JSONObject musicvid_track = musicvid_album.getJSONObject("TRACK");
+        if(musicvid_response.has("ALBUM")){
+            JSONObject musicvid_album = musicvid_response.getJSONObject("ALBUM");
+            JSONObject musicvid_genre = musicvid_album.getJSONObject("GENRE");
+            JSONObject musicvid_track = musicvid_album.getJSONObject("TRACK");
 
-        this.artist = musicvid_album.getString("ARTIST");
-        this.albumDate = musicvid_album.get("DATE").toString();
+            this.artist = musicvid_album.getString("ARTIST");
+            //this.albumDate = musicvid_album.get("DATE").toString();
+            //this.albumDate = "na";
 
-        this.tracktitle = musicvid_track.getString("TITLE");
-        this.genre = musicvid_genre.getString("content");
+            if(musicvid_album.has("DATE")){
+                this.albumDate = musicvid_album.get("DATE").toString();
+            } else {
+                this.albumDate = "na";
+            }
+            this.tracktitle = musicvid_track.getString("TITLE");
+            this.genre = musicvid_genre.getString("content");
+        }else{
+            this.artist="na";
+            this.albumDate="na";
+            this.tracktitle ="na";
+            this.genre = "na";
+
+        }
+
+
+
 
 //        System.out.println("TITLE: "+musicvid_track.getString("TITLE")+" GENRE: "+musicvid_genre.getString("content")+" ARTIST: "+musicvid_album.getString("ARTIST")+" DATE: "+musicvid_album.get("DATE").toString());
 //        System.out.println("========"+this._parseResponse(response).toString());
