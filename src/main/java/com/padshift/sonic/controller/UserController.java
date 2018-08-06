@@ -7,6 +7,7 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.An
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.CategoriesOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.padshift.sonic.entities.*;
+import com.padshift.sonic.service.GenreService;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
 import org.hibernate.annotations.SourceType;
@@ -51,6 +52,9 @@ public class UserController {
 
     @Autowired
     VideoService videoService;
+
+    @Autowired
+    GenreService genreService;
 
     @RequestMapping("/signinpage")
     public String showLoginPage() {
@@ -291,41 +295,16 @@ public class UserController {
     @RequestMapping("/genreselection")
     public String showGenreSelection(){
 
-
+        ArrayList<Genre> genres = genreService.findAll();
+        for (int i=0; i<genres.size(); i++){
+            System.out.println(genres.get(i).getGenreName());
+        }
 
         return "GenreSelection";
     }
 
 
-    @RequestMapping("/savegenretodb")
-    public String saveGenretoDB(){
-        ArrayList<String> genres = videoService.findDistinctGenre();
-        for (int i=0; i<genres.size(); i++){
 
-            CharSequence pop = "Pop";
-            boolean boolpop = genres.get(i).toString().contains(pop);
-
-            CharSequence rock = "Rock";
-            boolean boolrock= genres.get(i).toString().contains(rock);
-
-            CharSequence alt = "Alternative";
-            boolean boolalt = genres.get(i).toString().contains(alt);
-
-
-
-            if(boolpop==true){
-                System.out.println(genres.get(i).toString());
-                Genre genre = new Genre();
-                genre.setGenreId(1);
-                genre.setGenreName("Pop Music");
-                videoService.saveGenre(genre);
-            }
-
-        }
-
-
-        return "testing";
-    }
 
 
 

@@ -1,5 +1,6 @@
 package com.padshift.sonic.controller;
 
+import com.padshift.sonic.entities.Genre;
 import com.padshift.sonic.entities.Video;
 import com.padshift.sonic.entities.VideoDetails;
 import com.padshift.sonic.service.VideoService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import radams.gracenote.webapi.GracenoteException;
 import radams.gracenote.webapi.GracenoteWebAPI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,6 +85,128 @@ public class GracenoteAPIController {
         videoService.saveVideoDetails(newMVDetails);
 
 
+    }
+
+    @RequestMapping("/savegenretodb")
+    public String saveGenretoDB(){
+        ArrayList<String> genres = videoService.findDistinctGenre();
+        for (int i=0; i<genres.size(); i++){
+
+            CharSequence pop = "Pop";
+            boolean boolpop = genres.get(i).toString().contains(pop);
+
+            CharSequence rock = "Rock";
+            boolean boolrock= genres.get(i).toString().contains(rock);
+
+            CharSequence alt = "Alternative";
+            boolean boolalt = genres.get(i).toString().contains(alt);
+
+            CharSequence rnb = "R&B";
+            boolean boolrnb = genres.get(i).toString().contains(rnb);
+
+            CharSequence country = "Country";
+            boolean boolcountry = genres.get(i).toString().contains(country);
+
+            CharSequence house = "House";
+            boolean boolhouse = genres.get(i).toString().contains(house);
+
+            CharSequence metal = "Metal";
+            boolean boolmetal = genres.get(i).toString().contains(metal);
+
+            CharSequence reggae = "Reggae";
+            boolean boolreggae = genres.get(i).toString().contains(reggae);
+
+            CharSequence relig = "Religious";
+            boolean boolrelig= genres.get(i).toString().contains(relig);
+
+            CharSequence hiphop = "Hip-Hop";
+            boolean boolhiphop= genres.get(i).toString().contains(hiphop);
+
+
+            if(boolpop==true){
+                Genre genre = new Genre();
+                genre.setGenreId(1);
+                genre.setGenreName("Pop Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolrock==true){
+                Genre genre = new Genre();
+                genre.setGenreId(2);
+                genre.setGenreName("Rock Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolalt==true){
+                Genre genre = new Genre();
+                genre.setGenreId(3);
+                genre.setGenreName("Alternative Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolrnb==true){
+                Genre genre = new Genre();
+                genre.setGenreId(4);
+                genre.setGenreName("R&B/Soul Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolcountry==true){
+                Genre genre = new Genre();
+                genre.setGenreId(5);
+                genre.setGenreName("Country Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolhouse==true){
+                Genre genre = new Genre();
+                genre.setGenreId(6);
+                genre.setGenreName("House Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolmetal==true){
+                Genre genre = new Genre();
+                genre.setGenreId(7);
+                genre.setGenreName("Metal Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolreggae==true){
+                Genre genre = new Genre();
+                genre.setGenreId(8);
+                genre.setGenreName("Reggae Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolrelig==true){
+                Genre genre = new Genre();
+                genre.setGenreId(9);
+                genre.setGenreName("Religious Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+            if(boolhiphop==true){
+                Genre genre = new Genre();
+                genre.setGenreId(10);
+                genre.setGenreName("Hip-Hop/Rap Music");
+                videoService.saveGenre(genre);
+                genre=null;
+            }
+
+        }
+
+
+        return "testing";
     }
 
 
