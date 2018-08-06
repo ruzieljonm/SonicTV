@@ -1,9 +1,11 @@
 package com.padshift.sonic.service;
 
+import com.padshift.sonic.entities.Genre;
 import com.padshift.sonic.entities.Video;
 import com.padshift.sonic.entities.VideoDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,4 +23,11 @@ public interface VideoService {
 
 
     VideoDetails findByVideoid(String vididtoplay);
+
+
+
+
+    ArrayList<String> findDistinctGenre();
+
+    void saveGenre(Genre genre);
 }

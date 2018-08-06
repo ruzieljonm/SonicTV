@@ -52,9 +52,9 @@ public class UserController {
     @Autowired
     VideoService videoService;
 
-    @RequestMapping("/siginpage")
+    @RequestMapping("/signinpage")
     public String showLoginPage() {
-        return "loginPage";
+        return "signinsignup";
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
@@ -65,16 +65,12 @@ public class UserController {
         User checkUser = userService.findUserByUsernameAndPassword(userName, userPass);
 
         if (checkUser != null) {
-            return "VideoPlayer";
+            return "Homepage";
         } else {
-            return "loginPage";
+            return "signinsignup";
         }
     }
 
-    @RequestMapping("/signup")
-    public String showSignUpPage() {
-        return "signupPage";
-    }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String generalSignup(HttpServletRequest request, ModelMap map, HttpSession session) {
@@ -290,6 +286,49 @@ public class UserController {
         newVideo.setThumbnail(url);
         videoService.saveVideo(newVideo);
     }
+
+
+    @RequestMapping("/genreselection")
+    public String showGenreSelection(){
+
+
+
+        return "GenreSelection";
+    }
+
+
+    @RequestMapping("/savegenretodb")
+    public String saveGenretoDB(){
+        ArrayList<String> genres = videoService.findDistinctGenre();
+        for (int i=0; i<genres.size(); i++){
+
+            CharSequence pop = "Pop";
+            boolean boolpop = genres.get(i).toString().contains(pop);
+
+            CharSequence rock = "Rock";
+            boolean boolrock= genres.get(i).toString().contains(rock);
+
+            CharSequence alt = "Alternative";
+            boolean boolalt = genres.get(i).toString().contains(alt);
+
+
+
+            if(boolpop==true){
+                System.out.println(genres.get(i).toString());
+                Genre genre = new Genre();
+                genre.setGenreId(1);
+                genre.setGenreName("Pop Music");
+                videoService.saveGenre(genre);
+            }
+
+        }
+
+
+        return "testing";
+    }
+
+
+
 
 
 

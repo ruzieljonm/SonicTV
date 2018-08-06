@@ -1,7 +1,9 @@
 package com.padshift.sonic.service.impl;
 
+import com.padshift.sonic.entities.Genre;
 import com.padshift.sonic.entities.Video;
 import com.padshift.sonic.entities.VideoDetails;
+import com.padshift.sonic.repository.GenreRepository;
 import com.padshift.sonic.repository.VideoDetailsRepository;
 import com.padshift.sonic.repository.VideoRepository;
 import com.padshift.sonic.service.UserService;
@@ -9,6 +11,7 @@ import com.padshift.sonic.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +24,10 @@ public class VideoServiceImpl implements VideoService {
     public VideoRepository videoRepository;
     @Autowired
     public VideoDetailsRepository videoDetailsRepository;
+
+    @Autowired
+    public GenreRepository genreRepository;
+
 
     @Override
     public void saveVideo(Video video) {
@@ -45,6 +52,16 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public VideoDetails findByVideoid(String vididtoplay) {
         return videoDetailsRepository.findByVideoid(vididtoplay);
+    }
+
+    @Override
+    public ArrayList<String> findDistinctGenre() {
+        return videoDetailsRepository.findDistinctGenre();
+    }
+
+    @Override
+    public void saveGenre(Genre genre) {
+        genreRepository.save(genre);
     }
 
 
