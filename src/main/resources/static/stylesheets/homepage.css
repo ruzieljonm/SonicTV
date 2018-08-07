@@ -47,8 +47,8 @@ body {
     overflow: hidden;
     cursor: pointer;
 }
-.items li .bg-img {
-    position: absolute;
+.items li a img {
+    position: relative;
     width: 100%;
     height: 100%;
     background-size: cover;

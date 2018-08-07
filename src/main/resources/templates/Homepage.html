@@ -27,7 +27,9 @@
                     </li>
                     <br><br>
                     <li th:each="rv2 : ${r2}">
-                        <img th:src="${rv2.thumbnail}"/>
+                        <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                            <img th:src="${rv2.thumbnail}"/>
+                        </a>
                         <a href="#">
                             <div class="content">
                                 <h2 th:text="${rv2.title}"/>
@@ -36,7 +38,9 @@
                     </li>
                     <br><br>
                     <li th:each="rv3 : ${r3}">
-                        <img th:src="${rv3.thumbnail}"/>
+                        <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                            <img th:src="${rv3.thumbnail}"/>
+                        </a>
                         <a href="#">
                             <div class="content">
                                 <h2 th:text="${rv3.title}"/>
@@ -45,7 +49,9 @@
                     </li>
                     <br><br>
                     <li th:each="rv4 : ${r4}">
-                        <img th:src="${rv4.thumbnail}"/>
+                        <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                            <img th:src="${rv4.thumbnail}"/>
+                        </a>
                         <a href="#">
                             <div class="content">
                                 <h2 th:text="${rv4.title}"/>
