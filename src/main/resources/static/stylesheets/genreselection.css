@@ -1,13 +1,22 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 @import url(https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 body {
-    background: #e2e2e2;
+    background:url("../images/crowd.jpg") ;
+
+
+    /* Center and scale the image nicely */
+
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 98%;
-    height: 100vh;
+    height: 100%;
 }
 body .card {
     width: 800px;
-    height: 400px;
+    height: 200px;
     background: transparent;
 
     left: 0;
@@ -22,7 +31,7 @@ body .card {
 }
 body .card_left {
     width: 40%;
-    height: 400px;
+    height: 200px;
     float: left;
     overflow: hidden;
     background: transparent;
@@ -39,7 +48,7 @@ body .card_right {
     width: 60%;
     float: left;
     background: #000000;
-    height: 400px;
+    height: 200px!important;
     border-radius: 0 10px 10px 0;
     -webkit-border-radius: 0 10px 10px 0;
     -moz-border-radius: 0 10px 10px 0;

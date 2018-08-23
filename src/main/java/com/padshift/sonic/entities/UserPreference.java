@@ -14,24 +14,11 @@ public class UserPreference implements Serializable {
     @Column(name="userId")
     private int userId;
 
-    @Column(name="pop")
-    private float pop;
+    @Column(name="genreId")
+    private float genreId;
 
-
-    @Column(name="classical")
-    private float classical;
-
-    @Column(name="country")
-    private float country;
-
-    @Column(name="rnb")
-    private float rnb;
-
-    @Column(name="electronic")
-    private float electronic;
-
-    @Column(name="rock")
-    private float rock;
+    @Column(name="prefWeight")
+    private float prefWeight;
 
     public int getUserId() {
         return userId;
@@ -41,51 +28,19 @@ public class UserPreference implements Serializable {
         this.userId = userId;
     }
 
-    public float getPop() {
-        return pop;
+    public float getGenreId() {
+        return genreId;
     }
 
-    public void setPop(float pop) {
-        this.pop = pop;
+    public void setGenreId(float genreId) {
+        this.genreId = genreId;
     }
 
-    public float getClassical() {
-        return classical;
+    public float getPrefWeight() {
+        return prefWeight;
     }
 
-    public void setClassical(float classical) {
-        this.classical = classical;
-    }
-
-    public float getCountry() {
-        return country;
-    }
-
-    public void setCountry(float country) {
-        this.country = country;
-    }
-
-    public float getRnb() {
-        return rnb;
-    }
-
-    public void setRnb(float rnb) {
-        this.rnb = rnb;
-    }
-
-    public float getElectronic() {
-        return electronic;
-    }
-
-    public void setElectronic(float electronic) {
-        this.electronic = electronic;
-    }
-
-    public float getRock() {
-        return rock;
-    }
-
-    public void setRock(float rock) {
-        this.rock = rock;
+    public void setPrefWeight(float prefWeight) {
+        this.prefWeight = prefWeight;
     }
 }

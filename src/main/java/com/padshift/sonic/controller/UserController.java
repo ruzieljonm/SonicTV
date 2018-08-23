@@ -56,19 +56,25 @@ public class UserController {
     @Autowired
     GenreService genreService;
 
-    @RequestMapping("/signinpage")
-    public String showLoginPage() {
-        return "signinsignup";
+    @RequestMapping("/home")
+    public String showLoginPage(HttpSession session, Model model) {
+        if(session.isNew()) {
+            return "signinsignup";
+        }else{
+            return showHomepage(model,session);
+        }
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String generalSigninPost(HttpServletRequest request, ModelMap map) {
+    public String generalSigninPost(HttpServletRequest request, ModelMap map, HttpSession session) {
         String userName = request.getParameter("inputUserName");
         String userPass = request.getParameter("inputPassword");
 
-        User checkUser = userService.findUserByUsernameAndPassword(userName, userPass);
+        User checkUser = userService.findByUsernameAndPassword(userName, userPass);
 
         if (checkUser != null) {
+            session.setAttribute("userid",checkUser.getUserId());
+            session.setAttribute("username",checkUser.getUserName());
             return "Homepage";
         } else {
             return "signinsignup";
@@ -77,52 +83,91 @@ public class UserController {
 
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String generalSignup(HttpServletRequest request, ModelMap map, HttpSession session) {
+    public String generalSignup(HttpServletRequest request, Model model, HttpSession session) {
         User newUser = new User();
         newUser.setUserName(request.getParameter("inputUserName"));
         newUser.setUserPass(request.getParameter("inputPassword"));
         newUser.setUserEmail(request.getParameter("inputEmail"));
         userService.saveUser(newUser);
+        User checkUser = userService.findByUsername(request.getParameter("inputUserName"));
+        session.setAttribute("userid", checkUser.getUserId());
         session.setAttribute("username", request.getParameter("inputUserName"));
-        //map.addAttribute("username", session.getAttribute("username"));
-        return "RegistrationGenre";
+
+        return showGenreSelection(model);
+    }
+
+
+    @RequestMapping("/genreselection")
+    public String showGenreSelection(Model model){
+
+        ArrayList<Genre> genres = genreService.findAll();
+
+        for (int i=0; i<genres.size(); i++){
+            System.out.println(genres.get(i).getGenreName());
+        }
+        model.addAttribute("genres", genres);
+        model.addAttribute("starname", "pota");
+
+        return "GenreSelection";
     }
 
     @RequestMapping(value = "/submitpref", method = RequestMethod.POST)
     public String submitPreference(HttpServletRequest request, HttpSession session, Model model) {
-        String[] pref = request.getParameterValues("preference");
-        float percentage = (100 / pref.length - 1) + (100 % pref.length);
 
-        String username = (String) session.getAttribute("username");
+        int size = genreService.findAll().size();
+        UserPreference[] userpref = new UserPreference[size];
+        ArrayList<Genre> genres = genreService.findAll();
 
-        User user = userService.findByUsername(username);
-        UserPreference userpref = new UserPreference();
-        userpref.setUserId(user.getUserId());
-        if (Arrays.asList(pref).contains("pop")) {
-            userpref.setPop(percentage);
+
+        for (int i=0; i<userpref.length; i++) {
+
+                userpref[i].setUserId(Integer.parseInt(session.getAttribute("userid").toString()));
+                userpref[i].setUserId(genres.get(i).getGenreId());
+                String get = "\""+genres.get(i).getGenreName() +"\"";
+                String points = request.getParameter(get);
+                userpref[i].setPrefWeight(Float.valueOf(points));
+
+
         }
 
-        if (Arrays.asList(pref).contains("classical")) {
-            userpref.setClassical(percentage);
-        }
 
-        if (Arrays.asList(pref).contains("country")) {
-            userpref.setCountry(percentage);
-        }
 
-        if (Arrays.asList(pref).contains("rnb")) {
-            userpref.setRnb(percentage);
-        }
 
-        if (Arrays.asList(pref).contains("electronic")) {
-            userpref.setElectronic(percentage);
-        }
+        return "testing";
 
-        if (Arrays.asList(pref).contains("rock")) {
-            userpref.setRock(percentage);
-        }
-        userService.saveUserPreference(userpref);
-        return showHomepage(model, session);
+//        String[] pref = request.getParameterValues("preference");
+//        float percentage = (100 / pref.length - 1) + (100 % pref.length);
+//
+//        String username = (String) session.getAttribute("username");
+//
+//        User user = userService.findByUsername(username);
+//        UserPreference userpref = new UserPreference();
+//        userpref.setUserId(user.getUserId());
+//        if (Arrays.asList(pref).contains("pop")) {
+//            userpref.setPop(percentage);
+//        }
+//
+//        if (Arrays.asList(pref).contains("classical")) {
+//            userpref.setClassical(percentage);
+//        }
+//
+//        if (Arrays.asList(pref).contains("country")) {
+//            userpref.setCountry(percentage);
+//        }
+//
+//        if (Arrays.asList(pref).contains("rnb")) {
+//            userpref.setRnb(percentage);
+//        }
+//
+//        if (Arrays.asList(pref).contains("electronic")) {
+//            userpref.setElectronic(percentage);
+//        }
+//
+//        if (Arrays.asList(pref).contains("rock")) {
+//            userpref.setRock(percentage);
+//        }
+//        userService.saveUserPreference(userpref);
+//        return showHomepage(model, session);
 
     }
 
@@ -146,31 +191,31 @@ public class UserController {
         UserPreference up = userService.findUserPreferenceByUserId(user.getUserId());
         ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
 
-
-        if (up.getPop() > 10) {
-            ArrayList<VideoDetails> asianPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Asian Pop");
-            ArrayList<VideoDetails> westernPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Pop");
-            for (int i = 0; i < asianPop.size(); i++) {
-                videoList.add(asianPop.get(i));
-            }
-            for (int i = 0; i < westernPop.size(); i++) {
-                videoList.add(westernPop.get(i));
-            }
-        }
-
-        if (up.getRnb() > 10) {
-            ArrayList<VideoDetails> conrnb = (ArrayList<VideoDetails>) videoService.findAllByGenre("Contemporary R&B/Soul");
-            for (int i = 0; i < conrnb.size(); i++) {
-                videoList.add(conrnb.get(i));
-            }
-        }
-
-        if (up.getElectronic() > 10) {
-            ArrayList<VideoDetails> electhiphop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Hip-Hop/Rap");
-            for (int i = 0; i < electhiphop.size(); i++) {
-                videoList.add(electhiphop.get(i));
-            }
-        }
+//
+//        if (up.getPop() > 10) {
+//            ArrayList<VideoDetails> asianPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Asian Pop");
+//            ArrayList<VideoDetails> westernPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Pop");
+//            for (int i = 0; i < asianPop.size(); i++) {
+//                videoList.add(asianPop.get(i));
+//            }
+//            for (int i = 0; i < westernPop.size(); i++) {
+//                videoList.add(westernPop.get(i));
+//            }
+//        }
+//
+//        if (up.getRnb() > 10) {
+//            ArrayList<VideoDetails> conrnb = (ArrayList<VideoDetails>) videoService.findAllByGenre("Contemporary R&B/Soul");
+//            for (int i = 0; i < conrnb.size(); i++) {
+//                videoList.add(conrnb.get(i));
+//            }
+//        }
+//
+//        if (up.getElectronic() > 10) {
+//            ArrayList<VideoDetails> electhiphop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Hip-Hop/Rap");
+//            for (int i = 0; i < electhiphop.size(); i++) {
+//                videoList.add(electhiphop.get(i));
+//            }
+//        }
 
 
         for (int i = 0; i < videoList.size(); i++) {
@@ -292,16 +337,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("/genreselection")
-    public String showGenreSelection(){
 
-        ArrayList<Genre> genres = genreService.findAll();
-        for (int i=0; i<genres.size(); i++){
-            System.out.println(genres.get(i).getGenreName());
-        }
-
-        return "GenreSelection";
-    }
 
 
 

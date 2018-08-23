@@ -31,10 +31,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
-    public User findUserByUsernameAndPassword(String userName, String userPass) {
-        return userRepository.findByUserNameAndUserPass(userName,userPass);
-    }
 
 
 
@@ -56,6 +52,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUserName(username);
+    }
+
+    @Override
+    public User findByUsernameAndPassword(String userName, String userPass) {
+        return userRepository.findByUserNameAndUserPass(userName, userPass);
     }
 
 
