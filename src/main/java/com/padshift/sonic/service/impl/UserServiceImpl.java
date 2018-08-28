@@ -10,6 +10,8 @@ import com.padshift.sonic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
  * Created by ruzieljonm on 27/06/2018.
  */
@@ -57,6 +59,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsernameAndPassword(String userName, String userPass) {
         return userRepository.findByUserNameAndUserPass(userName, userPass);
+    }
+
+    @Override
+    public ArrayList<UserPreference> findAllByUserId(int userId) {
+        return userPreferenceRepository.findAllByUserId(userId);
     }
 
 

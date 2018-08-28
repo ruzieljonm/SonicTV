@@ -11,6 +11,7 @@ import com.padshift.sonic.service.GenreService;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
 import org.hibernate.annotations.SourceType;
+import org.hibernate.mapping.Array;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +57,7 @@ public class UserController {
     @Autowired
     GenreService genreService;
 
-    @RequestMapping("/home")
+    @RequestMapping("/")
     public String showLoginPage(HttpSession session, Model model) {
         if(session.isNew()) {
             return "signinsignup";
@@ -66,7 +67,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String generalSigninPost(HttpServletRequest request, ModelMap map, HttpSession session) {
+    public String generalSigninPost(HttpServletRequest request, Model model, HttpSession session) {
         String userName = request.getParameter("inputUserName");
         String userPass = request.getParameter("inputPassword");
 
@@ -75,7 +76,7 @@ public class UserController {
         if (checkUser != null) {
             session.setAttribute("userid",checkUser.getUserId());
             session.setAttribute("username",checkUser.getUserName());
-            return "Homepage";
+            return showHomepage(model,session);
         } else {
             return "signinsignup";
         }
@@ -93,12 +94,12 @@ public class UserController {
         session.setAttribute("userid", checkUser.getUserId());
         session.setAttribute("username", request.getParameter("inputUserName"));
 
-        return showGenreSelection(model);
+        return showGenreSelection(model,session);
     }
 
 
     @RequestMapping("/genreselection")
-    public String showGenreSelection(Model model){
+    public String showGenreSelection(Model model, HttpSession session){
 
         ArrayList<Genre> genres = genreService.findAll();
 
@@ -114,60 +115,34 @@ public class UserController {
     @RequestMapping(value = "/submitpref", method = RequestMethod.POST)
     public String submitPreference(HttpServletRequest request, HttpSession session, Model model) {
 
-        int size = genreService.findAll().size();
-        UserPreference[] userpref = new UserPreference[size];
+        System.out.println(session.getAttribute("userid") + "usah id");
+
         ArrayList<Genre> genres = genreService.findAll();
+        UserPreference[] genrePreference = new UserPreference[genres.size()];
 
+        for (int i=0; i<genrePreference.length; i++){
+            genrePreference[i] = new UserPreference();
+        }
+        int userid = Integer.parseInt(session.getAttribute("userid").toString());
 
-        for (int i=0; i<userpref.length; i++) {
+        for (int i=0; i<genrePreference.length; i++){
+            genrePreference[i].setUserId(userid);
+            float temp;
+            if(request.getParameter(genres.get(i).getGenreName().toString())==null){
+                 temp=0;
+            }else {
+                 temp = Float.parseFloat(request.getParameter(genres.get(i).getGenreName().toString()));
+            }
+            genrePreference[i].setPrefWeight(temp);
+            genrePreference[i].setGenreId(genres.get(i).getGenreId());
+            System.out.println(genrePreference[i].getUserId() + "-" + genrePreference[i].getGenreId() + "-" + genrePreference[i].getPrefWeight());
 
-                userpref[i].setUserId(Integer.parseInt(session.getAttribute("userid").toString()));
-                userpref[i].setUserId(genres.get(i).getGenreId());
-                String get = "\""+genres.get(i).getGenreName() +"\"";
-                String points = request.getParameter(get);
-                userpref[i].setPrefWeight(Float.valueOf(points));
+            userService.saveUserPreference(genrePreference[i]);
 
 
         }
 
-
-
-
-        return "testing";
-
-//        String[] pref = request.getParameterValues("preference");
-//        float percentage = (100 / pref.length - 1) + (100 % pref.length);
-//
-//        String username = (String) session.getAttribute("username");
-//
-//        User user = userService.findByUsername(username);
-//        UserPreference userpref = new UserPreference();
-//        userpref.setUserId(user.getUserId());
-//        if (Arrays.asList(pref).contains("pop")) {
-//            userpref.setPop(percentage);
-//        }
-//
-//        if (Arrays.asList(pref).contains("classical")) {
-//            userpref.setClassical(percentage);
-//        }
-//
-//        if (Arrays.asList(pref).contains("country")) {
-//            userpref.setCountry(percentage);
-//        }
-//
-//        if (Arrays.asList(pref).contains("rnb")) {
-//            userpref.setRnb(percentage);
-//        }
-//
-//        if (Arrays.asList(pref).contains("electronic")) {
-//            userpref.setElectronic(percentage);
-//        }
-//
-//        if (Arrays.asList(pref).contains("rock")) {
-//            userpref.setRock(percentage);
-//        }
-//        userService.saveUserPreference(userpref);
-//        return showHomepage(model, session);
+        return showHomepage(model,session);
 
     }
 
@@ -176,46 +151,29 @@ public class UserController {
 
         String username = (String) session.getAttribute("username");
         User usertemp= userService.findByUsername(username);
-        System.out.println("kapoy:" + username);
+        System.out.println("username: " + username);
 
 
 
 
-        System.out.println("TANG INA:" + usertemp.getUserId());
+        System.out.println("userid: " + usertemp.getUserId());
         String userid = Integer.toString(usertemp.getUserId());
         session.setAttribute("userid",userid);
-        System.out.println("THE USER ID:" + userid);
+        System.out.println("THE USER ID: " + userid);
 
 
         User user = userService.findByUsername(username);
-        UserPreference up = userService.findUserPreferenceByUserId(user.getUserId());
+        ArrayList<UserPreference> up = userService.findAllByUserId(user.getUserId());
+
+        for(int i=0; i<up.size(); i++){
+            System.out.println("Userpref : " + up.get(i).getGenreId() + " : " + up.get(i).getPrefWeight());
+        }
+
         ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
 
-//
-//        if (up.getPop() > 10) {
-//            ArrayList<VideoDetails> asianPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Asian Pop");
-//            ArrayList<VideoDetails> westernPop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Pop");
-//            for (int i = 0; i < asianPop.size(); i++) {
-//                videoList.add(asianPop.get(i));
-//            }
-//            for (int i = 0; i < westernPop.size(); i++) {
-//                videoList.add(westernPop.get(i));
-//            }
-//        }
-//
-//        if (up.getRnb() > 10) {
-//            ArrayList<VideoDetails> conrnb = (ArrayList<VideoDetails>) videoService.findAllByGenre("Contemporary R&B/Soul");
-//            for (int i = 0; i < conrnb.size(); i++) {
-//                videoList.add(conrnb.get(i));
-//            }
-//        }
-//
-//        if (up.getElectronic() > 10) {
-//            ArrayList<VideoDetails> electhiphop = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Hip-Hop/Rap");
-//            for (int i = 0; i < electhiphop.size(); i++) {
-//                videoList.add(electhiphop.get(i));
-//            }
-//        }
+        videoList = videoService.findAllVideoDetails();
+
+
 
 
         for (int i = 0; i < videoList.size(); i++) {
@@ -261,7 +219,6 @@ public class UserController {
         model.addAttribute("r2", vr2);
         model.addAttribute("r3", vr3);
         model.addAttribute("r4", vr4);
-
         return "Homepage";
     }
 
@@ -334,6 +291,12 @@ public class UserController {
         newVideo.setMvtitle(title);
         newVideo.setThumbnail(url);
         videoService.saveVideo(newVideo);
+    }
+
+
+    @RequestMapping("/homefeed")
+    public String showHomeFeed(){
+        return "HomeFeed";
     }
 
 

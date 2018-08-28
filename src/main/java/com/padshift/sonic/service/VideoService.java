@@ -30,4 +30,6 @@ public interface VideoService {
     ArrayList<String> findDistinctGenre();
 
     void saveGenre(Genre genre);
+
+    ArrayList<VideoDetails> findAllVideoDetails();
 }

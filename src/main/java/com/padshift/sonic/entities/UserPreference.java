@@ -11,14 +11,28 @@ import java.io.Serializable;
 public class UserPreference implements Serializable {
 
     @Id
+    @GeneratedValue
+    @Column(name="userprefId")
+    private int userprefid;
+
+
     @Column(name="userId")
     private int userId;
 
     @Column(name="genreId")
-    private float genreId;
+    private int genreId;
 
     @Column(name="prefWeight")
     private float prefWeight;
+
+
+    public int getUserprefid() {
+        return userprefid;
+    }
+
+    public void setUserprefid(int userprefid) {
+        this.userprefid = userprefid;
+    }
 
     public int getUserId() {
         return userId;
@@ -28,11 +42,11 @@ public class UserPreference implements Serializable {
         this.userId = userId;
     }
 
-    public float getGenreId() {
+    public int getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(float genreId) {
+    public void setGenreId(int genreId) {
         this.genreId = genreId;
     }
 
