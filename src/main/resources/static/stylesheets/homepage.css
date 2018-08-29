@@ -184,7 +184,7 @@ html, body {
 }
 #menu-fixed:target > .menu li {
     text-align: left;
-    width: 60%;
+    width: 100%;
 }
 #menu-fixed:target > .menu li:hover::after {
     content: '';
@@ -266,18 +266,22 @@ html, body {
     font-weight: 300;
 }
 #menu-fixed hr {
+    position: relative;
+    top: 10px;
     width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 #menu-fixed .menu {
+    position: relative;
     list-style: none;
     margin: 0;
     padding: 0;
     width: 100%;
+    top: 10px;
 }
 #menu-fixed .menu li {
     padding: 15px;
-    width: 40%;
+    width: 50%;
     margin: auto;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom-style: dotted;

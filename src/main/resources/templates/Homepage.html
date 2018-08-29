@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/stylesheets/homepage.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body>
+<body style="
+    background-color: #0f0f0f;
+    height: 662px;
+">
 <header class="page-head"></header>
 
 <div>
@@ -20,7 +23,6 @@
             <a href="#menu-fixed">
                 <div class="logo">
                     <img src="images/logofinal.png" style="width:70px;height:70px;">
-                    <span> </span>
                 </div>
                 <p class="pmenu">MENU</p>
             </a>
@@ -62,6 +64,7 @@
                             <a href="javascript:;" onclick="document.getElementById('form1').submit();">
                                 <img th:src="${rv2.thumbnail}"/>
                             </a>
+                            <input type="hidden" name="clicked" th:value="${rv2.videoid}"/>
                             <a href="#">
                                 <div class="content">
                                     <h2 th:text="${rv2.title}"/>
@@ -75,6 +78,7 @@
                             <a href="javascript:;" onclick="document.getElementById('form1').submit();">
                                 <img th:src="${rv3.thumbnail}"/>
                             </a>
+                            <input type="hidden" name="clicked" th:value="${rv3.videoid}"/>
                             <a href="#">
                                 <div class="content">
                                     <h2 th:text="${rv3.title}"/>
@@ -88,6 +92,7 @@
                             <a href="javascript:;" onclick="document.getElementById('form1').submit();">
                                 <img th:src="${rv4.thumbnail}"/>
                             </a>
+                            <input type="hidden" name="clicked" th:value="${rv4.videoid}"/>
                             <a href="#">
                                 <div class="content">
                                     <h2 th:text="${rv4.title}"/>
