@@ -257,15 +257,6 @@ public class UserController {
 
         videoList = videoService.findAllVideoDetails();
 
-
-
-
-        for (int i = 0; i < videoList.size(); i++) {
-            //videoList.get(i).getTitle();
-            System.out.println(videoList.get(i).getTitle() + " - " + videoList.get(i).getGenre());
-        }
-
-
         ArrayList<VVD> vr1 = new ArrayList<VVD>();
 
         for (int i = 0; i < 6; i++) {
