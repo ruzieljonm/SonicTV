@@ -4,60 +4,97 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/stylesheets/homepage.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 <header class="page-head"></header>
 
 <div>
 
+    <div id="cont">
+        <div id="menu-fixed">
+
+            <a href="#cont">
+                <i class="material-icons back">&#xE314;</i>
+            </a>
+            <a href="#menu-fixed">
+                <div class="logo">
+                    <img src="images/logofinal.png" style="width:70px;height:70px;">
+                    <span> </span>
+                </div>
+                <p class="pmenu">MENU</p>
+            </a>
+            <hr>
+            <ul class="menu">
+                <li><i class="material-icons">&#xE88A;</i><p>Home</p></li>
+                <li><i class="material-icons">&#xe02c;</i><p>Explore</p></li>
+                <li><i class="material-icons">person</i><p>Profile</p></li>
+                <li><i class="material-icons">&#xE8B8;</i><p>Settings</p></li>
+                <li><i class="material-icons">&#xE8B6;</i><p>Search</p></li>
+            </ul>
+            <i class="material-icons info">&#xE88E;</i>
+        </div>
+    </div>
+
     <form id="form1" action="/gotoPlayer" method="post">
         <table>
             <tr>
+
                 <ul class="items">
-                    <li th:each="rv1 : ${r1}">
-                        <a href="javascript:;" onclick="document.getElementById('form1').submit();">
-                            <img th:src="${rv1.thumbnail}"/>
-                        </a>
-                        <input type="hidden" name="clicked" th:value="${rv1.videoid}"/>
-                        <a href="#">
-                            <div class="content">
-                                <h2 th:text="${rv1.title}"/>
-                            </div>
-                        </a>
-                    </li>
-                    <br><br>
-                    <li th:each="rv2 : ${r2}">
-                        <a href="javascript:;" onclick="document.getElementById('form1').submit();">
-                            <img th:src="${rv2.thumbnail}"/>
-                        </a>
-                        <a href="#">
-                            <div class="content">
-                                <h2 th:text="${rv2.title}"/>
-                            </div>
-                        </a>
-                    </li>
-                    <br><br>
-                    <li th:each="rv3 : ${r3}">
-                        <a href="javascript:;" onclick="document.getElementById('form1').submit();">
-                            <img th:src="${rv3.thumbnail}"/>
-                        </a>
-                        <a href="#">
-                            <div class="content">
-                                <h2 th:text="${rv3.title}"/>
-                            </div>
-                        </a>
-                    </li>
-                    <br><br>
-                    <li th:each="rv4 : ${r4}">
-                        <a href="javascript:;" onclick="document.getElementById('form1').submit();">
-                            <img th:src="${rv4.thumbnail}"/>
-                        </a>
-                        <a href="#">
-                            <div class="content">
-                                <h2 th:text="${rv4.title}"/>
-                            </div>
-                        </a>
-                    </li>
+                    <div class="vidcontainer"  th:each="rv1 : ${r1}">
+                        <li>
+                            <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                                <img th:src="${rv1.thumbnail}"/>
+                            </a>
+                            <input type="hidden" name="clicked" th:value="${rv1.videoid}"/>
+                            <a href="#">
+                                <div class="content">
+                                    <h2 th:text="${rv1.title}"/>
+                                </div>
+                            </a>
+                        </li>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="vidcontainer" th:each="rv2 : ${r2}">
+                        <li>
+                            <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                                <img th:src="${rv2.thumbnail}"/>
+                            </a>
+                            <a href="#">
+                                <div class="content">
+                                    <h2 th:text="${rv2.title}"/>
+                                </div>
+                            </a>
+                        </li>
+                    </div>
+                    <br><br><br>
+                    <div class="vidcontainer" th:each="rv3 : ${r3}">
+                        <li>
+                            <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                                <img th:src="${rv3.thumbnail}"/>
+                            </a>
+                            <a href="#">
+                                <div class="content">
+                                    <h2 th:text="${rv3.title}"/>
+                                </div>
+                            </a>
+                        </li>
+                    </div>
+                    <br><br><br>
+                    <div class="vidcontainer" th:each="rv4 : ${r4}">
+                        <li>
+                            <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                                <img th:src="${rv4.thumbnail}"/>
+                            </a>
+                            <a href="#">
+                                <div class="content">
+                                    <h2 th:text="${rv4.title}"/>
+                                </div>
+                            </a>
+                        </li>
+                    </div>
                 </ul>
             </tr>
         </table>

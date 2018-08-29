@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -25,9 +25,10 @@
                     <div class="video-info">
 
                         <p class="video-popularity">
-            <span class="views">394,7304 views <span class="fontawesome-eye-open meta-icon"></span>
-            <span class="likes">97,349 likes <a href="#" id="likeThis" class="like-this"><span
-                    class="fontawesome-heart meta-icon like-heart"></span></a><span class="like-prompt">Don't forget to like!</span></span>
+                            <span class="title" th:text="${vidtitle}"> </span>
+                            <span class="views">394,7304 views <span class="fontawesome-eye-open meta-icon"></span></span>
+                            <span class="likes">97,349 likes <a href="#" id="likeThis" class="like-this"><span
+                                    class="fontawesome-heart meta-icon like-heart"></span></a><span class="like-prompt">Don't forget to like!</span></span>
                         </p>
 
                         <div class="description">
@@ -35,6 +36,28 @@
                                 Netherlands. You can support the makers and open source projects by purchasing the 8 GB USB
                                 card with all the movie data and tutorials.</p>
                         </div>
+                    </div>
+                    <h2 style="position:  relative;top: 0px;">RECOMMENDED VIDEOS</h2>
+                    <div class="video-recommendation">
+                        <table>
+                            <tr>
+                                <ul class="items">
+                                    <div class="vidcontainer"  th:each="rv1 : ${r1}">
+                                        <li>
+                                            <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                                                <img th:src="${rv1.thumbnail}"/>
+                                            </a>
+                                            <input type="hidden" name="clicked" th:value="${rv1.videoid}"/>
+                                            <a href="#">
+                                                <div class="content">
+                                                    <h2 th:text="${rv1.title}"/>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </tr>
+                        </table>
                     </div>
                 </div>
 

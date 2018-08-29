@@ -127,14 +127,16 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(1);
                 genre.setGenreName("Pop Music");
+                genre.setGenrePhoto("../images/pop.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
 
-            if(boolrock==true){
+            if(boolrock==true || boolmetal==true){
                 Genre genre = new Genre();
                 genre.setGenreId(2);
                 genre.setGenreName("Rock Music");
+                genre.setGenrePhoto("../images/rock.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -143,6 +145,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(3);
                 genre.setGenreName("Alternative Music");
+                genre.setGenrePhoto("../images/alternative.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -151,6 +154,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(4);
                 genre.setGenreName("R&B/Soul Music");
+                genre.setGenrePhoto("../images/rnb.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -159,6 +163,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(5);
                 genre.setGenreName("Country Music");
+                genre.setGenrePhoto("../images/country.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -167,22 +172,25 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(6);
                 genre.setGenreName("House Music");
+                genre.setGenrePhoto("../images/house.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
 
-            if(boolmetal==true){
-                Genre genre = new Genre();
-                genre.setGenreId(7);
-                genre.setGenreName("Metal Music");
-                videoService.saveGenre(genre);
-                genre=null;
-            }
+//            if(boolmetal==true){
+//                Genre genre = new Genre();
+//                genre.setGenreId(7);
+//                genre.setGenreName("Metal Music");
+//                genre.setGenrePhoto("../images/metal.png");
+//                videoService.saveGenre(genre);
+//                genre=null;
+//            }
 
             if(boolreggae==true){
                 Genre genre = new Genre();
                 genre.setGenreId(8);
                 genre.setGenreName("Reggae Music");
+                genre.setGenrePhoto("../images/reggae.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -191,6 +199,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(9);
                 genre.setGenreName("Religious Music");
+                genre.setGenrePhoto("../images/religious.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -199,6 +208,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(10);
                 genre.setGenreName("Hip-Hop/Rap Music");
+                genre.setGenrePhoto("../images/hiprap.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }

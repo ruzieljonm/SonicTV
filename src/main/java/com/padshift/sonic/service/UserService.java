@@ -5,6 +5,8 @@ import com.padshift.sonic.entities.UserHistory;
 import com.padshift.sonic.entities.UserPreference;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
  * Created by ruzieljonm on 28/06/2018.
  */
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
 public interface UserService {
 
     void saveUser(User user);
-    User findUserByUsernameAndPassword(String userName, String userPass);
+
 
 
 
@@ -28,4 +30,8 @@ public interface UserService {
     User findByUsername(String username);
 
 
+    User findByUsernameAndPassword(String userName, String userPass);
+
+
+    ArrayList<UserPreference> findAllByUserId(int userId);
 }

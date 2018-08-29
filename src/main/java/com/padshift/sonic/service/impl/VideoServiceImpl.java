@@ -64,5 +64,10 @@ public class VideoServiceImpl implements VideoService {
         genreRepository.save(genre);
     }
 
+    @Override
+    public ArrayList<VideoDetails> findAllVideoDetails() {
+        return (ArrayList<VideoDetails>) videoDetailsRepository.findAll();
+    }
+
 
 }

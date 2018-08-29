@@ -17,6 +17,16 @@ public class Genre implements Serializable{
     @Column(name="genreName")
     private String genreName;
 
+    @Column(name="genrePhoto")
+    private String genrePhoto;
+
+    public String getGenrePhoto() {
+        return genrePhoto;
+    }
+
+    public void setGenrePhoto(String genrePhoto) {
+        this.genrePhoto = genrePhoto;
+    }
 
     public int getGenreId() {
         return genreId;
@@ -33,4 +43,6 @@ public class Genre implements Serializable{
     public void setGenreName(String genreName) {
         this.genreName = genreName;
     }
+
+
 }
