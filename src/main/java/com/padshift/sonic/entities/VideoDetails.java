@@ -26,6 +26,17 @@ public class VideoDetails implements Serializable{
     @Column(name="genre")
     private String genre;
 
+    @Column(name="sonicgenre")
+    private String sonicgenre;
+
+    public String getSonicgenre() {
+        return sonicgenre;
+    }
+
+    public void setSonicgenre(String sonicgenre) {
+        this.sonicgenre = sonicgenre;
+    }
+
     public String getVideoid() {
         return videoid;
     }

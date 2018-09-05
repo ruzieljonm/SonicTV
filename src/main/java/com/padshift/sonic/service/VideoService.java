@@ -1,6 +1,7 @@
 package com.padshift.sonic.service;
 
 import com.padshift.sonic.entities.Genre;
+import com.padshift.sonic.entities.UserHistory;
 import com.padshift.sonic.entities.Video;
 import com.padshift.sonic.entities.VideoDetails;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public interface VideoService {
     VideoDetails findByVideoid(String vididtoplay);
 
 
-
+    List<UserHistory> findAllByUserId(int userid);
 
     ArrayList<String> findDistinctGenre();
 

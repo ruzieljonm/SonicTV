@@ -27,7 +27,7 @@ public class GracenoteAPIController {
     public String showmetadata() {
         String clientID = "2034677681"; // Put your clientID here.
         String clientTag = "75917E36EEDFB95B94EC9E68E804B835"; // Put your clientTag here.
-        String tracktitle, artist, albumdate, genre, album;
+        String tracktitle, artist, albumdate, genre, viewcount, likes, dislikes;
 
         try {
             /* You first need to register your client information in order to get a userID.
@@ -59,8 +59,104 @@ public class GracenoteAPIController {
 
                 albumdate = api.getAlbumDate();
                 genre = api.getGenre();
+
                 System.out.println("TITLE: " + tracktitle + " ARTIST: " + artist + " DATE: " + albumdate + " GENRE: " + genre);
-                saveMVDetails(videoList.get(i).getVideoid(), videoList.get(i).getMvtitle(), artist, albumdate, genre);
+
+                CharSequence pop = "Pop";
+                boolean boolpop = genre.toString().contains(pop);
+
+                CharSequence rock = "Rock";
+                boolean boolrock= genre.toString().contains(rock);
+
+                CharSequence alt = "Alternative";
+                boolean boolalt = genre.toString().contains(alt);
+
+                CharSequence rnb = "R&B";
+                boolean boolrnb = genre.toString().contains(rnb);
+
+                CharSequence country = "Country";
+                boolean boolcountry = genre.toString().contains(country);
+
+                CharSequence house = "House";
+                boolean boolhouse = genre.toString().contains(house);
+
+                CharSequence metal = "Metal";
+                boolean boolmetal = genre.toString().contains(metal);
+
+                CharSequence reggae = "Reggae";
+                boolean boolreggae = genre.toString().contains(reggae);
+
+                CharSequence relig = "Religious";
+                boolean boolrelig= genre.toString().contains(relig);
+
+                CharSequence hiphop = "Hip-Hop";
+                boolean boolhiphop= genre.toString().contains(hiphop);
+
+                CharSequence emo = "Emo";
+                boolean boolemo= genre.toString().contains(emo);
+
+                CharSequence punk = "Punk";
+                boolean boolpunk= genre.toString().contains(punk);
+
+                CharSequence dance = "Dance";
+                boolean booldance= genre.toString().contains(dance);
+
+                CharSequence bebop = "Bebop";
+                boolean boolbebop= genre.toString().contains(bebop);
+
+                CharSequence blues = "Blues";
+                boolean boolblues= genre.toString().contains(blues);
+
+                CharSequence contemporary = "Contemporary";
+                boolean boolcontemporary= genre.toString().contains(contemporary);
+
+                CharSequence dubstep = "Dubstep";
+                boolean booldubstep= genre.toString().contains(dubstep);
+
+                CharSequence disco = "Disco";
+                boolean booldisco= genre.toString().contains(disco);
+
+                String sonicgenre = " ";
+
+                if(boolpop==true || boolbebop==true){
+                     sonicgenre = "Pop Music";
+                }
+
+                if(boolrock==true || boolmetal==true || boolemo==true || boolpunk==true){
+                     sonicgenre = "Rock Music";
+                }
+
+                if(boolalt==true || boolblues==true || boolcontemporary==true){
+                    sonicgenre = "Alternative Music";
+                }
+
+                if(boolrnb==true){
+                    sonicgenre = "R&B/Soul Music";
+                }
+
+                if(boolcountry==true){
+                    sonicgenre = "Country Music";
+                }
+
+                if(boolhouse==true || booldance==true || booldubstep==true || booldisco==true){
+                    sonicgenre = "House Music";
+                }
+
+
+                if(boolreggae==true){
+                    sonicgenre = "Reggae Music";
+                }
+
+                if(boolrelig==true){
+                    sonicgenre = "Religious Music";
+                }
+
+                if(boolhiphop==true){
+                    sonicgenre = "Hip-Hop/Rap Music";
+                }
+
+                System.out.println(sonicgenre);
+                saveMVDetails(videoList.get(i).getVideoid(), videoList.get(i).getMvtitle(), artist, albumdate, genre, sonicgenre);
             }
 
 
@@ -72,7 +168,7 @@ public class GracenoteAPIController {
     }
 
 
-    public void saveMVDetails(String vidId, String title, String artist, String date, String genre) {
+    public void saveMVDetails(String vidId, String title, String artist, String date, String genre, String sonicgenre) {
 
         VideoDetails newMVDetails = new VideoDetails();
         newMVDetails.setVideoid(vidId);
@@ -81,7 +177,7 @@ public class GracenoteAPIController {
 
         newMVDetails.setDate(date);
         newMVDetails.setGenre(genre);
-
+        newMVDetails.setSonicgenre(sonicgenre);
         videoService.saveVideoDetails(newMVDetails);
 
 

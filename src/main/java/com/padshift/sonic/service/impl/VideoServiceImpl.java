@@ -1,9 +1,11 @@
 package com.padshift.sonic.service.impl;
 
 import com.padshift.sonic.entities.Genre;
+import com.padshift.sonic.entities.UserHistory;
 import com.padshift.sonic.entities.Video;
 import com.padshift.sonic.entities.VideoDetails;
 import com.padshift.sonic.repository.GenreRepository;
+import com.padshift.sonic.repository.UserHistoryRepository;
 import com.padshift.sonic.repository.VideoDetailsRepository;
 import com.padshift.sonic.repository.VideoRepository;
 import com.padshift.sonic.service.UserService;
@@ -27,6 +29,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     public GenreRepository genreRepository;
+
+    @Autowired
+    public UserHistoryRepository userHistoryRepository;
 
 
     @Override
@@ -52,6 +57,11 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public VideoDetails findByVideoid(String vididtoplay) {
         return videoDetailsRepository.findByVideoid(vididtoplay);
+    }
+
+    @Override
+    public List<UserHistory> findAllByUserId(int userid) {
+        return userHistoryRepository.findByuserId(userid);
     }
 
     @Override

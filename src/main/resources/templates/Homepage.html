@@ -76,32 +76,34 @@
                     <br><br><br>
                     <div class="vidcontainer" th:each="rv3 : ${r3}">
                         <form th:id="${rv3.videoid}" action="/gotoPlayer" method="get">
-                        <li>
-                            <a href="javascript:;" th:onclick="'document.getElementById(\''+${rv3.videoid}+'\').submit();'">
-                                <img th:src="${rv3.thumbnail}"/>
-                            </a>
-                            <input type="hidden" name="clicked" th:value="${rv3.videoid}"/>
-                            <a href="#">
-                                <div class="content">
-                                    <h2 th:text="${rv3.title}"/>
-                                </div>
-                            </a>
-                        </li>
+                            <li>
+                                <a href="javascript:;" th:onclick="'document.getElementById(\''+${rv3.videoid}+'\').submit();'">
+                                    <img th:src="${rv3.thumbnail}"/>
+                                </a>
+                                <input type="hidden" name="clicked" th:value="${rv3.videoid}"/>
+                                <a href="#">
+                                    <div class="content">
+                                        <h2 th:text="${rv3.title}"/>
+                                    </div>
+                                </a>
+                            </li>
+                        </form>
                     </div>
                     <br><br><br>
                     <div class="vidcontainer" th:each="rv4 : ${r4}">
                         <form th:id="${rv4.videoid}" action="/gotoPlayer" method="get">
-                        <li>
-                            <a href="javascript:;" th:onclick="'document.getElementById(\''+${rv4.videoid}+'\').submit();'">
-                                <img th:src="${rv4.thumbnail}"/>
-                            </a>
-                            <input type="hidden" name="clicked" th:value="${rv4.videoid}"/>
-                            <a href="#">
-                                <div class="content">
-                                    <h2 th:text="${rv4.title}"/>
-                                </div>
-                            </a>
-                        </li>
+                            <li>
+                                <a href="javascript:;" th:onclick="'document.getElementById(\''+${rv4.videoid}+'\').submit();'">
+                                    <img th:src="${rv4.thumbnail}"/>
+                                </a>
+                                <input type="hidden" name="clicked" th:value="${rv4.videoid}"/>
+                                <a href="#">
+                                    <div class="content">
+                                        <h2 th:text="${rv4.title}"/>
+                                    </div>
+                                </a>
+                            </li>
+                        </form>
                     </div>
                 </ul>
             </tr>

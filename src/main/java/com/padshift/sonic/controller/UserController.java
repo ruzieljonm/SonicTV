@@ -240,6 +240,7 @@ public class UserController {
        // System.out.println(userhist.getUserId() + userhist.getVideoid());
 
         userService.saveUserHistory(userhist);
+        videoweight(request,model,session);
 
         VideoDetails playvid = videoService.findByVideoid(vididtoplay);
         ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Pop");
@@ -278,6 +279,14 @@ public class UserController {
         model.addAttribute("tn3", thumbnail3);
         return "VideoPlayerV2";
 
+    }
+
+    public String videoweight(HttpServletRequest request, Model model, HttpSession session){
+        int userid = Integer.parseInt((String) session.getAttribute("userid"));
+        List<UserHistory> userhist = videoService.findAllByUserId(userid);
+        int userhistorytotal = userhist.size();
+        System.out.println(userhist.size());
+        return null;
     }
 
 
