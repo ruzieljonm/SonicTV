@@ -4,18 +4,28 @@ import com.padshift.sonic.entities.Genre;
 import com.padshift.sonic.entities.Video;
 import com.padshift.sonic.entities.VideoDetails;
 import com.padshift.sonic.service.VideoService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import radams.gracenote.webapi.GracenoteException;
 import radams.gracenote.webapi.GracenoteWebAPI;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by ruzieljonm on 24/07/2018.
  */
+@SuppressWarnings("Duplicates")
 @Controller
 public class GracenoteAPIController {
 
@@ -27,7 +37,7 @@ public class GracenoteAPIController {
     public String showmetadata() {
         String clientID = "2034677681"; // Put your clientID here.
         String clientTag = "75917E36EEDFB95B94EC9E68E804B835"; // Put your clientTag here.
-        String tracktitle, artist, albumdate, genre, album;
+        String tracktitle, artist, albumdate, genre, vcount, likes, dislikes;
 
         try {
             /* You first need to register your client information in order to get a userID.
@@ -59,8 +69,23 @@ public class GracenoteAPIController {
 
                 albumdate = api.getAlbumDate();
                 genre = api.getGenre();
+
+
+                String[] statistics = getVideoStatistics(videoList.get(i).getVideoid());
+                System.out.println("AAAAAAA" + statistics[0] );
+
+                vcount =statistics[0];
+                likes = statistics[1];
+                dislikes = statistics[2];
+
+
+
                 System.out.println("TITLE: " + tracktitle + " ARTIST: " + artist + " DATE: " + albumdate + " GENRE: " + genre);
-                saveMVDetails(videoList.get(i).getVideoid(), videoList.get(i).getMvtitle(), artist, albumdate, genre);
+
+
+
+
+                saveMVDetails(videoList.get(i).getVideoid(), videoList.get(i).getMvtitle(), artist, albumdate, genre, vcount, likes, dislikes);
             }
 
 
@@ -71,8 +96,183 @@ public class GracenoteAPIController {
         return "metadata";
     }
 
+    @RequestMapping("/testCount")
+    public String[] getVideoStatistics(String videoId){
+        String urlvcount =  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+ videoId +"&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
 
-    public void saveMVDetails(String vidId, String title, String artist, String date, String genre) {
+        String[] statistic = new String[3];
+        URL obj = null;
+        try {
+            obj = new URL(urlvcount);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            int responseCode = con.getResponseCode();
+
+            System.out.println("\nSending'Get' request to URL : " + urlvcount);
+            System.out.println("Response Code : " + responseCode);
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream())
+            );
+
+
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            in.close();
+            System.out.println(response.toString());
+
+            JSONObject myresponse = null;
+
+            myresponse = new JSONObject(response.toString());
+            System.out.println(myresponse);
+
+
+            JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
+            if(videos.length()>0) {
+
+                JSONObject vid = videos.getJSONObject(0);
+
+                JSONObject stats = vid.getJSONObject("statistics");
+                if (stats.has("viewCount")) {
+                    statistic[0] = stats.getString("viewCount");
+                } else {
+                    statistic[0] = "0";
+                }
+
+                if (stats.has("likeCount")) {
+                    statistic[1] = stats.getString("likeCount");
+                } else {
+                    statistic[1] = "0";
+                }
+                if (stats.has("dislikeCount")) {
+                    statistic[2] = stats.getString("dislikeCount");
+                } else {
+                    statistic[2] = "0";
+                }
+            }else {
+
+                statistic[0] = "0";
+                statistic[1] = "0";
+                statistic[2] = "0";
+            }
+
+//            System.out.println(" views: " + stats.getString("viewCount") + " likes: " + stats.getString("likeCount") + " dislikes: " + stats.getString("dislikeCount") );
+
+
+            }catch(MalformedURLException e){
+                e.printStackTrace();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
+
+        return statistic;
+
+    }
+
+//    public String getVideoLikes(String videoId){
+//        String urlvcount =  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+ videoId +"&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
+//
+//        String likes = null;
+//        URL obj = null;
+//        try {
+//            obj = new URL(urlvcount);
+//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//            int responseCode = con.getResponseCode();
+//
+//            System.out.println("\nSending'Get' request to URL : " + urlvcount);
+//            System.out.println("Response Code : " + responseCode);
+//
+//            BufferedReader in = new BufferedReader(
+//                    new InputStreamReader(con.getInputStream())
+//            );
+//
+//
+//            String inputLine;
+//            StringBuffer response = new StringBuffer();
+//            while ((inputLine = in.readLine()) != null) {
+//                response.append(inputLine);
+//            }
+//
+//            in.close();
+//            System.out.println(response.toString());
+//
+//            JSONObject myresponse = null;
+//
+//            myresponse = new JSONObject(response.toString());
+//            System.out.println(myresponse);
+//
+//            JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
+//            JSONObject vid = videos.getJSONObject(0);
+//            JSONObject stats = vid.getJSONObject("statistics");
+//            likes =  stats.getString("likeCount");
+//            System.out.println(" views: " + stats.getString("viewCount") + " likes: " + stats.getString("likeCount") + " dislikes: " + stats.getString("dislikeCount") );
+//
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return likes;
+//
+//    }
+//
+//    public String getVideoDislikes(String videoId){
+//        String urlvcount =  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+ videoId +"&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
+//
+//        String dislikes = null;
+//        URL obj = null;
+//        try {
+//            obj = new URL(urlvcount);
+//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//            int responseCode = con.getResponseCode();
+//
+//            System.out.println("\nSending'Get' request to URL : " + urlvcount);
+//            System.out.println("Response Code : " + responseCode);
+//
+//            BufferedReader in = new BufferedReader(
+//                    new InputStreamReader(con.getInputStream())
+//            );
+//
+//
+//            String inputLine;
+//            StringBuffer response = new StringBuffer();
+//            while ((inputLine = in.readLine()) != null) {
+//                response.append(inputLine);
+//            }
+//
+//            in.close();
+//            System.out.println(response.toString());
+//
+//            JSONObject myresponse = null;
+//
+//            myresponse = new JSONObject(response.toString());
+//            System.out.println(myresponse);
+//
+//            JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
+//            JSONObject vid = videos.getJSONObject(0);
+//            JSONObject stats = vid.getJSONObject("statistics");
+//            dislikes =  stats.getString("dislikeCount");
+//            System.out.println(" views: " + stats.getString("viewCount") + " likes: " + stats.getString("likeCount") + " dislikes: " + stats.getString("dislikeCount") );
+//
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return dislikes;
+//
+//    }
+
+
+    public void saveMVDetails(String vidId, String title, String artist, String date, String genre, String vcount, String likes, String dislikes) {
 
         VideoDetails newMVDetails = new VideoDetails();
         newMVDetails.setVideoid(vidId);
@@ -81,6 +281,9 @@ public class GracenoteAPIController {
 
         newMVDetails.setDate(date);
         newMVDetails.setGenre(genre);
+        newMVDetails.setViewCount(vcount);
+        newMVDetails.setLikes(likes);
+        newMVDetails.setDislikes(dislikes);
 
         videoService.saveVideoDetails(newMVDetails);
 

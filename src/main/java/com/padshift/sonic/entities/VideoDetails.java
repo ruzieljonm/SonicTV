@@ -26,6 +26,19 @@ public class VideoDetails implements Serializable{
     @Column(name="genre")
     private String genre;
 
+
+    @Column(name="viewCount")
+    private String viewCount;
+
+    @Column(name="likes")
+    private String likes;
+
+
+    @Column(name="dislikes")
+    private String dislikes;
+
+
+
     public String getVideoid() {
         return videoid;
     }
@@ -65,5 +78,30 @@ public class VideoDetails implements Serializable{
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+
+    public String getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(String viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
+    }
+
+    public String getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(String dislikes) {
+        this.dislikes = dislikes;
     }
 }
