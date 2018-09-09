@@ -37,7 +37,19 @@ public class VideoDetails implements Serializable{
     @Column(name="dislikes")
     private String dislikes;
 
+    public VideoDetails() {
+    }
 
+    public VideoDetails(String videoid, String title, String artist, String date, String genre, String viewCount, String likes, String dislikes) {
+        this.videoid = videoid;
+        this.title = title;
+        this.artist = artist;
+        this.date = date;
+        this.genre = genre;
+        this.viewCount = viewCount;
+        this.likes = likes;
+        this.dislikes = dislikes;
+    }
 
     public String getVideoid() {
         return videoid;

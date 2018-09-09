@@ -32,4 +32,6 @@ public interface VideoService {
     void saveGenre(Genre genre);
 
     ArrayList<VideoDetails> findAllVideoDetails();
+
+    ArrayList<Genre> findAllGenre();
 }
