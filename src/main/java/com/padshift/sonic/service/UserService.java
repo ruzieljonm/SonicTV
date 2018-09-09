@@ -34,4 +34,6 @@ public interface UserService {
 
 
     ArrayList<UserPreference> findAllByUserId(int userId);
+
+    User findByUserId(int userid);
 }

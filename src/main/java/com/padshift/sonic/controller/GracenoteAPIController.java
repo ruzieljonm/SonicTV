@@ -35,6 +35,11 @@ public class GracenoteAPIController {
 
     @RequestMapping("/metadata")
     public String showmetadata() {
+
+
+
+
+
         String clientID = "2034677681"; // Put your clientID here.
         String clientTag = "75917E36EEDFB95B94EC9E68E804B835"; // Put your clientTag here.
         String tracktitle, artist, albumdate, genre, vcount, likes, dislikes;
@@ -62,30 +67,52 @@ public class GracenoteAPIController {
 
 
             List<Video> videoList = videoService.findAll();
+            ArrayList<VideoDetails> vids = videoService.findAllVideoDetails();
+
+            ArrayList<String> vyou = new ArrayList<>();
+            ArrayList<String> check = new ArrayList<>();
+
+
+            for (int i=0; i<vids.size(); i++){
+                check.add(vids.get(i).getVideoid());
+            }
+
+            for (int i=0; i<videoList.size(); i++){
+                vyou.add(videoList.get(i).getVideoid());
+            }
+
+
+
+
             for (int i = 0; i < videoList.size(); i++) {
-                api.searchTrack(videoList.get(i).getMvtitle(), "", videoList.get(i).getMvtitle());
-                tracktitle = api.getTracktitle();
-                artist = api.getArtist();
-
-                albumdate = api.getAlbumDate();
-                genre = api.getGenre();
-
-
-                String[] statistics = getVideoStatistics(videoList.get(i).getVideoid());
-                System.out.println("AAAAAAA" + statistics[0] );
-
-                vcount =statistics[0];
-                likes = statistics[1];
-                dislikes = statistics[2];
 
 
 
-                System.out.println("TITLE: " + tracktitle + " ARTIST: " + artist + " DATE: " + albumdate + " GENRE: " + genre);
+                if (check.contains(videoList.get(i).getVideoid())==false) {
+
+                    api.searchTrack(videoList.get(i).getMvtitle(), "", videoList.get(i).getMvtitle());
+                    tracktitle = api.getTracktitle();
+                    artist = api.getArtist();
+
+                    albumdate = api.getAlbumDate();
+                    genre = api.getGenre();
 
 
+                    String[] statistics = getVideoStatistics(videoList.get(i).getVideoid());
+                    System.out.println("AAAAAAA" + statistics[0]);
+
+                    vcount = statistics[0];
+                    likes = statistics[1];
+                    dislikes = statistics[2];
 
 
-                saveMVDetails(videoList.get(i).getVideoid(), videoList.get(i).getMvtitle(), artist, albumdate, genre, vcount, likes, dislikes);
+                    System.out.println("TITLE: " + tracktitle + " ARTIST: " + artist + " DATE: " + albumdate + " GENRE: " + genre);
+
+
+                    saveMVDetails(videoList.get(i).getVideoid(), videoList.get(i).getMvtitle(), artist, albumdate, genre, vcount, likes, dislikes);
+                    System.out.println("SAVED");
+
+                }
             }
 
 
@@ -172,104 +199,6 @@ public class GracenoteAPIController {
         return statistic;
 
     }
-
-//    public String getVideoLikes(String videoId){
-//        String urlvcount =  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+ videoId +"&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
-//
-//        String likes = null;
-//        URL obj = null;
-//        try {
-//            obj = new URL(urlvcount);
-//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//            int responseCode = con.getResponseCode();
-//
-//            System.out.println("\nSending'Get' request to URL : " + urlvcount);
-//            System.out.println("Response Code : " + responseCode);
-//
-//            BufferedReader in = new BufferedReader(
-//                    new InputStreamReader(con.getInputStream())
-//            );
-//
-//
-//            String inputLine;
-//            StringBuffer response = new StringBuffer();
-//            while ((inputLine = in.readLine()) != null) {
-//                response.append(inputLine);
-//            }
-//
-//            in.close();
-//            System.out.println(response.toString());
-//
-//            JSONObject myresponse = null;
-//
-//            myresponse = new JSONObject(response.toString());
-//            System.out.println(myresponse);
-//
-//            JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
-//            JSONObject vid = videos.getJSONObject(0);
-//            JSONObject stats = vid.getJSONObject("statistics");
-//            likes =  stats.getString("likeCount");
-//            System.out.println(" views: " + stats.getString("viewCount") + " likes: " + stats.getString("likeCount") + " dislikes: " + stats.getString("dislikeCount") );
-//
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return likes;
-//
-//    }
-//
-//    public String getVideoDislikes(String videoId){
-//        String urlvcount =  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+ videoId +"&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
-//
-//        String dislikes = null;
-//        URL obj = null;
-//        try {
-//            obj = new URL(urlvcount);
-//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//            int responseCode = con.getResponseCode();
-//
-//            System.out.println("\nSending'Get' request to URL : " + urlvcount);
-//            System.out.println("Response Code : " + responseCode);
-//
-//            BufferedReader in = new BufferedReader(
-//                    new InputStreamReader(con.getInputStream())
-//            );
-//
-//
-//            String inputLine;
-//            StringBuffer response = new StringBuffer();
-//            while ((inputLine = in.readLine()) != null) {
-//                response.append(inputLine);
-//            }
-//
-//            in.close();
-//            System.out.println(response.toString());
-//
-//            JSONObject myresponse = null;
-//
-//            myresponse = new JSONObject(response.toString());
-//            System.out.println(myresponse);
-//
-//            JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
-//            JSONObject vid = videos.getJSONObject(0);
-//            JSONObject stats = vid.getJSONObject("statistics");
-//            dislikes =  stats.getString("dislikeCount");
-//            System.out.println(" views: " + stats.getString("viewCount") + " likes: " + stats.getString("likeCount") + " dislikes: " + stats.getString("dislikeCount") );
-//
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return dislikes;
-//
-//    }
 
 
     public void saveMVDetails(String vidId, String title, String artist, String date, String genre, String vcount, String likes, String dislikes) {

@@ -76,6 +76,8 @@ public class UserController {
         if (checkUser != null) {
             session.setAttribute("userid",checkUser.getUserId());
             session.setAttribute("username",checkUser.getUserName());
+            System.out.println(checkUser.getUserId() + " "+ checkUser.getUserName());
+
             return showHomepage(model,session);
         } else {
             return "signinsignup";
@@ -149,20 +151,17 @@ public class UserController {
     @RequestMapping("/homepagev2")
     public String showHomepage(Model model, HttpSession session) {
 
-        String username = (String) session.getAttribute("username");
-        User usertemp= userService.findByUsername(username);
-        System.out.println("username: " + username);
 
 
 
+        String userid = session.getAttribute("userid").toString();
+        System.out.println("tang ina" + userid);
+        User user = userService.findByUserId(Integer.parseInt(userid));
 
-        System.out.println("userid: " + usertemp.getUserId());
-        String userid = Integer.toString(usertemp.getUserId());
-        session.setAttribute("userid",userid);
-        System.out.println("THE USER ID: " + userid);
+        System.out.println(user.getUserId() + " "+ user.getUserName());
 
 
-        User user = userService.findByUsername(username);
+
         ArrayList<UserPreference> up = userService.findAllByUserId(user.getUserId());
 
         for(int i=0; i<up.size(); i++){
@@ -231,7 +230,7 @@ public class UserController {
 //        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
 
         UserHistory userhist = new UserHistory();
-        userhist.setUserId(Integer.parseInt((String) session.getAttribute("userid")));
+        userhist.setUserId(Integer.parseInt(session.getAttribute("userid").toString()));
         userhist.setVideoid(vididtoplay);
 
 //        VideoDetails video = videoService.findByVideoid(vididtoplay);
