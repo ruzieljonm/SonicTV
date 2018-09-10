@@ -227,8 +227,8 @@ public class UserController {
     public String gotoPlayer(HttpServletRequest request, Model model, HttpSession session){
         String vididtoplay = request.getParameter("clicked");
 
-        System.out.println(vididtoplay);
-        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
+        System.out.println("video id : " + vididtoplay);
+//        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
 
         UserHistory userhist = new UserHistory();
         userhist.setUserId(Integer.parseInt((String) session.getAttribute("userid")));
