@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="videodetails")
-public class VideoDetails implements Serializable{
+public class VideoDetails implements Serializable,Comparable<VideoDetails>{
     @Id
     @Column(name="videoid")
     private String videoid;
@@ -115,5 +115,18 @@ public class VideoDetails implements Serializable{
 
     public void setDislikes(String dislikes) {
         this.dislikes = dislikes;
+    }
+
+
+    @Override
+    public int compareTo(VideoDetails videt) {
+        float compareViews = Float.parseFloat(((VideoDetails) videt).getViewCount().toString())/2;
+
+        float temp = Float.parseFloat(this.viewCount.toString())/2;
+        //desce order
+        return  Math.round(compareViews-temp);
+
+        //descending order
+        //return compareQuantity - this.quantity;
     }
 }

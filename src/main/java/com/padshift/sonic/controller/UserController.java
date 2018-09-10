@@ -145,6 +145,8 @@ public class UserController {
 
     }
 
+    String topgenre=null;
+
     @RequestMapping("/homepagev2")
     public String showHomepage(Model model, HttpSession session) {
 
@@ -185,101 +187,63 @@ public class UserController {
         ArrayList<VVD> vr4 = new ArrayList<VVD>();
 
 
-        for (int i=0; i<4; i++){
-            System.out.println("[]" + i + "WAY UYAB");
-            for (int j=0; j<genres.size(); j++) {
-                if (userPref.get(i).getGenreId() == genres.get(j).getGenreId()){
-                    System.out.println("IM HEREEEEE");
+        String[] topfour = new String[4];
 
-                    ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
-                    System.out.println(genres.get(i).getGenreName() + "GENRE SIZ");
+        for(int i=0; i<topfour.length; i++){
+            topfour[i] = (videoService.findGenreByGenreId(userPref.get(i).getGenreId())).getGenreName();
+        }
 
-                    videoList = (ArrayList<VideoDetails>) videoService.findAllByGenre(genres.get(i).getGenreName());
-                    System.out.println(videoList.size() + "SIZE SIZ");
-                    VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(), "https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-                    if(i==0) {
-                        vr1.add(vid);
-                    }
-                    if(i==1) {
-                        vr2.add(vid);
-                    }
-                    if(i==2) {
-                        vr3.add(vid);
-                    }
-                    if(i==3) {
-                        vr4.add(vid);
-                    }
-                    vid = null;
-                    System.out.println(videoList.get(i).getGenre());
+        topgenre = topfour[0];
 
 
 
-                }
-            }
+        ArrayList<VideoDetails> vidListGen1 = videoService.findAllByGenre(topfour[0]);
+        ArrayList<VideoDetails> vidListGen2 = videoService.findAllByGenre(topfour[1]);
+        ArrayList<VideoDetails> vidListGen3 = videoService.findAllByGenre(topfour[2]);
+        ArrayList<VideoDetails> vidListGen4 = videoService.findAllByGenre(topfour[3]);
+
+        for(int i=0; i<5; i++){
+            System.out.println(vidListGen1.get(i).getTitle() +" ------------- " + vidListGen1.get(i).getViewCount());
+        }
+
+        System.out.println("----------IMO MAMA GA SORTING------------");
+
+        Collections.sort(vidListGen1);
+        Collections.sort(vidListGen2);
+        Collections.sort(vidListGen3);
+        Collections.sort(vidListGen4);
+
+        for(int i=0; i<5; i++){
+            System.out.println(vidListGen1.get(i).getTitle() +" ------------- " + vidListGen1.get(i).getViewCount());
         }
 
 
+        for(int i=0; i<6; i++){
+            VVD vid1 = new VVD(vidListGen1.get(i).getVideoid(), vidListGen1.get(i).getTitle(), vidListGen1.get(i).getArtist(), vidListGen1.get(i).getGenre(), vidListGen1.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen1.get(i).getVideoid() + "/mqdefault.jpg");
+            vr1.add(vid1);
+            vid1 = null;
+
+            VVD vid2 = new VVD(vidListGen2.get(i).getVideoid(), vidListGen2.get(i).getTitle(), vidListGen2.get(i).getArtist(), vidListGen2.get(i).getGenre(), vidListGen2.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen2.get(i).getVideoid() + "/mqdefault.jpg");
+            vr2.add(vid2);
+            vid2 = null;
+
+            VVD vid3 = new VVD(vidListGen3.get(i).getVideoid(), vidListGen3.get(i).getTitle(), vidListGen3.get(i).getArtist(), vidListGen3.get(i).getGenre(), vidListGen3.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen3.get(i).getVideoid() + "/mqdefault.jpg");
+            vr3.add(vid3);
+            vid3 = null;
+
+            VVD vid4 = new VVD(vidListGen4.get(i).getVideoid(), vidListGen4.get(i).getTitle(), vidListGen4.get(i).getArtist(), vidListGen4.get(i).getGenre(), vidListGen4.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen4.get(i).getVideoid() + "/mqdefault.jpg");
+            vr4.add(vid4);
+            vid4 = null;
 
 
+        }
 
-
-//        for(int i=0; i<userPref.size(); i++){
-//            System.out.println("Userpref : " + userPref.get(i).getGenreId() + " : " + userPref.get(i).getPrefWeight());
-//        }
-//
-//        ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
-//
-//        videoList = videoService.findAllVideoDetails();
-//
-//
-//
-//
-//        for (int i = 0; i < videoList.size(); i++) {
-//            //videoList.get(i).getTitle();
-//            System.out.println(videoList.get(i).getTitle() + " - " + videoList.get(i).getGenre());
-//        }
-//
-//
-//        ArrayList<VVD> vr1 = new ArrayList<VVD>();
-//        ArrayList<VVD> vr2 = new ArrayList<VVD>();
-//        ArrayList<VVD> vr3 = new ArrayList<VVD>();
-//        ArrayList<VVD> vr4 = new ArrayList<VVD>();
-//
-//       //VVD vid = new VVD();
-//
-//        for (int i = 0; i < videoList.size(); i++) {
-//            if (i <= 4) {
-//                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-//                vr1.add(vid);
-//                vid = null;
-//
-//
-//            }
-//            if (i >= 5 && i <= 9) {
-//                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-//                vr2.add(vid);
-//                vid = null;
-//            }
-//            if (i >= 10 && i <= 14) {
-//                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-//                vr3.add(vid);
-//                vid = null;
-//            }
-//            if (i >= 15 && i < 20) {
-//                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-//                vr4.add(vid);
-//                vid = null;
-//            }
-//        }
-//
-//
         model.addAttribute("r1", vr1);
         model.addAttribute("r2", vr2);
         model.addAttribute("r3", vr3);
         model.addAttribute("r4", vr4);
         return "Homepage";
 
-//        return "testing";
     }
 
 
@@ -301,10 +265,9 @@ public class UserController {
        // System.out.println(userhist.getUserId() + userhist.getVideoid());
 
         userService.saveUserHistory(userhist);
-
         VideoDetails playvid = videoService.findByVideoid(vididtoplay);
-        ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllByGenre("Western Pop");
-        Collections.shuffle(upnext);
+        ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllByGenre(topgenre);
+        Collections.sort(upnext);
 
         System.out.println(playvid.getTitle() + " " + playvid.getArtist());
 
@@ -372,6 +335,11 @@ public class UserController {
     @RequestMapping("/homefeed")
     public String showHomeFeed(){
         return "HomeFeed";
+    }
+
+    @RequestMapping("/explore")
+    public String showExplore(){
+        return "Explore";
     }
 
 

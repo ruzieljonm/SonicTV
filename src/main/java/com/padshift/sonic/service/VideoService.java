@@ -19,7 +19,7 @@ public interface VideoService {
 
     void saveVideoDetails(VideoDetails newMVDetails);
 
-    List<VideoDetails> findAllByGenre(String s);
+    ArrayList<VideoDetails> findAllByGenre(String s);
 
 
     VideoDetails findByVideoid(String vididtoplay);
@@ -34,4 +34,6 @@ public interface VideoService {
     ArrayList<VideoDetails> findAllVideoDetails();
 
     ArrayList<Genre> findAllGenre();
+
+    Genre findGenreByGenreId(int i);
 }
