@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -35,15 +35,16 @@
 
     <div class="page">
         <header class="page_header">
-            <h1>A super commercial page</h1>
+            <h1><img src="/images/explorecover.png" style="height: 100%;position: relative;top: -5%;width: 100%;"> </h1>
         </header>
 
 
 
         <div class="cards-holder">
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1437422061949-f6efbde0a471?q=80&fm=jpg&w=1080&fit=max&s=b7a6c4b3f13802ca90978b676117aa09">
-                    <h2>Something cool</h2>
+            <div class="card" th:each="gen : ${genre}">
+                <header class="card_header" data-background="urlhere" th:attr="data-background='url('+${gen.genrePhoto}+')'">
+                    <img th:src="${gen.genrePhoto}" style="height: 100%;width: 100%;">
+                    <h2 th:text="${gen.genreName}" ></h2>
                 </header>
                 <section class="card_content">
                     <h2>Some motivational sentence</h2>
@@ -51,83 +52,7 @@
                 </section>
             </div>
 
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1429734160945-4f85244d6a5a?dpr=2&fit=crop&fm=jpg&h=625&q=80&w=950">
-                    <h2>Something cool</h2>
-                </header>
-                <section class="card_content">
-                    <h2>Some motivational sentence</h2>
-                    <p>Some Lorem ipsum dolor sit amet, consectetur adipisicin tempore. Minus minima provident magnam nihil commodi explicabo doloribus accusantium earum.</p>
-                </section>
-            </div>
 
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1438109491414-7198515b166b?dpr=2&fit=crop&fm=jpg&h=650&q=80&w=950">
-                    <h2>Something cool</h2>
-                </header>
-                <section class="card_content">
-                    <h2>Some motivational sentence</h2>
-                    <p>Some Lorem ipsum dolor sit amet, consectetur adipisicing elit.magnam nihil commodi explicabo doloribus accusantium earum.</p>
-                </section>
-            </div>
-
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1434828927397-62ea053f7a35?dpr=2&fit=crop&fm=jpg&h=650&q=80&w=950">
-                    <h2>Something cool</h2>
-                </header>
-                <section class="card_content">
-                    <h2>Some motivational sentence</h2>
-                    <p>Some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem enim explicabo sint quas iste quaerat iusto quibusdam accusantium </p>
-                </section>
-            </div>
-
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1433838552652-f9a46b332c40?dpr=2&fit=crop&fm=jpg&h=650&q=80&w=950">
-                    <h2>Something cool</h2>
-                </header>
-                <section class="card_content">
-                    <h2>Some motivational sentence</h2>
-                    <p>Some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem enim explicabo sint quas iste quaerat</p>
-                </section>
-            </div>
-
-            <br>
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1433838552652-f9a46b332c40?dpr=2&fit=crop&fm=jpg&h=650&q=80&w=950">
-                    <h2>Something cool</h2>
-                </header>
-                <section class="card_content">
-                    <h2>Some motivational sentence</h2>
-                    <p>Some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem enim explicabo sint quas iste quaerat</p>
-                </section>
-            </div>
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1433838552652-f9a46b332c40?dpr=2&fit=crop&fm=jpg&h=650&q=80&w=950">
-                    <h2>Something cool</h2>
-                </header>
-                <section class="card_content">
-                    <h2>Some motivational sentence</h2>
-                    <p>Some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem enim explicabo sint quas iste quaerat</p>
-                </section>
-            </div>
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1433838552652-f9a46b332c40?dpr=2&fit=crop&fm=jpg&h=650&q=80&w=950">
-                    <h2>Something cool</h2>
-                </header>
-                <section class="card_content">
-                    <h2>Some motivational sentence</h2>
-                    <p>Some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem enim explicabo sint quas iste quaerat</p>
-                </section>
-            </div>
-            <div class="card">
-                <header class="card_header" data-background="https://images.unsplash.com/photo-1433838552652-f9a46b332c40?dpr=2&fit=crop&fm=jpg&h=650&q=80&w=950">
-                    <h2>Something cool</h2>
-                </header>
-                <section class="card_content">
-                    <h2>Some motivational sentence</h2>
-                    <p>Some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem enim explicabo sint quas iste quaerat</p>
-                </section>
-            </div>
         </div>
     </div>
 </div>

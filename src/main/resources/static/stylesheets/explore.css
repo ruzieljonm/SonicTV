@@ -39,9 +39,10 @@ body {
     color: #fff;
     flex: 1;
     text-align: center;
-    min-height: 60vh;
+    min-height: 50vh;
     overflow: hidden;
     position: relative;
+    height: 458px;
 }
 .page header.page_header:before {
     content: '';
@@ -61,8 +62,9 @@ body {
     line-height: 60vh;
     text-transform: uppercase;
     position: relative;
-    width: 100%;
+    width: 1398px;
     z-index: 1;
+    height: 460px;
 }
 .page .cards-holder {
     display: flex;
@@ -87,7 +89,7 @@ body {
     flex-basis: calc(20% - -50px);
     transition: box-shadow .2s ease;
     padding-bottom: 10px;
-    height: 319px;
+    height: 300px;
 }
 @media all and (max-width: 680px) {
     .page .cards-holder .card {
@@ -103,6 +105,7 @@ body {
     left: -8px;
     width: calc(100% + 16px);
     text-align: center;
+    height: 100%;
 }
 .page .cards-holder .card header:after, .page .cards-holder .card header:before {
     content: '';
@@ -117,7 +120,7 @@ body {
     opacity: 0.3;
 }
 .page .cards-holder .card header:before {
-    content: 'Something cooler';
+    content: 'M O R E';
     font-size: 1rem;
     line-height: 20vw;
     z-index: 2;
@@ -129,8 +132,10 @@ body {
 .page .cards-holder .card header h2 {
     font-size: 1rem;
     line-height: 20vw;
-    position: relative;
+    position: absolute;
     z-index: 1;
+    top: 0%;
+    left: 35%;
 }
 .page .cards-holder .card:hover {
     box-shadow: 0 0 0 1px rgba(39, 194, 90, 0.4);

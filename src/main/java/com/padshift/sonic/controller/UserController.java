@@ -333,14 +333,22 @@ public class UserController {
 
 
     @RequestMapping("/homefeed")
-    public String showHomeFeed(){
+    public String showHomeFeed(Model model){
         return "HomeFeed";
     }
 
     @RequestMapping("/explore")
-    public String showExplore(){
+    public String showExplore(Model model){
+        ArrayList<Genre> genres = videoService.findAllGenre();
+
+        model.addAttribute("genre", genres);
+
         return "Explore";
     }
+
+
+
+
 
 
 
