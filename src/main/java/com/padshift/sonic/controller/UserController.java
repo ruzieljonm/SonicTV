@@ -346,6 +346,15 @@ public class UserController {
         return "Explore";
     }
 
+    @RequestMapping("/sidemenu")
+    public void sideMenu(HttpServletRequest request){
+
+        String explore = request.getParameter("explore");
+        System.out.println(explore);
+        System.out.println("bobo");
+
+    }
+
 
 
 
