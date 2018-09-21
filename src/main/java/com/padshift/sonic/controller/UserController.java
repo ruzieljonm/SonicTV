@@ -65,8 +65,8 @@ public class UserController {
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public String generalSigninPost(HttpServletRequest request, Model model, HttpSession session) {
-        String userName = request.getParameter("inputUserName");
-        String userPass = request.getParameter("inputPassword");
+        String userName = request.getParameter("inputUserName1");
+        String userPass = request.getParameter("inputPassword1");
 
         User checkUser = userService.findByUsernameAndPassword(userName, userPass);
 
@@ -88,6 +88,20 @@ public class UserController {
         newUser.setUserName(request.getParameter("inputUserName"));
         newUser.setUserPass(request.getParameter("inputPassword"));
         newUser.setUserEmail(request.getParameter("inputEmail"));
+
+        Calendar now = Calendar.getInstance();   // Gets the current date and time
+        int year = now.get(Calendar.YEAR);       // The current year
+
+        System.out.println("BIRTHDAY CYST : " + request.getParameter("bday"));
+        System.out.println("TYPE CYST : " + request.getParameter("radio"));
+
+        String bday = request.getParameter("bday");
+        String upToNCharacters = bday.substring(0, Math.min(bday.length(), 4));
+        System.out.println(upToNCharacters);
+
+        newUser.setUserAge(year-Integer.parseInt(upToNCharacters));
+        newUser.setUserPersonality(request.getParameter("radio"));
+
         userService.saveUser(newUser);
         User checkUser = userService.findByUsername(request.getParameter("inputUserName"));
         session.setAttribute("userid", checkUser.getUserId());
@@ -347,11 +361,15 @@ public class UserController {
     }
 
     @RequestMapping("/sidemenu")
-    public void sideMenu(HttpServletRequest request){
+    public String sideMenu(HttpServletRequest request, Model model){
 
         String explore = request.getParameter("explore");
         System.out.println(explore);
         System.out.println("bobo");
+        ArrayList<Genre> genres = videoService.findAllGenre();
+
+        model.addAttribute("genre", genres);
+        return showExplore(model);
 
     }
 
