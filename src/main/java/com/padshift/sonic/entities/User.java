@@ -26,8 +26,27 @@ public class User implements Serializable {
     @Column(name="userEmail")
     private String userEmail;
 
+    @Column(name="userPersonality")
+    private String userPersonality;
 
+    @Column(name = "userAge")
+    private int userAge;
 
+    public String getUserPersonality() {
+        return userPersonality;
+    }
+
+    public void setUserPersonality(String userPersonality) {
+        this.userPersonality = userPersonality;
+    }
+
+    public int getUserAge() {
+        return userAge;
+    }
+
+    public void setUserAge(int userAge) {
+        this.userAge = userAge;
+    }
 
     public String getUserEmail() {
         return userEmail;

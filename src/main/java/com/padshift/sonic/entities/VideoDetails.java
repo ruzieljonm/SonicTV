@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="videodetails")
-public class VideoDetails implements Serializable{
+public class VideoDetails implements Serializable,Comparable<VideoDetails>{
     @Id
     @Column(name="videoid")
     private String videoid;
@@ -26,8 +26,6 @@ public class VideoDetails implements Serializable{
     @Column(name="genre")
     private String genre;
 
-    @Column(name="sonicgenre")
-    private String sonicgenre;
 
     @Column(name="viewCount")
     private String viewCount;
@@ -39,6 +37,19 @@ public class VideoDetails implements Serializable{
     @Column(name="dislikes")
     private String dislikes;
 
+    public VideoDetails() {
+    }
+
+    public VideoDetails(String videoid, String title, String artist, String date, String genre, String viewCount, String likes, String dislikes) {
+        this.videoid = videoid;
+        this.title = title;
+        this.artist = artist;
+        this.date = date;
+        this.genre = genre;
+        this.viewCount = viewCount;
+        this.likes = likes;
+        this.dislikes = dislikes;
+    }
 
     public String getVideoid() {
         return videoid;
@@ -81,14 +92,6 @@ public class VideoDetails implements Serializable{
         this.genre = genre;
     }
 
-    public String getSonicgenre() {
-        return sonicgenre;
-    }
-
-    public void setSonicgenre(String sonicgenre) {
-        this.sonicgenre = sonicgenre;
-    }
-
 
     public String getViewCount() {
         return viewCount;
@@ -112,5 +115,18 @@ public class VideoDetails implements Serializable{
 
     public void setDislikes(String dislikes) {
         this.dislikes = dislikes;
+    }
+
+
+    @Override
+    public int compareTo(VideoDetails videt) {
+        float compareViews = Float.parseFloat(((VideoDetails) videt).getViewCount().toString())/2;
+
+        float temp = Float.parseFloat(this.viewCount.toString())/2;
+        //desce order
+        return  Math.round(compareViews-temp);
+
+        //descending order
+        //return compareQuantity - this.quantity;
     }
 }

@@ -27,13 +27,16 @@
                 <p class="pmenu">MENU</p>
             </a>
             <hr>
-            <ul class="menu">
-                <li><i class="material-icons">&#xE88A;</i><p>Home</p></li>
-                <li><i class="material-icons">&#xe02c;</i><p>Explore</p></li>
-                <li><i class="material-icons">person</i><p>Profile</p></li>
-                <li><i class="material-icons">&#xE8B8;</i><p>Settings</p></li>
-                <li><i class="material-icons">&#xE8B6;</i><p>Search</p></li>
-            </ul>
+            <form id="sidemenu" action="/sidemenu" method="post">
+                <ul class="menu">
+                    <li><i class="material-icons">&#xE88A;</i><br><span class="sideb">Home</span></li>
+                    <li><i class="material-icons">&#xe02c;</i><br><span class="sideb" onclick="sidemenu.submit();">Explore</span></li><input type="hidden" name="explore" value="1">
+                    <li><i class="material-icons">person</i><br><span class="sideb">Profile</span></li>
+                    <li><i class="material-icons">&#xE8B8;</i><br><span class="sideb">Settings</span></li>
+                    <li><i class="material-icons">&#xE8B6;</i><br><span class="sideb">Search</span></li>
+                </ul>
+            </form>
+
             <i class="material-icons info">&#xE88E;</i>
         </div>
     </div>

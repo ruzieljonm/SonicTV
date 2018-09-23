@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository("videoDetailsRepository")
 public interface VideoDetailsRepository extends JpaRepository<VideoDetails,Long> {
-    List<VideoDetails> findAllByGenre(String s);
+    ArrayList<VideoDetails> findAllByGenre(String s);
 
 
     VideoDetails findByVideoid(String vididtoplay);

@@ -50,7 +50,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoDetails> findAllByGenre(String s) {
+    public ArrayList<VideoDetails> findAllByGenre(String s) {
         return videoDetailsRepository.findAllByGenre(s);
     }
 
@@ -77,6 +77,16 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public ArrayList<VideoDetails> findAllVideoDetails() {
         return (ArrayList<VideoDetails>) videoDetailsRepository.findAll();
+    }
+
+    @Override
+    public ArrayList<Genre> findAllGenre() {
+        return (ArrayList<Genre>) genreRepository.findAll();
+    }
+
+    @Override
+    public Genre findGenreByGenreId(int i) {
+        return genreRepository.findByGenreId(i);
     }
 
 

@@ -35,10 +35,14 @@ public class GracenoteAPIController {
 
     @RequestMapping("/metadata")
     public String showmetadata() {
+
+
+
+
+
         String clientID = "2034677681"; // Put your clientID here.
         String clientTag = "75917E36EEDFB95B94EC9E68E804B835"; // Put your clientTag here.
         String tracktitle, artist, albumdate, genre, vcount, likes, dislikes;
-
 
         try {
             /* You first need to register your client information in order to get a userID.
@@ -63,126 +67,52 @@ public class GracenoteAPIController {
 
 
             List<Video> videoList = videoService.findAll();
+            ArrayList<VideoDetails> vids = videoService.findAllVideoDetails();
+
+            ArrayList<String> vyou = new ArrayList<>();
+            ArrayList<String> check = new ArrayList<>();
+
+
+            for (int i=0; i<vids.size(); i++){
+                check.add(vids.get(i).getVideoid());
+            }
+
+            for (int i=0; i<videoList.size(); i++){
+                vyou.add(videoList.get(i).getVideoid());
+            }
+
+
+
+
             for (int i = 0; i < videoList.size(); i++) {
-                api.searchTrack(videoList.get(i).getMvtitle(), "", videoList.get(i).getMvtitle());
-                tracktitle = api.getTracktitle();
-                artist = api.getArtist();
 
-                albumdate = api.getAlbumDate();
-                genre = api.getGenre();
 
-                System.out.println("TITLE: " + tracktitle + " ARTIST: " + artist + " DATE: " + albumdate + " GENRE: " + genre);
 
-                CharSequence pop = "Pop";
-                boolean boolpop = genre.toString().contains(pop);
+                if (check.contains(videoList.get(i).getVideoid())==false) {
 
-                CharSequence rock = "Rock";
-                boolean boolrock= genre.toString().contains(rock);
+                    api.searchTrack(videoList.get(i).getMvtitle(), "", videoList.get(i).getMvtitle());
+                    tracktitle = api.getTracktitle();
+                    artist = api.getArtist();
 
-                CharSequence alt = "Alternative";
-                boolean boolalt = genre.toString().contains(alt);
+                    albumdate = api.getAlbumDate();
+                    genre = api.getGenre();
 
-                CharSequence rnb = "R&B";
-                boolean boolrnb = genre.toString().contains(rnb);
 
-                CharSequence country = "Country";
-                boolean boolcountry = genre.toString().contains(country);
+                    String[] statistics = getVideoStatistics(videoList.get(i).getVideoid());
+                    System.out.println("AAAAAAA" + statistics[0]);
 
-                CharSequence house = "House";
-                boolean boolhouse = genre.toString().contains(house);
+                    vcount = statistics[0];
+                    likes = statistics[1];
+                    dislikes = statistics[2];
 
-                CharSequence metal = "Metal";
-                boolean boolmetal = genre.toString().contains(metal);
 
-                CharSequence reggae = "Reggae";
-                boolean boolreggae = genre.toString().contains(reggae);
+                    System.out.println("TITLE: " + tracktitle + " ARTIST: " + artist + " DATE: " + albumdate + " GENRE: " + genre);
 
-                CharSequence relig = "Religious";
-                boolean boolrelig= genre.toString().contains(relig);
 
-                CharSequence hiphop = "Hip-Hop";
-                boolean boolhiphop= genre.toString().contains(hiphop);
+                    saveMVDetails(videoList.get(i).getVideoid(), videoList.get(i).getMvtitle(), artist, albumdate, genre, vcount, likes, dislikes);
+                    System.out.println("SAVED");
 
-                CharSequence emo = "Emo";
-                boolean boolemo= genre.toString().contains(emo);
-
-                CharSequence punk = "Punk";
-                boolean boolpunk= genre.toString().contains(punk);
-
-                CharSequence dance = "Dance";
-                boolean booldance= genre.toString().contains(dance);
-
-                CharSequence bebop = "Bebop";
-                boolean boolbebop= genre.toString().contains(bebop);
-
-                CharSequence blues = "Blues";
-                boolean boolblues= genre.toString().contains(blues);
-
-                CharSequence contemporary = "Contemporary";
-                boolean boolcontemporary= genre.toString().contains(contemporary);
-
-                CharSequence dubstep = "Dubstep";
-                boolean booldubstep= genre.toString().contains(dubstep);
-
-                CharSequence disco = "Disco";
-                boolean booldisco= genre.toString().contains(disco);
-
-                String sonicgenre = " ";
-
-                if(boolpop==true || boolbebop==true){
-                     sonicgenre = "Pop Music";
                 }
-
-                if(boolrock==true || boolmetal==true || boolemo==true || boolpunk==true){
-                     sonicgenre = "Rock Music";
-                }
-
-                if(boolalt==true || boolblues==true || boolcontemporary==true){
-                    sonicgenre = "Alternative Music";
-                }
-
-                if(boolrnb==true){
-                    sonicgenre = "R&B/Soul Music";
-                }
-
-                if(boolcountry==true){
-                    sonicgenre = "Country Music";
-                }
-
-                if(boolhouse==true || booldance==true || booldubstep==true || booldisco==true){
-                    sonicgenre = "House Music";
-                }
-
-
-                if(boolreggae==true){
-                    sonicgenre = "Reggae Music";
-                }
-
-                if(boolrelig==true){
-                    sonicgenre = "Religious Music";
-                }
-
-                if(boolhiphop==true){
-                    sonicgenre = "Hip-Hop/Rap Music";
-                }
-
-                System.out.println(sonicgenre);
-
-                String[] statistics = getVideoStatistics(videoList.get(i).getVideoid());
-                System.out.println("AAAAAAA" + statistics[0] );
-
-                vcount =statistics[0];
-                likes = statistics[1];
-                dislikes = statistics[2];
-
-
-
-                System.out.println("TITLE: " + tracktitle + " ARTIST: " + artist + " DATE: " + albumdate + " GENRE: " + genre);
-
-
-
-
-                saveMVDetails(videoList.get(i).getVideoid(), videoList.get(i).getMvtitle(), artist, albumdate, genre, vcount, likes, dislikes, sonicgenre);
             }
 
 
@@ -259,117 +189,19 @@ public class GracenoteAPIController {
 //            System.out.println(" views: " + stats.getString("viewCount") + " likes: " + stats.getString("likeCount") + " dislikes: " + stats.getString("dislikeCount") );
 
 
-            }catch(MalformedURLException e){
-                e.printStackTrace();
-            }catch(IOException e){
-                e.printStackTrace();
-            }
+        }catch(MalformedURLException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
 
 
         return statistic;
 
     }
 
-//    public String getVideoLikes(String videoId){
-//        String urlvcount =  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+ videoId +"&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
-//
-//        String likes = null;
-//        URL obj = null;
-//        try {
-//            obj = new URL(urlvcount);
-//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//            int responseCode = con.getResponseCode();
-//
-//            System.out.println("\nSending'Get' request to URL : " + urlvcount);
-//            System.out.println("Response Code : " + responseCode);
-//
-//            BufferedReader in = new BufferedReader(
-//                    new InputStreamReader(con.getInputStream())
-//            );
-//
-//
-//            String inputLine;
-//            StringBuffer response = new StringBuffer();
-//            while ((inputLine = in.readLine()) != null) {
-//                response.append(inputLine);
-//            }
-//
-//            in.close();
-//            System.out.println(response.toString());
-//
-//            JSONObject myresponse = null;
-//
-//            myresponse = new JSONObject(response.toString());
-//            System.out.println(myresponse);
-//
-//            JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
-//            JSONObject vid = videos.getJSONObject(0);
-//            JSONObject stats = vid.getJSONObject("statistics");
-//            likes =  stats.getString("likeCount");
-//            System.out.println(" views: " + stats.getString("viewCount") + " likes: " + stats.getString("likeCount") + " dislikes: " + stats.getString("dislikeCount") );
-//
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return likes;
-//
-//    }
-//
-//    public String getVideoDislikes(String videoId){
-//        String urlvcount =  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+ videoId +"&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
-//
-//        String dislikes = null;
-//        URL obj = null;
-//        try {
-//            obj = new URL(urlvcount);
-//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//            int responseCode = con.getResponseCode();
-//
-//            System.out.println("\nSending'Get' request to URL : " + urlvcount);
-//            System.out.println("Response Code : " + responseCode);
-//
-//            BufferedReader in = new BufferedReader(
-//                    new InputStreamReader(con.getInputStream())
-//            );
-//
-//
-//            String inputLine;
-//            StringBuffer response = new StringBuffer();
-//            while ((inputLine = in.readLine()) != null) {
-//                response.append(inputLine);
-//            }
-//
-//            in.close();
-//            System.out.println(response.toString());
-//
-//            JSONObject myresponse = null;
-//
-//            myresponse = new JSONObject(response.toString());
-//            System.out.println(myresponse);
-//
-//            JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
-//            JSONObject vid = videos.getJSONObject(0);
-//            JSONObject stats = vid.getJSONObject("statistics");
-//            dislikes =  stats.getString("dislikeCount");
-//            System.out.println(" views: " + stats.getString("viewCount") + " likes: " + stats.getString("likeCount") + " dislikes: " + stats.getString("dislikeCount") );
-//
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return dislikes;
-//
-//    }
 
-
-    public void saveMVDetails(String vidId, String title, String artist, String date, String genre, String vcount, String likes, String dislikes, String sonicgenre) {
+    public void saveMVDetails(String vidId, String title, String artist, String date, String genre, String vcount, String likes, String dislikes) {
 
         VideoDetails newMVDetails = new VideoDetails();
         newMVDetails.setVideoid(vidId);
@@ -378,7 +210,6 @@ public class GracenoteAPIController {
 
         newMVDetails.setDate(date);
         newMVDetails.setGenre(genre);
-        newMVDetails.setSonicgenre(sonicgenre);
         newMVDetails.setViewCount(vcount);
         newMVDetails.setLikes(likes);
         newMVDetails.setDislikes(dislikes);
@@ -428,7 +259,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(1);
                 genre.setGenreName("Pop Music");
-                genre.setGenrePhoto("../images/pop.png");
+                genre.setGenrePhoto("/images/pop.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -437,7 +268,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(2);
                 genre.setGenreName("Rock Music");
-                genre.setGenrePhoto("../images/rock.png");
+                genre.setGenrePhoto("/images/rock.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -446,7 +277,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(3);
                 genre.setGenreName("Alternative Music");
-                genre.setGenrePhoto("../images/alternative.png");
+                genre.setGenrePhoto("/images/alternative.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -455,7 +286,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(4);
                 genre.setGenreName("R&B/Soul Music");
-                genre.setGenrePhoto("../images/rnb.png");
+                genre.setGenrePhoto("/images/rnb.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -464,7 +295,7 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(5);
                 genre.setGenreName("Country Music");
-                genre.setGenrePhoto("../images/country.png");
+                genre.setGenrePhoto("/images/country.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -473,43 +304,36 @@ public class GracenoteAPIController {
                 Genre genre = new Genre();
                 genre.setGenreId(6);
                 genre.setGenreName("House Music");
-                genre.setGenrePhoto("../images/house.png");
+                genre.setGenrePhoto("/images/house.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
 
-//            if(boolmetal==true){
-//                Genre genre = new Genre();
-//                genre.setGenreId(7);
-//                genre.setGenreName("Metal Music");
-//                genre.setGenrePhoto("../images/metal.png");
-//                videoService.saveGenre(genre);
-//                genre=null;
-//            }
+
 
             if(boolreggae==true){
                 Genre genre = new Genre();
-                genre.setGenreId(8);
+                genre.setGenreId(7);
                 genre.setGenreName("Reggae Music");
-                genre.setGenrePhoto("../images/reggae.png");
+                genre.setGenrePhoto("/images/reggae.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
 
             if(boolrelig==true){
                 Genre genre = new Genre();
-                genre.setGenreId(9);
+                genre.setGenreId(8);
                 genre.setGenreName("Religious Music");
-                genre.setGenrePhoto("../images/religious.png");
+                genre.setGenrePhoto("/images/religious.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
 
             if(boolhiphop==true){
                 Genre genre = new Genre();
-                genre.setGenreId(10);
+                genre.setGenreId(9);
                 genre.setGenreName("Hip-Hop/Rap Music");
-                genre.setGenrePhoto("../images/hiprap.png");
+                genre.setGenrePhoto("/images/hiprap.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -517,6 +341,60 @@ public class GracenoteAPIController {
         }
 
 
+        return "testing";
+    }
+
+    @RequestMapping("/changeGenre")
+    public String refineGenre(){
+
+        ArrayList<VideoDetails> videos = videoService.findAllVideoDetails();
+        for(VideoDetails vid: videos){
+            if(vid.getGenre().toString().toLowerCase().contains("pop")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Pop Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("rock") || vid.getGenre().toString().toLowerCase().contains("metal")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Rock Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("alternative")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Alternative Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("r&b") || vid.getGenre().toString().toLowerCase().contains("soul")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "R&B/Soul Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("country")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Country Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("house")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "House Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("reggae")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Reggae Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("religious")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Religious Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("hip-hop/rap")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Hip-Hop/Rap Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes());
+                videoService.saveVideoDetails(videt);
+            }
+
+        }
         return "testing";
     }
 

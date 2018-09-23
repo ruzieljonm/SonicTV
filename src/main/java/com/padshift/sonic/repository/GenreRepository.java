@@ -13,4 +13,5 @@ import java.util.ArrayList;
 @Repository("genreRepository")
 public interface GenreRepository extends JpaRepository<Genre,Long>{
 
+    Genre findByGenreId(int i);
 }
