@@ -137,6 +137,7 @@ public class UserController {
             genrePreference[i] = new UserPreference();
         }
         int userid = Integer.parseInt(session.getAttribute("userid").toString());
+        String username = (String) session.getAttribute("username");
 
         for (int i=0; i<genrePreference.length; i++){
             genrePreference[i].setUserId(userid);
@@ -148,6 +149,8 @@ public class UserController {
             }
             genrePreference[i].setPrefWeight(temp);
             genrePreference[i].setGenreId(genres.get(i).getGenreId());
+            genrePreference[i].setUserName(username);
+            genrePreference[i].setGenreName(genres.get(i).getGenreName());
             System.out.println(genrePreference[i].getUserId() + "-" + genrePreference[i].getGenreId() + "-" + genrePreference[i].getPrefWeight());
 
             userService.saveUserPreference(genrePreference[i]);

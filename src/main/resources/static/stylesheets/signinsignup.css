@@ -162,13 +162,15 @@ body {
 .radio-tile-group {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: center;
 }
 .radio-tile-group .input-container {
     position: relative;
     height: 7rem;
     width: 7rem;
     margin: 0.5rem;
+    background: #1161ee;
+    border-radius: 5px;
 }
 .radio-tile-group .input-container .radio-button {
     opacity: 0;
@@ -193,7 +195,7 @@ body {
     transition: transform 300ms ease;
 }
 .radio-tile-group .input-container .icon svg {
-    fill: #079ad9;
+    fill: #c0d5fb;
     width: 3rem;
     height: 3rem;
 }
@@ -203,7 +205,7 @@ body {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #079ad9;
+    color: #d8e5fc;
 }
 .radio-tile-group .input-container .radio-button:checked + .radio-tile {
     background-color: #079ad9;

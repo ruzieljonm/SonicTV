@@ -167,4 +167,14 @@ body .card_right__button a:hover {
     transition-duration: .5s;
 }
 
-
+#submitpref{
+    border: none;
+    padding: 15px 20px;
+    border-radius: 25px;
+    position: relative;
+    left: 45%;
+    background: #1161ee;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}

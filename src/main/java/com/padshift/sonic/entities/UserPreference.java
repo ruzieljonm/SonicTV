@@ -16,9 +16,14 @@ public class UserPreference implements Serializable,Comparable<UserPreference>{
     @Column(name="userprefId")
     private int userprefid;
 
+    @Column(name="userName")
+    private String userName;
 
     @Column(name="userId")
     private int userId;
+
+    @Column(name="genreName")
+    private String genreName;
 
     @Column(name="genreId")
     private int genreId;
@@ -43,8 +48,24 @@ public class UserPreference implements Serializable,Comparable<UserPreference>{
         this.userId = userId;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public int getGenreId() {
         return genreId;
+    }
+
+    public String getGenreName() {
+        return genreName;
+    }
+
+    public void setGenreName(String genreName) {
+        this.genreName = genreName;
     }
 
     public void setGenreId(int genreId) {
