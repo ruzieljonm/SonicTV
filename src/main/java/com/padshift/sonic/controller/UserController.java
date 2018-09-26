@@ -235,7 +235,7 @@ public class UserController {
         }
 
 
-        for(int i=0; i<6; i++){
+        for(int i=0; i<5; i++){
             VVD vid1 = new VVD(vidListGen1.get(i).getVideoid(), vidListGen1.get(i).getTitle(), vidListGen1.get(i).getArtist(), vidListGen1.get(i).getGenre(), vidListGen1.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen1.get(i).getVideoid() + "/mqdefault.jpg");
             vr1.add(vid1);
             vid1 = null;
@@ -374,5 +374,10 @@ public class UserController {
         model.addAttribute("genre", genres);
         return showExplore(model);
 
+    }
+
+    @RequestMapping("/admin")
+    public String Admin(HttpServletRequest request, Model model){
+        return "AdminPage";
     }
 }
