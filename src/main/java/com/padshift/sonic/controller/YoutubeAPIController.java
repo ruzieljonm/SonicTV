@@ -26,7 +26,7 @@ public class YoutubeAPIController {
     UserController userController;
 
     @RequestMapping(value="/fetchMusicVideos", method = RequestMethod.POST)
-    public String fetchMusicVideos(HttpServletRequest request){
+    public String updateFetchMusicVideos(HttpServletRequest request){
         String queryGenre = request.getParameter("genre");
         queryGenre = queryGenre.replaceAll("\\s+","");
         System.out.println("Query this Genre : " + queryGenre);
@@ -69,9 +69,10 @@ public class YoutubeAPIController {
                         JSONObject vidId = vid.getJSONObject("id");
                         JSONObject vidTitle = vid.getJSONObject("snippet");
                         JSONObject thumbnail = (vidTitle.getJSONObject("thumbnails")).getJSONObject("medium");
-
-                        System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url"));
+                         if(vidTitle.getString("title").toLowerCase().contains("music video") || vidTitle.getString("title").toLowerCase().contains("musicvideo")) {
+                             System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url"));
 //                        userController.saveMV(vidId.getString("videoId"), vidTitle.getString("title"), thumbnail.getString("url"));
+                         }
 
                     }
 

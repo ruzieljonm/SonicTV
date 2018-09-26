@@ -42,9 +42,13 @@
     </div>
 
 
-    <form>
+
         <div class="container">
-            <div class="button" >Retrieve New Music Videos</div>
+            <form action="/config" method="post" id="config">
+                <div class="button" href="javascript:;" onclick="document.getElementById('config'). submit();">Retrieve New Music Videos</div>
+                <input type="hidden" name="config" value="1">
+            </form>
+
             <div class="button">Change Starting Criteria</div>
             <div class="button">Update Music Video Metadata</div>
             <div class="button">Top -> Bottom -> Top</div>
@@ -56,7 +60,7 @@
             <div class="button">Border (Outer Shadow)</div>
         </div>
 
-    </form>
+
 
 
 </div>

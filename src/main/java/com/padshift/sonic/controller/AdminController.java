@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +32,18 @@ public class AdminController {
         model.addAttribute("genre", genres);
         return "QueryAdmin";
     }
+
+    @RequestMapping(value = "/config", method = RequestMethod.POST)
+    public String config(HttpServletRequest request, Model model){
+        String configChoice = request.getParameter("config");
+        System.out.println(configChoice);
+        if(configChoice.equals("1")){
+            return showQueryPage(model);
+        }else{
+            return "testing";
+        }
+    }
+
 
 
 
