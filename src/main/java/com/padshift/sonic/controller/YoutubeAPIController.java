@@ -6,7 +6,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,6 +24,68 @@ public class YoutubeAPIController {
 
     @Autowired
     UserController userController;
+
+    @RequestMapping(value="/fetchMusicVideos", method = RequestMethod.POST)
+    public String fetchMusicVideos(HttpServletRequest request){
+        String queryGenre = request.getParameter("genre");
+        queryGenre = queryGenre.replaceAll("\\s+","");
+        System.out.println("Query this Genre : " + queryGenre);
+        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&order=date&q="+queryGenre+"+music+video&type=video&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
+
+        try {
+
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            int responseCode = con.getResponseCode();
+
+            System.out.println("\nSending'Get' request to URL : " + url);
+            System.out.println("Response Code : " + responseCode);
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream())
+            );
+
+
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            in.close();
+            System.out.println(response.toString());
+
+            JSONObject myresponse = null;
+            try {
+                myresponse = new JSONObject(response.toString());
+                System.out.println(myresponse);
+
+
+
+                    JSONArray videos = new JSONArray(myresponse.getJSONArray("items").toString());
+                    for (int i = 0; i < videos.length(); i++) {
+                        JSONObject vid = videos.getJSONObject(i);
+
+                        JSONObject vidId = vid.getJSONObject("id");
+                        JSONObject vidTitle = vid.getJSONObject("snippet");
+                        JSONObject thumbnail = (vidTitle.getJSONObject("thumbnails")).getJSONObject("medium");
+
+                        System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url"));
+//                        userController.saveMV(vidId.getString("videoId"), vidTitle.getString("title"), thumbnail.getString("url"));
+
+                    }
+
+                    videos = null;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "testing";
+    }
 
     @RequestMapping("/youtubeapi")
     public String runYoutubeAPI(){
