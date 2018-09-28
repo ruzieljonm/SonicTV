@@ -20,6 +20,18 @@ public class Genre implements Serializable{
     @Column(name="genrePhoto")
     private String genrePhoto;
 
+    @Column(name="explorePhoto")
+    private String explorePhoto;
+
+
+    public String getExplorePhoto() {
+        return explorePhoto;
+    }
+
+    public void setExplorePhoto(String explorePhoto) {
+        this.explorePhoto = explorePhoto;
+    }
+
     public String getGenrePhoto() {
         return genrePhoto;
     }
