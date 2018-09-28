@@ -49,7 +49,26 @@
                     <p th:text="${genre.genreName}"  href="javascript:;" th:onclick="'document.getElementById(\''+${genre.genreName}+'\').submit();'">Music Videos
 
                     </p>
-                    <input type="hidden" name="genre" th:value="${genre.genreName}">
+                    <input type="hidden" name="query" th:value="${genre.genreName}">
+                </form>
+            </div>
+            <div class="button">
+                <form action="/byartist" method="post" id="byartist">
+                    <p onclick="document.getElementById('byartist').submit();">BY ARTIST</p>
+                </form>
+
+            </div>
+
+            <div class="button">
+                <form action="/bysinglevideo" method="post" id="bysinglevideo">
+                    <p onclick="document.getElementById('bysinglevideo').submit();">BY VIDEO ID</p>
+                </form>
+
+            </div>
+
+            <div class="button">
+                <form action="/adminHomePage "method="post" id="back">
+                    <p onclick="document.getElementById('back').submit();"> BACK TO MENU </p>
                 </form>
             </div>
 

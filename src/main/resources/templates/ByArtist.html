@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/stylesheets/homepageadmin.css">
+    <link rel="stylesheet" href="/stylesheets/byartist.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body style="
@@ -41,29 +41,12 @@
         </div>
     </div>
 
+    <form class="form-wrapper cf" action="/fetchMusicVideos" method="post">
+        <input type="text" name="query" placeholder="Enter Artist Name..." required>
+        <button type="submit">Fetch</button>
+    </form>
 
 
-        <div class="container">
-            <form action="/config" method="post" id="config1">
-                <div class="button" href="javascript:;" onclick="document.getElementById('config1').submit();">Retrieve New Music Videos</div>
-                <input type="hidden" name="config" value="1">
-            </form>
-
-            <form action="/config" method="post" id="config2">
-                <div class="button" href="javascript:;" onclick="document.getElementById('config2').submit();">Update Music Video Metadata</div>
-                <input type="hidden" name="config" value="2">
-            </form>
-
-            <div class="button">Change Starting Criteria</div>
-
-            <div class="button">Top -> Bottom -> Top</div>
-            <div class="button">Skew Fill Left -> Right</div>
-            <div class="button">Flex Grow</div>
-            <div class="button">Rounded Corners</div>
-            <div class="button">Scale</div>
-            <div class="button">Border (Inner Shadow)</div>
-            <div class="button">Border (Outer Shadow)</div>
-        </div>
 
 
 

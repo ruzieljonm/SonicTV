@@ -20,6 +20,9 @@ public class AdminController {
     @Autowired
     VideoService videoService;
 
+    @Autowired
+    GracenoteAPIController gracenoteAPIController;
+
     @RequestMapping("/adminHomePage")
     public String showAdminHomePage(){
         return "HomePageAdmin";
@@ -38,11 +41,27 @@ public class AdminController {
         String configChoice = request.getParameter("config");
         System.out.println(configChoice);
         if(configChoice.equals("1")){
-            return showQueryPage(model);
+             return showQueryPage(model);
+        }else if(configChoice.equals("2")){
+            System.out.println("GOOD MORNING");
+             return gracenoteAPIController.showmetadata();
         }else{
             return "testing";
         }
     }
+
+    @RequestMapping(value = "/byartist", method = RequestMethod.POST)
+    public String byArtist(){
+        return "ByArtist";
+    }
+
+
+    @RequestMapping(value = "/bysinglevideo", method = RequestMethod.POST)
+    public String bySingleVideo(){
+        return "BySingleVideo";
+    }
+
+
 
 
 
