@@ -87,7 +87,6 @@ public class GracenoteAPIController {
             for (int i = 0; i < videoList.size(); i++) {
 
 
-
                 if (check.contains(videoList.get(i).getVideoid())==false) {
 
                     api.searchTrack(videoList.get(i).getMvtitle(), "", videoList.get(i).getMvtitle());
@@ -120,7 +119,7 @@ public class GracenoteAPIController {
             e.printStackTrace();
         }
 
-        return "metadata";
+        return "testing";
     }
 
     @RequestMapping("/testCount")

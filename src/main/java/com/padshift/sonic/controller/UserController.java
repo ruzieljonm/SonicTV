@@ -68,16 +68,21 @@ public class UserController {
         String userName = request.getParameter("inputUserName1");
         String userPass = request.getParameter("inputPassword1");
 
-        User checkUser = userService.findByUsernameAndPassword(userName, userPass);
+        if(userName.equals("admin") && userPass.equals("admin")){
+            return "HomePageAdmin";
+        }else {
 
-        if (checkUser != null) {
-            session.setAttribute("userid",checkUser.getUserId());
-            session.setAttribute("username",checkUser.getUserName());
-            System.out.println(checkUser.getUserId() + " "+ checkUser.getUserName());
+            User checkUser = userService.findByUsernameAndPassword(userName, userPass);
 
-            return showHomepage(model,session);
-        } else {
-            return "signinsignup";
+            if (checkUser != null) {
+                session.setAttribute("userid", checkUser.getUserId());
+                session.setAttribute("username", checkUser.getUserName());
+                System.out.println(checkUser.getUserId() + " " + checkUser.getUserName());
+
+                return showHomepage(model, session);
+            } else {
+                return "signinsignup";
+            }
         }
     }
 
