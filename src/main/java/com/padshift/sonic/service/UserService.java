@@ -1,5 +1,6 @@
 package com.padshift.sonic.service;
 
+import com.padshift.sonic.entities.Criteria;
 import com.padshift.sonic.entities.User;
 import com.padshift.sonic.entities.UserHistory;
 import com.padshift.sonic.entities.UserPreference;
@@ -38,4 +39,11 @@ public interface UserService {
     ArrayList<UserPreference> findAllGenrePreferenceByUserId(int userid);
 
     UserPreference findUserPreferenceByUserIdAndGenreId(int userId, int i);
+
+    void saveCriteria(Criteria criteria);
+
+    ArrayList<Criteria> findAllCriteria();
+
+
+    void deleteCriteriaByCriteriaId(int deletethis);
 }
