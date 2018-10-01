@@ -6,7 +6,7 @@ import javax.persistence.Id;
 /**
  * Created by ruzieljonm on 30/09/2018.
  */
-public class RecVid {
+public class RecVid implements Comparable<RecVid>{
 
     private String videoid;
     private String title;
@@ -62,4 +62,16 @@ public class RecVid {
     public void setWeight(float weight) {
         this.weight = weight;
     }
+
+
+
+    @Override
+    public int compareTo(RecVid rec) {
+        float compareWeight = ((RecVid) rec).getWeight();
+
+        //desce order
+        return  Math.round(compareWeight-this.weight);
+
+    }
+
 }

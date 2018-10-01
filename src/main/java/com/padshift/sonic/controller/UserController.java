@@ -196,10 +196,37 @@ public class UserController {
             recVideos.add(rv);
         }
 
+        Collections.sort(recVideos);
+
 
         for(int i=0; i<10; i++){
             System.out.println(recVideos.get(i).getTitle() + " : " + recVideos.get(i).getWeight());
         }
+
+        ArrayList<VVD> vr1 = new ArrayList<VVD>();
+        ArrayList<VVD> vr2 = new ArrayList<VVD>();
+        ArrayList<VVD> vr3 = new ArrayList<VVD>();
+        ArrayList<VVD> vr4 = new ArrayList<VVD>();
+
+        //        for(int i=0; i<6; i++){
+//            VVD vid1 = new VVD(vidListGen1.get(i).getVideoid(), vidListGen1.get(i).getTitle(), vidListGen1.get(i).getArtist(), vidListGen1.get(i).getGenre(), vidListGen1.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen1.get(i).getVideoid() + "/mqdefault.jpg");
+//            vr1.add(vid1);
+//            vid1 = null;
+//
+//            VVD vid2 = new VVD(vidListGen2.get(i).getVideoid(), vidListGen2.get(i).getTitle(), vidListGen2.get(i).getArtist(), vidListGen2.get(i).getGenre(), vidListGen2.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen2.get(i).getVideoid() + "/mqdefault.jpg");
+//            vr2.add(vid2);
+//            vid2 = null;
+//
+//            VVD vid3 = new VVD(vidListGen3.get(i).getVideoid(), vidListGen3.get(i).getTitle(), vidListGen3.get(i).getArtist(), vidListGen3.get(i).getGenre(), vidListGen3.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen3.get(i).getVideoid() + "/mqdefault.jpg");
+//            vr3.add(vid3);
+//            vid3 = null;
+//
+//            VVD vid4 = new VVD(vidListGen4.get(i).getVideoid(), vidListGen4.get(i).getTitle(), vidListGen4.get(i).getArtist(), vidListGen4.get(i).getGenre(), vidListGen4.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen4.get(i).getVideoid() + "/mqdefault.jpg");
+//            vr4.add(vid4);
+//            vid4 = null;
+//
+//
+//        }
 
 
 
@@ -451,8 +478,8 @@ public class UserController {
 
 
 
-
-        vidWeight= (float) (11.11*userInput*genreAge*genrePT);
+        float views = Float.parseFloat(video.getViewCount().toString());
+        vidWeight= (float) (11.11*userInput*genreAge*genrePT)*views;
 
 
 

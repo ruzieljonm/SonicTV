@@ -71,7 +71,7 @@ public class YoutubeAPIController {
 
 
                             System.out.println(vidId + " -  " +snippet.getString("title") + "  " + thumbnail.getString("url"));
-                            userController.saveMV(vidId, snippet.getString("title"), thumbnail.getString("url"));
+//                            userController.saveMV(vidId, snippet.getString("title"), thumbnail.getString("url"));
 
 
                     }
