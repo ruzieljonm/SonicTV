@@ -203,35 +203,48 @@ public class UserController {
             System.out.println(recVideos.get(i).getTitle() + " : " + recVideos.get(i).getWeight());
         }
 
-        ArrayList<VVD> vr1 = new ArrayList<VVD>();
-        ArrayList<VVD> vr2 = new ArrayList<VVD>();
-        ArrayList<VVD> vr3 = new ArrayList<VVD>();
-        ArrayList<VVD> vr4 = new ArrayList<VVD>();
+        ArrayList<RecVid> vr1 = new ArrayList<RecVid>();
+        ArrayList<RecVid> vr2 = new ArrayList<RecVid>();
+        ArrayList<RecVid> vr3 = new ArrayList<RecVid>();
+        ArrayList<RecVid> vr4 = new ArrayList<RecVid>();
 
-        //        for(int i=0; i<6; i++){
-//            VVD vid1 = new VVD(vidListGen1.get(i).getVideoid(), vidListGen1.get(i).getTitle(), vidListGen1.get(i).getArtist(), vidListGen1.get(i).getGenre(), vidListGen1.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen1.get(i).getVideoid() + "/mqdefault.jpg");
-//            vr1.add(vid1);
-//            vid1 = null;
-//
-//            VVD vid2 = new VVD(vidListGen2.get(i).getVideoid(), vidListGen2.get(i).getTitle(), vidListGen2.get(i).getArtist(), vidListGen2.get(i).getGenre(), vidListGen2.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen2.get(i).getVideoid() + "/mqdefault.jpg");
-//            vr2.add(vid2);
-//            vid2 = null;
-//
-//            VVD vid3 = new VVD(vidListGen3.get(i).getVideoid(), vidListGen3.get(i).getTitle(), vidListGen3.get(i).getArtist(), vidListGen3.get(i).getGenre(), vidListGen3.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen3.get(i).getVideoid() + "/mqdefault.jpg");
-//            vr3.add(vid3);
-//            vid3 = null;
-//
-//            VVD vid4 = new VVD(vidListGen4.get(i).getVideoid(), vidListGen4.get(i).getTitle(), vidListGen4.get(i).getArtist(), vidListGen4.get(i).getGenre(), vidListGen4.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen4.get(i).getVideoid() + "/mqdefault.jpg");
-//            vr4.add(vid4);
-//            vid4 = null;
-//
-//
-//        }
+        for(int i=0; i<=5; i++) {
+            RecVid vid1 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
+            vr1.add(vid1);
+            vid1 = null;
+        }
+
+        for(int i=6; i<=11; i++) {
+            RecVid vid2 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
+            vr2.add(vid2);
+            vid2 = null;
+        }
+
+        for(int i=12; i<=17; i++) {
+            RecVid vid3 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
+            vr3.add(vid3);
+            vid3 = null;
+        }
 
 
 
 
-        return "testing";
+
+        for(int i=18; i<=23; i++) {
+            RecVid vid4 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
+            vr4.add(vid4);
+            vid4 = null;
+
+
+        }
+
+
+
+        model.addAttribute("r1", vr1);
+        model.addAttribute("r2", vr2);
+        model.addAttribute("r3", vr3);
+        model.addAttribute("r4", vr4);
+        return "Homepage";
 
 
 //
@@ -476,11 +489,30 @@ public class UserController {
             genrePT = genrePTHH;
         }
 
+        float uipercent, agepercent,pertypepercent;
+        Criteria ui = userService.findCriteriaByCriteriaName("userinput");
+        if(ui!=null){
+            uipercent=ui.getCriteriaPercentage();
+        }else{
+            uipercent=0;
+        }
 
+        Criteria age = userService.findCriteriaByCriteriaName("age");
+        if(age!=null){
+            agepercent = age.getCriteriaPercentage();
+        }else{
+            agepercent=0;
+        }
+
+        Criteria pertype = userService.findCriteriaByCriteriaName("personality");
+        if(pertype!=null){
+            pertypepercent = pertype.getCriteriaPercentage();
+        }else{
+            pertypepercent=0;
+        }
 
         float views = Float.parseFloat(video.getViewCount().toString());
-        vidWeight= (float) (11.11*userInput*genreAge*genrePT)*views;
-
+        vidWeight= (float) ((userInput*uipercent)+(genreAge*agepercent)+(genrePT*pertypepercent)*views);
 
 
         return vidWeight;

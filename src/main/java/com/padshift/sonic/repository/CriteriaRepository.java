@@ -14,4 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface CriteriaRepository extends JpaRepository<Criteria, Long> {
     void deleteByCriteriaId(int deletethis);
+
+    Criteria findByCriteriaName(String userinput);
 }

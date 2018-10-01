@@ -100,5 +100,10 @@ public class UserServiceImpl implements UserService {
         System.out.println("DELETING");
     }
 
+    @Override
+    public Criteria findCriteriaByCriteriaName(String userinput) {
+        return criteriaRepository.findByCriteriaName(userinput);
+    }
+
 
 }

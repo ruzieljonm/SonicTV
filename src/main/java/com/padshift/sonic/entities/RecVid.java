@@ -12,8 +12,31 @@ public class RecVid implements Comparable<RecVid>{
     private String title;
     private String artist;
     private String genre;
+    public String thumbnail;
     private String viewCount;
     private float weight;
+
+
+    public RecVid() {
+
+    }
+
+    public RecVid(String videoid, String title, String artist, String genre, String thumbnail) {
+        this.videoid = videoid;
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.thumbnail = thumbnail;
+
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 
     public String getVideoid() {
         return videoid;
