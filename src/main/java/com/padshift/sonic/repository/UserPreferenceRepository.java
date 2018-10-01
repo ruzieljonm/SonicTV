@@ -17,4 +17,6 @@ public interface UserPreferenceRepository extends JpaRepository<UserPreference,L
     UserPreference findByUserId(int userId);
 
     ArrayList<UserPreference> findAllByUserId(int userId);
+
+    UserPreference findByUserIdAndGenreId(int userId, int i);
 }

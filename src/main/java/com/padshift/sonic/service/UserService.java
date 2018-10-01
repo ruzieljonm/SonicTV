@@ -33,7 +33,9 @@ public interface UserService {
     User findByUsernameAndPassword(String userName, String userPass);
 
 
-    ArrayList<UserPreference> findAllByUserId(int userId);
-
     User findByUserId(int userid);
+
+    ArrayList<UserPreference> findAllGenrePreferenceByUserId(int userid);
+
+    UserPreference findUserPreferenceByUserIdAndGenreId(int userId, int i);
 }

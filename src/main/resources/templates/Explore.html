@@ -43,7 +43,7 @@
         <div class="cards-holder">
             <div class="card" th:each="gen : ${genre}">
                 <header class="card_header" data-background="urlhere" th:attr="data-background='url('+${gen.genrePhoto}+')'">
-                    <img th:src="${gen.genrePhoto}" style="height: 100%;width: 100%;">
+                    <img th:src="${gen.explorePhoto}" style="height: 100%;width: 100%;">
                     <h2 th:text="${gen.genreName}" ></h2>
                 </header>
                 <section class="card_content">
