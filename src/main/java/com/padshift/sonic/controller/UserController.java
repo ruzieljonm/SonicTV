@@ -56,7 +56,7 @@ public class UserController {
     @Autowired
     GenreService genreService;
 
-    @RequestMapping("/")
+    @RequestMapping("/sonic")
     public String showLoginPage(HttpSession session, Model model) {
         if(session.isNew()) {
             return "signinsignup";
@@ -541,7 +541,7 @@ public class UserController {
 
         userService.saveUserHistory(userhist);
         VideoDetails playvid = videoService.findByVideoid(vididtoplay);
-        ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllByGenre(topgenre);
+        ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllVideoDetails();
         Collections.sort(upnext);
 
         System.out.println(playvid.getTitle() + " " + playvid.getArtist());

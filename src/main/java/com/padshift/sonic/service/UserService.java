@@ -48,4 +48,6 @@ public interface UserService {
     void deleteCriteriaByCriteriaId(int deletethis);
 
     Criteria findCriteriaByCriteriaName(String userinput);
+
+    Criteria findCriteriaByCriteriaId(int editthis);
 }

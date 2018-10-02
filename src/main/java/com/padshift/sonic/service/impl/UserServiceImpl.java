@@ -105,5 +105,10 @@ public class UserServiceImpl implements UserService {
         return criteriaRepository.findByCriteriaName(userinput);
     }
 
+    @Override
+    public Criteria findCriteriaByCriteriaId(int editthis) {
+        return criteriaRepository.findByCriteriaId(editthis);
+    }
+
 
 }

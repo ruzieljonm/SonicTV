@@ -53,6 +53,9 @@ public class AdminController {
         }else if(configChoice.equals("2")){
             System.out.println("GOOD MORNING");
              return gracenoteAPIController.showmetadata();
+        }else if(configChoice.equals("3")) {
+            return showCriteria(model);
+
         }else{
             return "testing";
         }
@@ -96,13 +99,30 @@ public class AdminController {
     }
 
     @RequestMapping("/removecriteria")
-    public String deleteItem(HttpServletRequest request, Model model){
+    public String deleteCriteria(HttpServletRequest request, Model model){
         int deletethis = Integer.parseInt(request.getParameter("crite").toString());
         userService.deleteCriteriaByCriteriaId(deletethis);
 
         ArrayList<Criteria> crit = userService.findAllCriteria();
         model.addAttribute("criteria", crit);
         return "Criteria";
+
+
+    }
+
+
+    @RequestMapping("/editcriteria")
+    public String editCriteria(HttpServletRequest request, Model model){
+        int editthis = Integer.parseInt(request.getParameter("crite").toString());
+        Criteria crit = userService.findCriteriaByCriteriaId(editthis);
+
+        model.addAttribute("critname", crit.getCriteriaName());
+        model.addAttribute("critper", crit.getCriteriaPercentage());
+        userService.deleteCriteriaByCriteriaId(editthis);
+        ArrayList<Criteria> crite = userService.findAllCriteria();
+        model.addAttribute("criteria", crite);
+        return "CriteriaUpdate";
+
 
 
     }

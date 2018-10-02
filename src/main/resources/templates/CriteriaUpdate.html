@@ -38,8 +38,8 @@
 <div class="wrap cf">
     <h1 class="projTitle">Change<span>-Criteria</span> Recommendation</h1>
     <form action="/addcriteria" method="post">
-        <input type="text" name="criteriaName"  placeholder="Criteria Name" required ><br>
-        <input type="text" name="criteriaPercentage"  placeholder="Criteria Percentage" required ><br>
+        <input type="text" name="criteriaName"  placeholder="Criteria Name" th:value="${critname}" required ><br>
+        <input type="text" name="criteriaPercentage"  placeholder="Criteria Percentage" th:value="${critper}" required ><br>
         <button type="submit" >Add Criteria</button>
     </form>
 
@@ -49,27 +49,27 @@
         <ul class="cartWrap">
             <li class="items odd" th:each="cri : ${criteria}">
 
-                    <div class="infoWrap">
-                        <div class="cartSection">
+                <div class="infoWrap">
+                    <div class="cartSection">
 
-                            <h3 th:text="${cri.criteriaName}"></h3>
-                            <p class="stockStatus"> In Stock</p>
-                        </div>
-                        <div class="prodTotal cartSection">
-                            <P>% </P><p th:text="${cri.criteriaPercentage}"></p>
-                        </div>
-                        <div class="cartSection removeWrap">
-                            <form method="post" action="/removecriteria">
-                                <input type="hidden" name="crite" th:value="${cri.criteriaId}">
-                                <button type="submit" class="remove" style="float: right;"> Remove Criteria </button>
-                            </form>
-                            <form method="post" action="/editcriteria">
-                                <input type="hidden" name="crite" th:value="${cri.criteriaId}">
-                                <button type="submit" class="remove" style="float: right;"> Edit Criteria </button>
-                            </form>
-
-                        </div>
+                        <h3 th:text="${cri.criteriaName}"></h3>
+                        <p class="stockStatus"> In Stock</p>
                     </div>
+                    <div class="prodTotal cartSection">
+                        <P>% </P><p th:text="${cri.criteriaPercentage}"></p>
+                    </div>
+                    <div class="cartSection removeWrap">
+                        <form method="post" action="/removecriteria">
+                            <input type="hidden" name="crite" th:value="${cri.criteriaId}">
+                            <button type="submit" class="remove" style="float: right;"> Remove Criteria </button>
+                        </form>
+                        <form method="post" action="/editcriteria">
+                            <input type="hidden" name="crite" th:value="${cri.criteriaId}">
+                            <button type="submit" class="remove" style="float: right;"> Edit Criteria </button>
+                        </form>
+
+                    </div>
+                </div>
 
             </li>
         </ul>

@@ -16,4 +16,7 @@ public interface CriteriaRepository extends JpaRepository<Criteria, Long> {
     void deleteByCriteriaId(int deletethis);
 
     Criteria findByCriteriaName(String userinput);
+
+
+    Criteria findByCriteriaId(int editthis);
 }
