@@ -259,6 +259,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(1);
                 genre.setGenreName("Pop Music");
                 genre.setGenrePhoto("/images/pop.png");
+                genre.setExplorePhoto("/images/popcube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -268,6 +269,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(2);
                 genre.setGenreName("Rock Music");
                 genre.setGenrePhoto("/images/rock.png");
+                genre.setExplorePhoto("/images/rockcube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -277,6 +279,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(3);
                 genre.setGenreName("Alternative Music");
                 genre.setGenrePhoto("/images/alternative.png");
+                genre.setExplorePhoto("/images/alternativecube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -286,6 +289,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(4);
                 genre.setGenreName("R&B/Soul Music");
                 genre.setGenrePhoto("/images/rnb.png");
+                genre.setExplorePhoto("/images/rnbcube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -295,6 +299,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(5);
                 genre.setGenreName("Country Music");
                 genre.setGenrePhoto("/images/country.png");
+                genre.setExplorePhoto("/images/countrycube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -304,6 +309,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(6);
                 genre.setGenreName("House Music");
                 genre.setGenrePhoto("/images/house.png");
+                genre.setExplorePhoto("/images/housecube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -315,6 +321,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(7);
                 genre.setGenreName("Reggae Music");
                 genre.setGenrePhoto("/images/reggae.png");
+                genre.setExplorePhoto("/images/reggaecube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -324,6 +331,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(8);
                 genre.setGenreName("Religious Music");
                 genre.setGenrePhoto("/images/religious.png");
+                genre.setExplorePhoto("/images/religiouscube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }
@@ -333,6 +341,7 @@ public class GracenoteAPIController {
                 genre.setGenreId(9);
                 genre.setGenreName("Hip-Hop/Rap Music");
                 genre.setGenrePhoto("/images/hiprap.png");
+                genre.setExplorePhoto("/images/hiprapcube.png");
                 videoService.saveGenre(genre);
                 genre=null;
             }

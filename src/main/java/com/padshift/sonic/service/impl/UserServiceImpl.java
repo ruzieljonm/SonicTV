@@ -61,14 +61,21 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUserNameAndUserPass(userName, userPass);
     }
 
-    @Override
-    public ArrayList<UserPreference> findAllByUserId(int userId) {
-        return userPreferenceRepository.findAllByUserId(userId);
-    }
+
 
     @Override
     public User findByUserId(int userid) {
         return userRepository.findByUserId(userid);
+    }
+
+    @Override
+    public ArrayList<UserPreference> findAllGenrePreferenceByUserId(int userid) {
+        return userPreferenceRepository.findAllByUserId(userid);
+    }
+
+    @Override
+    public UserPreference findUserPreferenceByUserIdAndGenreId(int userId, int i) {
+        return userPreferenceRepository.findByUserIdAndGenreId(userId,i);
     }
 
 
