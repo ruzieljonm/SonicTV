@@ -1,14 +1,19 @@
 package com.padshift.sonic.controller;
 
+import com.padshift.sonic.entities.Criteria;
 import com.padshift.sonic.entities.Genre;
+import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +24,9 @@ public class AdminController {
 
     @Autowired
     VideoService videoService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     GracenoteAPIController gracenoteAPIController;
@@ -45,6 +53,9 @@ public class AdminController {
         }else if(configChoice.equals("2")){
             System.out.println("GOOD MORNING");
              return gracenoteAPIController.showmetadata();
+        }else if(configChoice.equals("3")) {
+            return showCriteria(model);
+
         }else{
             return "testing";
         }
@@ -59,6 +70,61 @@ public class AdminController {
     @RequestMapping(value = "/bysinglevideo", method = RequestMethod.POST)
     public String bySingleVideo(){
         return "BySingleVideo";
+    }
+
+
+    @RequestMapping("/criteria")
+    public String showCriteria(Model model){
+        ArrayList<Criteria> criteria = userService.findAllCriteria();
+        model.addAttribute("criteria", criteria);
+        return "Criteria";
+
+    }
+
+    @RequestMapping(value = "/addcriteria", method = RequestMethod.POST)
+    public String addCriteria(HttpServletRequest request, Model model){
+        String criteriaName = request.getParameter("criteriaName");
+        Float criteriaPercentage = Float.valueOf(request.getParameter("criteriaPercentage"));
+
+        Criteria criteria = new Criteria();
+        criteria.setCriteriaName(criteriaName);
+        criteria.setCriteriaPercentage(criteriaPercentage);
+
+        userService.saveCriteria(criteria);
+
+        ArrayList<Criteria> crit = userService.findAllCriteria();
+        model.addAttribute("criteria", crit);
+        return "Criteria";
+
+    }
+
+    @RequestMapping("/removecriteria")
+    public String deleteCriteria(HttpServletRequest request, Model model){
+        int deletethis = Integer.parseInt(request.getParameter("crite").toString());
+        userService.deleteCriteriaByCriteriaId(deletethis);
+
+        ArrayList<Criteria> crit = userService.findAllCriteria();
+        model.addAttribute("criteria", crit);
+        return "Criteria";
+
+
+    }
+
+
+    @RequestMapping("/editcriteria")
+    public String editCriteria(HttpServletRequest request, Model model){
+        int editthis = Integer.parseInt(request.getParameter("crite").toString());
+        Criteria crit = userService.findCriteriaByCriteriaId(editthis);
+
+        model.addAttribute("critname", crit.getCriteriaName());
+        model.addAttribute("critper", crit.getCriteriaPercentage());
+        userService.deleteCriteriaByCriteriaId(editthis);
+        ArrayList<Criteria> crite = userService.findAllCriteria();
+        model.addAttribute("criteria", crite);
+        return "CriteriaUpdate";
+
+
+
     }
 
 

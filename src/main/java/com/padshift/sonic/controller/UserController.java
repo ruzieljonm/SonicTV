@@ -56,7 +56,7 @@ public class UserController {
     @Autowired
     GenreService genreService;
 
-    @RequestMapping("/")
+    @RequestMapping("/sonic")
     public String showLoginPage(HttpSession session, Model model) {
         if(session.isNew()) {
             return "signinsignup";
@@ -199,15 +199,55 @@ public class UserController {
             recVideos.add(rv);
         }
 
+        Collections.sort(recVideos);
+
 
         for(int i=0; i<10; i++){
             System.out.println(recVideos.get(i).getTitle() + " : " + recVideos.get(i).getWeight());
         }
 
+        ArrayList<RecVid> vr1 = new ArrayList<RecVid>();
+        ArrayList<RecVid> vr2 = new ArrayList<RecVid>();
+        ArrayList<RecVid> vr3 = new ArrayList<RecVid>();
+        ArrayList<RecVid> vr4 = new ArrayList<RecVid>();
+
+        for(int i=0; i<=5; i++) {
+            RecVid vid1 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
+            vr1.add(vid1);
+            vid1 = null;
+        }
+
+        for(int i=6; i<=11; i++) {
+            RecVid vid2 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
+            vr2.add(vid2);
+            vid2 = null;
+        }
+
+        for(int i=12; i<=17; i++) {
+            RecVid vid3 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
+            vr3.add(vid3);
+            vid3 = null;
+        }
 
 
 
-        return "testing";
+
+
+        for(int i=18; i<=23; i++) {
+            RecVid vid4 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
+            vr4.add(vid4);
+            vid4 = null;
+
+
+        }
+
+
+
+        model.addAttribute("r1", vr1);
+        model.addAttribute("r2", vr2);
+        model.addAttribute("r3", vr3);
+        model.addAttribute("r4", vr4);
+        return "Homepage";
 
 
 //
@@ -452,18 +492,30 @@ public class UserController {
             genrePT = genrePTHH;
         }
 
+        float uipercent, agepercent,pertypepercent;
+        Criteria ui = userService.findCriteriaByCriteriaName("userinput");
+        if(ui!=null){
+            uipercent=ui.getCriteriaPercentage();
+        }else{
+            uipercent=0;
+        }
 
-<<<<<<< HEAD
-        for(int i=0; i<5; i++){
-            VVD vid1 = new VVD(vidListGen1.get(i).getVideoid(), vidListGen1.get(i).getTitle(), vidListGen1.get(i).getArtist(), vidListGen1.get(i).getGenre(), vidListGen1.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen1.get(i).getVideoid() + "/mqdefault.jpg");
-            vr1.add(vid1);
-            vid1 = null;
-=======
->>>>>>> 21bf1b5e66745c21ab86507d8a8bda2c6fbdb403
+        Criteria age = userService.findCriteriaByCriteriaName("age");
+        if(age!=null){
+            agepercent = age.getCriteriaPercentage();
+        }else{
+            agepercent=0;
+        }
 
+        Criteria pertype = userService.findCriteriaByCriteriaName("personality");
+        if(pertype!=null){
+            pertypepercent = pertype.getCriteriaPercentage();
+        }else{
+            pertypepercent=0;
+        }
 
-        vidWeight= (float) (11.11*userInput*genreAge*genrePT);
-
+        float views = Float.parseFloat(video.getViewCount().toString());
+        vidWeight= (float) ((userInput*uipercent)+(genreAge*agepercent)+(genrePT*pertypepercent)*views);
 
 
         return vidWeight;
@@ -492,7 +544,7 @@ public class UserController {
 
         userService.saveUserHistory(userhist);
         VideoDetails playvid = videoService.findByVideoid(vididtoplay);
-        ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllByGenre(topgenre);
+        ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllVideoDetails();
         Collections.sort(upnext);
 
         System.out.println(playvid.getTitle() + " " + playvid.getArtist());

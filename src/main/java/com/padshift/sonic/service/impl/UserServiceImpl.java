@@ -1,8 +1,10 @@
 package com.padshift.sonic.service.impl;
 
+import com.padshift.sonic.entities.Criteria;
 import com.padshift.sonic.entities.User;
 import com.padshift.sonic.entities.UserHistory;
 import com.padshift.sonic.entities.UserPreference;
+import com.padshift.sonic.repository.CriteriaRepository;
 import com.padshift.sonic.repository.UserHistoryRepository;
 import com.padshift.sonic.repository.UserPreferenceRepository;
 import com.padshift.sonic.repository.UserRepository;
@@ -27,6 +29,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserHistoryRepository userHistoryRepository;
+
+    @Autowired
+    CriteriaRepository criteriaRepository;
+
 
     @Override
     public void saveUser(User user) {
@@ -76,6 +82,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserPreference findUserPreferenceByUserIdAndGenreId(int userId, int i) {
         return userPreferenceRepository.findByUserIdAndGenreId(userId,i);
+    }
+
+    @Override
+    public void saveCriteria(Criteria criteria) {
+        criteriaRepository.save(criteria);
+    }
+
+    @Override
+    public ArrayList<Criteria> findAllCriteria() {
+        return (ArrayList<Criteria>) criteriaRepository.findAll();
+    }
+
+    @Override
+    public void deleteCriteriaByCriteriaId(int deletethis) {
+        criteriaRepository.deleteByCriteriaId(deletethis);
+        System.out.println("DELETING");
+    }
+
+    @Override
+    public Criteria findCriteriaByCriteriaName(String userinput) {
+        return criteriaRepository.findByCriteriaName(userinput);
+    }
+
+    @Override
+    public Criteria findCriteriaByCriteriaId(int editthis) {
+        return criteriaRepository.findByCriteriaId(editthis);
     }
 
 
