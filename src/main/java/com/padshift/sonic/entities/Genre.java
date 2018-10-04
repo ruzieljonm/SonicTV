@@ -23,6 +23,27 @@ public class Genre implements Serializable{
     @Column(name="explorePhoto")
     private String explorePhoto;
 
+    @Column(name="topMusicList")
+    private String topMusicList;
+
+    public Genre() {
+    }
+
+    public Genre(int genreId, String genreName, String genrePhoto, String explorePhoto, String topMusicList) {
+        this.genreId = genreId;
+        this.genreName = genreName;
+        this.genrePhoto = genrePhoto;
+        this.explorePhoto = explorePhoto;
+        this.topMusicList = topMusicList;
+    }
+
+    public String getTopMusicList() {
+        return topMusicList;
+    }
+
+    public void setTopMusicList(String topMusicList) {
+        this.topMusicList = topMusicList;
+    }
 
     public String getExplorePhoto() {
         return explorePhoto;

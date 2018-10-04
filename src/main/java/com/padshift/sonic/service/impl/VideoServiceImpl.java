@@ -8,7 +8,6 @@ import com.padshift.sonic.repository.GenreRepository;
 import com.padshift.sonic.repository.UserHistoryRepository;
 import com.padshift.sonic.repository.VideoDetailsRepository;
 import com.padshift.sonic.repository.VideoRepository;
-import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,11 +83,12 @@ public class VideoServiceImpl implements VideoService {
         return (ArrayList<Genre>) genreRepository.findAll();
     }
 
-    @Override
-    public Genre findGenreByGenreId(int i) {
-        return genreRepository.findByGenreId(i);
-    }
 
+
+    @Override
+    public ArrayList<VideoDetails> findAllVideoDetailsByGenre(String genreName) {
+        return videoDetailsRepository.findByGenre(genreName);
+    }
 
 
 }

@@ -14,7 +14,7 @@
                 <img th:src="'..'+${genre.genrePhoto}">
             </div>
             <div class='card_right'>
-                <br>
+
                 <h1 th:text="${genre.genreName}"></h1>
                 <div class='card_right__details'>
 
@@ -84,14 +84,24 @@
                         </div>
                     </div>
 
+                    <div class='card_right__review'>
+                        Top Msuic:<p th:text="${genre.topMusicList}"></p>
+                        </div>
+
+
                 </div>
+
+
+
             </div>
         </div>
         <br>
         <br>
-    </div>
+    </div>S
+        <div style="text-align: center; width: 100%">
+            <button type="submit" class="button button5" >SUMBIT PREFERENCE</button>
+        </div>
 
-        <button type="submit">SUMBIT PREFERENCE</button>
 
 </form>
 

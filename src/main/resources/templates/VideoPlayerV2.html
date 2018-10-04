@@ -9,7 +9,7 @@
 <body>
 
 <main class="site-content">
-    <form id="vpform" action="/gotoPlayer" method="post">
+
         <section class="video-area">
             <div class="wrapper">
 
@@ -66,48 +66,44 @@
 
                     <!-- HTML 5 allows us to wrap block-level elements in <a> tags. -->
 
-                    <a href="javascript:;" onclick="document.getElementById('vpform').submit();" class="next-video">
-                        <img th:src="${tn1}" alt="">
-                        <input type="hidden" name="clicked" th:value="${upnext1.videoid}"/>
-                        <h3 class="next-video-title" th:text="${upnext1.title}"></h3>
+                    <form action="/gotoPlayer" method="post" id="upnv1">
+                        <a href="javascript:;" onclick="document.getElementById('upnv1').submit();"  class="next-video">
+                            <img th:src="${tn1}" alt="">
 
-                        <p class="next-video-info" th:text="${upnext1.artist}">
-                        </p>
-                    </a>
+                                <input type="hidden" name="clicked" th:value="${upnext1.videoid}"/>
+                                <h3 class="next-video-title" th:text="${upnext1.title}" ></h3>
 
-                    <a href="https://dl.dropboxusercontent.com/u/57653109/html5video/video3.mp4" class="next-video">
-                        <img th:src="${tn2}" alt="">
 
-                        <h3 class="next-video-title" th:text="${upnext2.title}"></h3>
+                            <p class="next-video-info" th:text="${upnext1.artist}">
+                            </p>
+                        </a>
+                    </form>
 
-                        <p class="next-video-info" th:text="${upnext2.artist}">
-                        </p>
-                    </a>
+                    <form action="/gotoPlayer" method="post" id="upnv2">
+                        <a href="javascript:;" onclick="document.getElementById('upnv2').submit();"  class="next-video">
+                            <img th:src="${tn2}" alt="">
+                            <input type="hidden" name="clicked" th:value="${upnext2.videoid}"/>
+                            <h3 class="next-video-title" th:text="${upnext2.title}"></h3>
 
-                    <a href="https://dl.dropboxusercontent.com/u/57653109/html5video/video4.mp4" class="next-video">
-                        <img th:src="${tn3}" alt="">
+                            <p class="next-video-info" th:text="${upnext2.artist}">
+                            </p>
+                        </a>
+                    </form>
+                    <form action="/gotoPlayer" method="post" id="upnv3">
+                        <a  href="javascript:;" onclick="document.getElementById('upnv3').submit();"  class="next-video">
+                            <img th:src="${tn3}" alt="">
+                            <input type="hidden" name="clicked" th:value="${upnext3.videoid}"/>
+                            <h3 class="next-video-title" th:text="${upnext3.title}"></h3>
 
-                        <h3 class="next-video-title" th:text="${upnext3.title}"></h3>
+                            <p class="next-video-info" th:text="${upnext3.artist}">
+                            </p>
+                        </a>
+                    </form>
 
-                        <p class="next-video-info" th:text="${upnext3.artist}">
-                        </p>
-                    </a>
-
-                    <a href="https://dl.dropboxusercontent.com/u/57653109/html5video/video1.mp4"
-                       class="next-video played-video">
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/197359/caminandes-2.jpg" alt="">
-
-                        <h3 class="next-video-title">Caminandes: Grand Dillama</h3>
-
-                        <p class="next-video-info">By the Blender Foundation
-                            <br>00:00<br>
-                            <span class="next-video-description">Caminandes: Episode 2 is an Open Movie produced by Blender Institute in Amsterdam, the Netherlands. You can support the makers and open source projects by purchasing the 8 GB USB card with all the movie data and tutorials.</span>
-                        </p>
-                    </a>
                 </div>
             </div>
         </section>
-    </form>
+
 
 </main>
 

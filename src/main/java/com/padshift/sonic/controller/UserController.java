@@ -79,6 +79,7 @@ public class UserController {
             if (checkUser != null) {
                 session.setAttribute("userid", checkUser.getUserId());
                 session.setAttribute("username", checkUser.getUserName());
+                session.setAttribute("sessionid", checkUser.getUserId()+getSaltString());
                 System.out.println(checkUser.getUserId() + " " + checkUser.getUserName());
 
                 return showHomepage(model, session);
@@ -113,8 +114,22 @@ public class UserController {
         User checkUser = userService.findByUsername(request.getParameter("inputUserName"));
         session.setAttribute("userid", checkUser.getUserId());
         session.setAttribute("username", request.getParameter("inputUserName"));
+        session.setAttribute("sessionid", checkUser.getUserId()+getSaltString());
 
         return showGenreSelection(model,session);
+    }
+
+    protected String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 5) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
     }
 
 
@@ -510,9 +525,15 @@ public class UserController {
         }else{
             pertypepercent=0;
         }
-
+        float likes;
         float views = Float.parseFloat(video.getViewCount().toString());
-        vidWeight= (float) ((userInput*uipercent)+(genreAge*agepercent)+(genrePT*pertypepercent)*views);
+        if(video.getLikes().equals("0")){
+             likes =1;
+        }else{
+             likes = Float.parseFloat(video.getLikes().toString());
+        }
+
+        vidWeight= (float) ((((userInput/10)*uipercent)+((genreAge/1)*agepercent)+((genrePT/1)*pertypepercent))*likes);
 
 
         return vidWeight;
@@ -528,22 +549,19 @@ public class UserController {
         String vididtoplay = request.getParameter("clicked");
 
         System.out.println("video id : " + vididtoplay);
-//        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
+        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
 
         UserHistory userhist = new UserHistory();
         userhist.setUserId(Integer.parseInt(session.getAttribute("userid").toString()));
         userhist.setVideoid(vididtoplay);
-
-//        VideoDetails video = videoService.findByVideoid(vididtoplay);
-//        String genre = "%"+video.getGenre()+"%";
-
-        // System.out.println(userhist.getUserId() + userhist.getVideoid());
-
+        userhist.setSeqid(session.getAttribute("sessionid").toString());
         userService.saveUserHistory(userhist);
+
+
         VideoDetails playvid = videoService.findByVideoid(vididtoplay);
         ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllVideoDetails();
-        Collections.sort(upnext);
-
+//        Collections.sort(upnext);
+        Collections.shuffle(upnext);
         System.out.println(playvid.getTitle() + " " + playvid.getArtist());
 
         String url = "https://www.youtube.com/embed/" + playvid.getVideoid();
@@ -568,6 +586,9 @@ public class UserController {
 
         model.addAttribute("emblink", url);
         model.addAttribute("vidtitle", playvid.getTitle());
+
+
+//        model.addAttribute("upnext")
         model.addAttribute("upnext1", upnext.get(1));
         model.addAttribute("upnext2", upnext.get(2));
         model.addAttribute("upnext3", upnext.get(3));
@@ -575,6 +596,7 @@ public class UserController {
         model.addAttribute("tn1", thumbnail1);
         model.addAttribute("tn2", thumbnail2);
         model.addAttribute("tn3", thumbnail3);
+
         return "VideoPlayerV2";
 
     }

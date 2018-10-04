@@ -22,4 +22,7 @@ public interface VideoDetailsRepository extends JpaRepository<VideoDetails,Long>
 
     @Query("select distinct genre from VideoDetails")
     ArrayList<String> findDistinctGenre();
+
+
+    ArrayList<VideoDetails> findByGenre(String genreName);
 }

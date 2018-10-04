@@ -22,6 +22,17 @@ public class UserHistory implements Serializable{
     @Column(name="videoid")
     private String videoid;
 
+    @Column(name="seqid")
+    private String seqid;
+
+    public String getSeqid() {
+        return seqid;
+    }
+
+    public void setSeqid(String seqid) {
+        this.seqid = seqid;
+    }
+
     public int getUserId() {
         return userId;
     }

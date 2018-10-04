@@ -36,7 +36,6 @@ public interface VideoService {
 
     ArrayList<Genre> findAllGenre();
 
-    Genre findGenreByGenreId(int i);
 
-
+    ArrayList<VideoDetails> findAllVideoDetailsByGenre(String genreName);
 }
