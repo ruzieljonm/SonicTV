@@ -35,6 +35,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.*;
 
 /**
@@ -556,7 +559,6 @@ public class UserController {
         String thumbnail3 = "https://i.ytimg.com/vi/" + upnext.get(3).getVideoid() +"/mqdefault.jpg";
 
         ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
-
         videoList = videoService.findAllVideoDetails();
 
         ArrayList<VVD> vr1 = new ArrayList<VVD>();
@@ -571,6 +573,8 @@ public class UserController {
 
         model.addAttribute("emblink", url);
         model.addAttribute("vidtitle", playvid.getTitle());
+        model.addAttribute("vidviews", concat(playvid.getViewCount()));
+        model.addAttribute("vidlikes", concat(playvid.getLikes()));
         model.addAttribute("upnext1", upnext.get(1));
         model.addAttribute("upnext2", upnext.get(2));
         model.addAttribute("upnext3", upnext.get(3));
@@ -640,5 +644,11 @@ public class UserController {
     @RequestMapping("/admin")
     public String Admin(HttpServletRequest request, Model model){
         return "AdminPage";
+    }
+
+    public String concat(String x){
+        NumberFormat val = NumberFormat.getNumberInstance(Locale.US);;
+        String out = val.format(Long.valueOf(x));
+        return out;
     }
 }

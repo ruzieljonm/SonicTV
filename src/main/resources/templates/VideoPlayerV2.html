@@ -25,10 +25,25 @@
                     <div class="video-info">
 
                         <p class="video-popularity">
-                            <span class="title" th:text="${vidtitle}"> </span>
-                            <span class="views">394,7304 views <span class="fontawesome-eye-open meta-icon"></span></span>
-                            <span class="likes">97,349 likes <a href="#" id="likeThis" class="like-this"><span
-                                    class="fontawesome-heart meta-icon like-heart"></span></a><span class="like-prompt">Don't forget to like!</span></span>
+                            <span class="title" th:text="${vidtitle}"> </span><br>
+                                <div class="star-rating">
+                                    <span class="spanrating">RATING: </span>
+                                    <fieldset>
+                                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Outstanding">5 stars</label>
+                                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Very Good">4 stars</label>
+                                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Good">3 stars</label>
+                                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Poor">2 stars</label>
+                                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Very Poor">1 star</label>
+                                    </fieldset>
+                                </div>
+                                <div class="view-like">
+                                    <span class="fontawesome-eye-open meta-icon"></span>
+                                    <span class="views" th:text="${vidviews}"></span>
+                                    <a href="#" id="likeThis" class="like-this">
+                                        <span class="fontawesome-heart meta-icon like-heart"></span>
+                                    </a>
+                                    <span class="likes" th:text="${vidlikes}"></span>
+                                </div>
                         </p>
 
                         <div class="description">

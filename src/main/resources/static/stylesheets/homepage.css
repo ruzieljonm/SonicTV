@@ -196,6 +196,7 @@ html, body {
     top: 0;
     left: 0;
     border-radius: 4px;
+    transition-delay: 0.5s;
 }
 #menu-fixed:target > .menu li:hover > p {
     color: white;
@@ -295,6 +296,7 @@ html, body {
 #menu-fixed .menu li:hover {
     background: #000;
     transition: all 0.3s;
+    transition-delay: 0.5s;
 }
 #menu-fixed .menu li:hover > .material-icons {
     color: white;
@@ -377,10 +379,11 @@ a:link, a:visited {
 #menu-fixed :hover .sideb {
     display: inline-block;
     color: white;
+    bottom: 0px;
 }
 
 .sideb {
     display: none;
     position: relative;
-
+    bottom: 60px;
 }

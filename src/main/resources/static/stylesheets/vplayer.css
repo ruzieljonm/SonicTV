@@ -602,15 +602,16 @@ progress::-webkit-progress-value {
 }
 
 .video-popularity {
+    position: relative;
     font-size: 18px;
     font-weight: 600;
-    text-align: right;
+    left: 2%;
 }
 
 .title{
-    right: 38px;
     position: relative;
-    font-size: 20px;
+    font-size: 25px;
+    right: 40px;
 }
 .video-popularity,
 .description {
@@ -626,6 +627,8 @@ progress::-webkit-progress-value {
 .like-this {
     box-shadow: none;
     color: #f11753;
+    position: relative;
+    left: 2.5%;
 }
 .like-this:hover {
     -webkit-animation: beat 1s infinite;
@@ -741,4 +744,68 @@ progress::-webkit-progress-value {
 }
 .clearfix:after, .wrapper:after, .video-header:after {
     clear: both;
+}
+
+.rating{
+    position: relative;
+    left: 60%;
+    font-size: 20px;
+}
+
+.star-rating {
+    font-family: 'FontAwesome';
+    position: relative;
+    bottom: 25px;
+}
+.star-rating > fieldset {
+    border: none;
+    display: inline-block;
+}
+.star-rating > fieldset:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+    clip: rect(0, 0, 0, 0);
+}
+.star-rating > fieldset:not(:checked) > label {
+    float: right;
+    width: 1em;
+    padding: 0 0.05em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 200%;
+    color: #16a085;
+}
+.star-rating > fieldset:not(:checked) > label:before {
+    content: '\f006  ';
+}
+.star-rating > fieldset:not(:checked) > label:hover,
+.star-rating > fieldset:not(:checked) > label:hover ~ label {
+    color: #1abc9c;
+    text-shadow: 0 0 3px #1abc9c;
+}
+.star-rating > fieldset:not(:checked) > label:hover:before,
+.star-rating > fieldset:not(:checked) > label:hover ~ label:before {
+    content: '\f005  ';
+}
+.star-rating > fieldset > input:checked ~ label:before {
+    content: '\f005  ';
+}
+.star-rating > fieldset > label:active {
+    position: relative;
+    top: 2px;
+}
+
+.spanrating{
+    font: 20px/1.5 "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    position: relative;
+    bottom: 26px;
+}
+
+.view-like{
+    position: relative;
+    bottom: 30px;
+    font-size: 20px;
+    border-bottom: 2px solid white;
 }
