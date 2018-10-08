@@ -19,8 +19,25 @@ public class UserHistory implements Serializable{
     @Column(name="userId")
     private int userId;
 
+    @Column(name="userName")
+    private String userName;
+
     @Column(name="videoid")
     private String videoid;
+
+    @Column(name="seqid")
+    private String seqid;
+
+    @Column(name="vidRating")
+    private String vidRating;
+
+    public String getSeqid() {
+        return seqid;
+    }
+
+    public void setSeqid(String seqid) {
+        this.seqid = seqid;
+    }
 
     public int getUserId() {
         return userId;
@@ -36,5 +53,21 @@ public class UserHistory implements Serializable{
 
     public void setVideoid(String videoid) {
         this.videoid = videoid;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getVidRating() {
+        return vidRating;
+    }
+
+    public void setVidRating(String vidRating) {
+        this.vidRating = vidRating;
     }
 }

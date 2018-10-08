@@ -59,7 +59,7 @@ body .card_right h1 {
     font-weight: 400;
     text-align: left;
     font-size: 40px;
-    margin: 30px 0 0 0;
+    margin: 5px 0 0 0;
     padding: 0 0 0 40px;
     letter-spacing: 1px;
 }
@@ -167,14 +167,39 @@ body .card_right__button a:hover {
     transition-duration: .5s;
 }
 
-#submitpref{
+#submitpref {
+            border: none;
+            padding: 15px 20px;
+            border-radius: 25px;
+            position: relative;
+            left: 45%;
+            background: #1161ee;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+        }
+.button {
+    background-color: #4CAF50; /* Green */
     border: none;
-    padding: 15px 20px;
-    border-radius: 25px;
-    position: relative;
-    left: 45%;
-    background: #1161ee;
     color: white;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button5 {
+    background-color: transparent;
+    color: red;
+    border: 2px solid #555555;
+}
+
+.button5:hover {
+    background-color: transparent;
+    color: white;
 }

@@ -37,10 +37,13 @@ public class VideoDetails implements Serializable,Comparable<VideoDetails>{
     @Column(name="dislikes")
     private String dislikes;
 
+    @Column(name="vidDuration")
+    private String vidDuration;
+
     public VideoDetails() {
     }
 
-    public VideoDetails(String videoid, String title, String artist, String date, String genre, String viewCount, String likes, String dislikes) {
+    public VideoDetails(String videoid, String title, String artist, String date, String genre, String viewCount, String likes, String dislikes, String vidDuration) {
         this.videoid = videoid;
         this.title = title;
         this.artist = artist;
@@ -49,6 +52,7 @@ public class VideoDetails implements Serializable,Comparable<VideoDetails>{
         this.viewCount = viewCount;
         this.likes = likes;
         this.dislikes = dislikes;
+        this.vidDuration = vidDuration;
     }
 
     public String getVideoid() {
@@ -117,6 +121,13 @@ public class VideoDetails implements Serializable,Comparable<VideoDetails>{
         this.dislikes = dislikes;
     }
 
+    public String getVidDuration() {
+        return vidDuration;
+    }
+
+    public void setVidDuration(String vidDuration) {
+        this.vidDuration = vidDuration;
+    }
 
     @Override
     public int compareTo(VideoDetails videt) {

@@ -2,6 +2,10 @@ package com.padshift.sonic.controller;
 
 import com.padshift.sonic.entities.Criteria;
 import com.padshift.sonic.entities.Genre;
+import com.padshift.sonic.entities.Video;
+import com.padshift.sonic.entities.VideoDetails;
+
+import com.padshift.sonic.service.GenreService;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -12,9 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by ruzieljonm on 26/09/2018.
@@ -30,6 +36,10 @@ public class AdminController {
 
     @Autowired
     GracenoteAPIController gracenoteAPIController;
+
+    @Autowired
+    GenreService genreService;
+
 
     @RequestMapping("/adminHomePage")
     public String showAdminHomePage(){
@@ -55,6 +65,12 @@ public class AdminController {
              return gracenoteAPIController.showmetadata();
         }else if(configChoice.equals("3")) {
             return showCriteria(model);
+
+        }else if(configChoice.equals("4")) {
+            return saveGenretoDB();
+
+        }else if(configChoice.equals("5")) {
+            return updateTopMusic();
 
         }else{
             return "testing";
@@ -107,7 +123,6 @@ public class AdminController {
         model.addAttribute("criteria", crit);
         return "Criteria";
 
-
     }
 
 
@@ -128,6 +143,224 @@ public class AdminController {
     }
 
 
+    @RequestMapping("/updateTopMusic")
+    public String updateTopMusic(){
+
+        ArrayList<Genre> genres = videoService.findAllGenre();
+
+        for(int i=0; i<genres.size(); i++){
+            ArrayList<VideoDetails> videos = videoService.findAllVideoDetailsByGenre(genres.get(i).getGenreName());
+            Collections.sort(videos);
+            String topmusiclist = videos.get(0).getTitle() + "," + videos.get(1).getTitle() + "," + videos.get(2).getTitle();
+            Genre genre = new Genre(genres.get(i).getGenreId(),genres.get(i).getGenreName(), genres.get(i).getGenrePhoto(), genres.get(i).getExplorePhoto(), topmusiclist);
+            videoService.saveGenre(genre);
+            genre = null;
+
+        }
+
+
+        return "testing";
+    }
+
+
+
+@RequestMapping("/savegenre")
+public String saveGenretoDB(){
+    ArrayList<String> genres = videoService.findDistinctGenre();
+    for (int i=0; i<genres.size(); i++){
+
+        CharSequence pop = "Pop";
+        boolean boolpop = genres.get(i).toString().contains(pop);
+
+        CharSequence rock = "Rock";
+        boolean boolrock= genres.get(i).toString().contains(rock);
+
+        CharSequence alt = "Alternative";
+        boolean boolalt = genres.get(i).toString().contains(alt);
+
+        CharSequence rnb = "R&B";
+        boolean boolrnb = genres.get(i).toString().contains(rnb);
+
+        CharSequence country = "Country";
+        boolean boolcountry = genres.get(i).toString().contains(country);
+
+        CharSequence house = "House";
+        boolean boolhouse = genres.get(i).toString().contains(house);
+
+        CharSequence metal = "Metal";
+        boolean boolmetal = genres.get(i).toString().contains(metal);
+
+        CharSequence reggae = "Reggae";
+        boolean boolreggae = genres.get(i).toString().contains(reggae);
+
+        CharSequence relig = "Religious";
+        boolean boolrelig= genres.get(i).toString().contains(relig);
+
+        CharSequence hiphop = "Hip-Hop";
+        boolean boolhiphop= genres.get(i).toString().contains(hiphop);
+
+
+        if(boolpop==true){
+            Genre genre = new Genre();
+            genre.setGenreId(1);
+            genre.setGenreName("Pop Music");
+            genre.setGenrePhoto("/images/pop.png");
+            genre.setExplorePhoto("/images/popcube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+        if(boolrock==true || boolmetal==true){
+            Genre genre = new Genre();
+            genre.setGenreId(2);
+            genre.setGenreName("Rock Music");
+            genre.setGenrePhoto("/images/rock.png");
+            genre.setExplorePhoto("/images/rockcube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+        if(boolalt==true){
+            Genre genre = new Genre();
+            genre.setGenreId(3);
+            genre.setGenreName("Alternative Music");
+            genre.setGenrePhoto("/images/alternative.png");
+            genre.setExplorePhoto("/images/alternativecube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+        if(boolrnb==true){
+            Genre genre = new Genre();
+            genre.setGenreId(4);
+            genre.setGenreName("R&B/Soul Music");
+            genre.setGenrePhoto("/images/rnb.png");
+            genre.setExplorePhoto("/images/rnbcube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+        if(boolcountry==true){
+            Genre genre = new Genre();
+            genre.setGenreId(5);
+            genre.setGenreName("Country Music");
+            genre.setGenrePhoto("/images/country.png");
+            genre.setExplorePhoto("/images/countrycube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+        if(boolhouse==true){
+            Genre genre = new Genre();
+            genre.setGenreId(6);
+            genre.setGenreName("House Music");
+            genre.setGenrePhoto("/images/house.png");
+            genre.setExplorePhoto("/images/housecube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+
+
+        if(boolreggae==true){
+            Genre genre = new Genre();
+            genre.setGenreId(7);
+            genre.setGenreName("Reggae Music");
+            genre.setGenrePhoto("/images/reggae.png");
+            genre.setExplorePhoto("/images/reggaecube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+        if(boolrelig==true){
+            Genre genre = new Genre();
+            genre.setGenreId(8);
+            genre.setGenreName("Religious Music");
+            genre.setGenrePhoto("/images/religious.png");
+            genre.setExplorePhoto("/images/religiouscube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+        if(boolhiphop==true){
+            Genre genre = new Genre();
+            genre.setGenreId(9);
+            genre.setGenreName("Hip-Hop/Rap Music");
+            genre.setGenrePhoto("/images/hiprap.png");
+            genre.setExplorePhoto("/images/hiprapcube.png");
+            genre.setTopMusicList("");
+            videoService.saveGenre(genre);
+            genre=null;
+        }
+
+    }
+
+
+    return "testing";
+}
+
+
+    @RequestMapping("/changeGenre")
+    public String updateGenreTags(){
+
+        ArrayList<VideoDetails> videos = videoService.findAllVideoDetails();
+        for(VideoDetails vid: videos){
+            if(vid.getGenre().toString().toLowerCase().contains("pop")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Pop Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("rock") || vid.getGenre().toString().toLowerCase().contains("metal")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Rock Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("alternative")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Alternative Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("r&b") || vid.getGenre().toString().toLowerCase().contains("soul")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "R&B/Soul Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("country")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Country Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("house")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "House Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("reggae")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Reggae Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("religious")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Religious Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+            if(vid.getGenre().toString().toLowerCase().contains("hip-hop/rap")){
+                VideoDetails videt = new VideoDetails(vid.getVideoid(), vid.getTitle(), vid.getArtist(), vid.getDate(), "Hip-Hop/Rap Music", vid.getViewCount(), vid.getLikes(), vid.getDislikes(), vid.getVidDuration());
+                videoService.saveVideoDetails(videt);
+            }
+
+        }
+        return "testing";
+    }
 
 
 

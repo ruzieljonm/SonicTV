@@ -13,4 +13,7 @@ import java.util.List;
 @Repository("userHistoryRepository")
 public interface UserHistoryRepository extends JpaRepository<UserHistory,Long> {
     List<UserHistory> findByuserId(int userid);
+
+
+    List<UserHistory> findAllByUserNameAndVideoid(String userName, String videoid);
 }

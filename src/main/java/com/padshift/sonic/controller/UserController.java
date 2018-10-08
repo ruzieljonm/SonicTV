@@ -59,6 +59,7 @@ public class UserController {
     @Autowired
     GenreService genreService;
 
+
     @RequestMapping("/sonic")
     public String showLoginPage(HttpSession session, Model model) {
         if(session.isNew()) {
@@ -82,6 +83,7 @@ public class UserController {
             if (checkUser != null) {
                 session.setAttribute("userid", checkUser.getUserId());
                 session.setAttribute("username", checkUser.getUserName());
+                session.setAttribute("sessionid", checkUser.getUserId()+getSaltString());
                 System.out.println(checkUser.getUserId() + " " + checkUser.getUserName());
 
                 return showHomepage(model, session);
@@ -116,8 +118,22 @@ public class UserController {
         User checkUser = userService.findByUsername(request.getParameter("inputUserName"));
         session.setAttribute("userid", checkUser.getUserId());
         session.setAttribute("username", request.getParameter("inputUserName"));
+        session.setAttribute("sessionid", checkUser.getUserId()+getSaltString());
 
         return showGenreSelection(model,session);
+    }
+
+    protected String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 5) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
     }
 
 
@@ -231,9 +247,6 @@ public class UserController {
             vr3.add(vid3);
             vid3 = null;
         }
-
-
-
 
 
         for(int i=18; i<=23; i++) {
@@ -516,10 +529,23 @@ public class UserController {
         }else{
             pertypepercent=0;
         }
-
+        float likes;
         float views = Float.parseFloat(video.getViewCount().toString());
-        vidWeight= (float) ((userInput*uipercent)+(genreAge*agepercent)+(genrePT*pertypepercent)*views);
+        if(video.getLikes().equals("0")){
+             likes =1;
+        }else{
+             likes = Float.parseFloat(video.getLikes().toString());
+        }
+        System.out.println("UI PERCENTAGE : " + uipercent);
+        System.out.println("UI PERCENTAGE : " + agepercent);
+        System.out.println("UI PERCENTAGE : " + pertypepercent);
+        System.out.println(userInput);
+        System.out.println(genreAge);
+        System.out.println(genrePT);
 
+
+        vidWeight= (float) ((((userInput/10)*uipercent)+((genreAge/1)*agepercent)+((genrePT/1)*pertypepercent))*likes);
+        System.out.println("VID WEIGHT : " + vidWeight);
 
         return vidWeight;
 
@@ -532,24 +558,23 @@ public class UserController {
     @RequestMapping("/gotoPlayer")
     public String gotoPlayer(HttpServletRequest request, Model model, HttpSession session){
         String vididtoplay = request.getParameter("clicked");
+        session.setAttribute("vididtoplay", vididtoplay);
 
         System.out.println("video id : " + vididtoplay);
-//        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
+        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
 
         UserHistory userhist = new UserHistory();
         userhist.setUserId(Integer.parseInt(session.getAttribute("userid").toString()));
         userhist.setVideoid(vididtoplay);
-
-//        VideoDetails video = videoService.findByVideoid(vididtoplay);
-//        String genre = "%"+video.getGenre()+"%";
-
-        // System.out.println(userhist.getUserId() + userhist.getVideoid());
-
+        userhist.setSeqid(session.getAttribute("sessionid").toString());
+        userhist.setUserName(session.getAttribute("username").toString());
         userService.saveUserHistory(userhist);
+
+
         VideoDetails playvid = videoService.findByVideoid(vididtoplay);
         ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllVideoDetails();
-        Collections.sort(upnext);
-
+//        Collections.sort(upnext);
+        Collections.shuffle(upnext);
         System.out.println(playvid.getTitle() + " " + playvid.getArtist());
 
         String url = "https://www.youtube.com/embed/" + playvid.getVideoid();
@@ -575,6 +600,65 @@ public class UserController {
         model.addAttribute("vidtitle", playvid.getTitle());
         model.addAttribute("vidviews", concat(playvid.getViewCount()));
         model.addAttribute("vidlikes", concat(playvid.getLikes()));
+
+//        model.addAttribute("upnext")
+        model.addAttribute("upnext1", upnext.get(1));
+        model.addAttribute("upnext2", upnext.get(2));
+        model.addAttribute("upnext3", upnext.get(3));
+        model.addAttribute("vidid", vididtoplay);
+
+        model.addAttribute("tn1", thumbnail1);
+        model.addAttribute("tn2", thumbnail2);
+        model.addAttribute("tn3", thumbnail3);
+
+        return "VideoPlayerV2";
+
+    }
+
+    @RequestMapping("/submitrating")
+    public String submitRating(HttpServletRequest request, Model model, HttpSession session){
+        String vididtoplay = (String) session.getAttribute("vididtoplay");
+        String vidrating = request.getParameter(vididtoplay);
+        String currentuser = (String) session.getAttribute("username");
+        List<UserHistory> currentuserhist = videoService.findAllByUsernameandVideoid(currentuser, vididtoplay);
+
+        for (int i = 0; i < currentuserhist.size(); i++) {
+            System.out.println(currentuserhist.get(i).getUserName()+"-----"+currentuserhist.get(i).getVideoid()+"-----"+vidrating);
+            currentuserhist.get(i).setVidRating(vidrating);
+            userService.saveUserHistory(currentuserhist.get(i));
+        }
+        VideoDetails playvid = videoService.findByVideoid(vididtoplay);
+        ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllVideoDetails();
+//        Collections.sort(upnext);
+        Collections.shuffle(upnext);
+//        System.out.println(playvid.getTitle() + " " + playvid.getArtist());
+
+        String url = "https://www.youtube.com/embed/" + playvid.getVideoid();
+
+        String thumbnail1 = "https://i.ytimg.com/vi/" + upnext.get(1).getVideoid() +"/mqdefault.jpg";
+        String thumbnail2 = "https://i.ytimg.com/vi/" + upnext.get(2).getVideoid() +"/mqdefault.jpg";
+        String thumbnail3 = "https://i.ytimg.com/vi/" + upnext.get(3).getVideoid() +"/mqdefault.jpg";
+
+        ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
+        videoList = videoService.findAllVideoDetails();
+
+        ArrayList<VVD> vr1 = new ArrayList<VVD>();
+
+        for (int i = 0; i < 6; i++) {
+            VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
+            vr1.add(vid);
+            vid = null;
+        }
+
+        model.addAttribute("r1", vr1);
+
+        model.addAttribute("emblink", url);
+        model.addAttribute("vidtitle", playvid.getTitle());
+        model.addAttribute("vidviews", concat(playvid.getViewCount()));
+        model.addAttribute("vidlikes", concat(playvid.getLikes()));
+        model.addAttribute("vidid", vididtoplay);
+
+//        model.addAttribute("upnext")
         model.addAttribute("upnext1", upnext.get(1));
         model.addAttribute("upnext2", upnext.get(2));
         model.addAttribute("upnext3", upnext.get(3));
@@ -583,9 +667,7 @@ public class UserController {
         model.addAttribute("tn2", thumbnail2);
         model.addAttribute("tn3", thumbnail3);
         return "VideoPlayerV2";
-
     }
-
 
     @RequestMapping("/vplayer")
     public String showVideoPlayer() {
@@ -612,6 +694,8 @@ public class UserController {
         newVideo.setThumbnail(url);
         videoService.saveVideo(newVideo);
     }
+
+
 
 
     @RequestMapping("/homefeed")

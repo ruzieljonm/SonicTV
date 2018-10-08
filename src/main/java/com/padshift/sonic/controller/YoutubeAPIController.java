@@ -155,7 +155,7 @@ public class YoutubeAPIController {
                                     if(!vidTitle.getString("title").toLowerCase().toLowerCase().contains("reaction")) {
                                         if(!vidTitle.getString("title").toLowerCase().toLowerCase().contains("fan made")) {
                                             System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url"));
-//                            userController.saveMV(vidId.getString("videoId"), vidTitle.getString("title"), thumbnail.getString("url"));
+                            userController.saveMV(vidId.getString("videoId"), vidTitle.getString("title"), thumbnail.getString("url"));
                                         }
                                     }
                                 }
@@ -427,8 +427,4 @@ public class YoutubeAPIController {
 
         return "testing";
     }
-
-
-
-
 }
