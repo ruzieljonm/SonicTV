@@ -44,14 +44,22 @@
 
         <div class="container">
 
-            <div class="button" th:each="genre : ${genre}">
-                <form action="/fetchMusicVideos" method="post" th:id="${genre.genreName}">
-                    <p th:text="${genre.genreName}"  href="javascript:;" th:onclick="'document.getElementById(\''+${genre.genreName}+'\').submit();'">Music Videos
+            <!--<div class="button" th:each="genre : ${genre}">-->
+                <!--<form action="/fetchMusicVideos" method="post" th:id="${genre.genreName}">-->
+                    <!--<p th:text="${genre.genreName}"  href="javascript:;" th:onclick="'document.getElementById(\''+${genre.genreName}+'\').submit();'">Music Videos-->
 
-                    </p>
-                    <input type="hidden" name="query" th:value="${genre.genreName}">
+                    <!--</p>-->
+                    <!--<input type="hidden" name="query" th:value="${genre.genreName}">-->
+                <!--</form>-->
+            <!--</div>-->
+
+            <div class="button">
+                <form action="/updateMV" method="post" id="update">
+                    <p href="javascript:;" onclick="document.getElementById('update').submit();">Update Music Videos</p>
                 </form>
+
             </div>
+
             <div class="button">
                 <form action="/byartist" method="post" id="byartist">
                     <p onclick="document.getElementById('byartist').submit();">BY ARTIST</p>

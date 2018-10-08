@@ -3,7 +3,7 @@
 html, body {
     margin: 0;
     font-family: 'Roboto';
-    background: #f1f1f1;
+    background: #252020;
     overflow: auto;
 }
 
@@ -338,7 +338,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 body {
-    color: #333;
+    color: #fff;
     -webkit-font-smoothing: antialiased;
     font-family: "Droid Serif", serif;
 }
@@ -482,7 +482,7 @@ img {
 .cart .items .cartSection p {
     display: inline-block;
     font-size: .85em;
-    color: #777777;
+    color: #fff;
     font-family: "Montserrat", sans-serif;
 }
 .cart .items .cartSection p .quantity {

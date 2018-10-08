@@ -1,9 +1,6 @@
 package com.padshift.sonic.controller;
 
-import com.padshift.sonic.entities.Criteria;
-import com.padshift.sonic.entities.Genre;
-import com.padshift.sonic.entities.Video;
-import com.padshift.sonic.entities.VideoDetails;
+import com.padshift.sonic.entities.*;
 
 import com.padshift.sonic.service.GenreService;
 import com.padshift.sonic.service.UserService;
@@ -40,6 +37,9 @@ public class AdminController {
     @Autowired
     GenreService genreService;
 
+    @Autowired
+    YoutubeAPIController youtubeAPIController;
+
 
     @RequestMapping("/adminHomePage")
     public String showAdminHomePage(){
@@ -53,6 +53,32 @@ public class AdminController {
         model.addAttribute("genre", genres);
         return "QueryAdmin";
     }
+
+
+    @RequestMapping(value = "/updateMV")
+    public String updateMV(){
+        ArrayList<Genre> genre = videoService.findAllGenre();
+        Status[] stat = new Status[genre.size()];
+        for(int i=0; i<stat.length; i++){
+            stat[i] = new Status();
+        }
+
+        for(int i=0; i<genre.size(); i++){
+            stat[i].setGenre(genre.get(i).getGenreName());
+            int c = youtubeAPIController.updateFetchMusicVideos(genre.get(i).getGenreName());
+            stat[i].setUpdateStatusCount(c);
+        }
+
+
+        for(Status upStat : stat){
+            System.out.println(upStat.getGenre() + " : " + upStat.getUpdateStatusCount());
+        }
+
+
+
+        return "testing";
+    }
+
 
     @RequestMapping(value = "/config", method = RequestMethod.POST)
     public String config(HttpServletRequest request, Model model){

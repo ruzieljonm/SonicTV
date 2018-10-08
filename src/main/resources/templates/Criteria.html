@@ -52,11 +52,11 @@
                     <div class="infoWrap">
                         <div class="cartSection">
 
-                            <h3 th:text="${cri.criteriaName}"></h3>
-                            <p class="stockStatus"> In Stock</p>
+                            <h3 style="color: #fff" th:text="${cri.criteriaName}"></h3>
+
                         </div>
                         <div class="prodTotal cartSection">
-                            <P>% </P><p th:text="${cri.criteriaPercentage}"></p>
+                            <p th:text="${cri.criteriaPercentage}"></p>
                         </div>
                         <div class="cartSection removeWrap">
                             <form method="post" action="/removecriteria">

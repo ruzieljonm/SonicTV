@@ -1,5 +1,8 @@
 package com.padshift.sonic.controller;
 
+import com.amazonaws.services.identitymanagement.model.VirtualMFADevice;
+import com.padshift.sonic.entities.Video;
+import com.padshift.sonic.service.VideoService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by ruzieljonm on 24/07/2018.
@@ -24,6 +28,10 @@ public class YoutubeAPIController {
 
     @Autowired
     UserController userController;
+
+    @Autowired
+    VideoService videoService;
+
 
     @RequestMapping(value = "/fetchSingleVideo")
     public String fetchSingleVideo(HttpServletRequest request){
@@ -73,7 +81,6 @@ public class YoutubeAPIController {
                             System.out.println(vidId + " -  " +snippet.getString("title") + "  " + thumbnail.getString("url"));
 //                            userController.saveMV(vidId, snippet.getString("title"), thumbnail.getString("url"));
 
-
                     }
 
                     videos = null;
@@ -88,24 +95,50 @@ public class YoutubeAPIController {
         return "testing";
     }
 
-    @RequestMapping(value="/fetchMusicVideos", method = RequestMethod.POST)
-    public String updateFetchMusicVideos(HttpServletRequest request){
-        String queryGenre = request.getParameter("query");
-        queryGenre = queryGenre.replaceAll("\\s+","");
-        System.out.println("Q U E R Y : " + queryGenre);
-        System.out.println("Query this Genre : " + queryGenre);
+
+
+//    @RequestMapping(value="/fetchMusicVideos", method = RequestMethod.POST)
+    public int updateFetchMusicVideos(String query){
+        int stat=0;
+//        String queryGenre = request.getParameter("query");
+        query = query.replaceAll("\\s+","");
+        System.out.println("Q U E R Y : " + query);
+
+
+        int updatecnt=0;
 
         String nextpagetoken = null;
-        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&order=date&q="+queryGenre+"+music+video&type=video&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
+        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&order=date&q="+query+"+music+video&type=video&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
         int cnt =0;
-        sendRequestForUpdate(url,nextpagetoken,cnt,queryGenre);
+        ArrayList<Video> videostemp = new ArrayList<>();
+        sendRequestForUpdate(url,nextpagetoken,cnt,query,videostemp);
 
-        return "testing";
+        ArrayList<Video> videosDb = (ArrayList<Video>) videoService.findAll();
+       ArrayList<String> checkIfPresent = new ArrayList<>();
+        for(Video v : videosDb){
+           checkIfPresent.add(v.getMvtitle());
+       }
+
+
+        for(Video vids: videostemp){
+            if(!checkIfPresent.contains(vids.getMvtitle())) {
+                System.out.println(" New Video: " + vids.getMvtitle());
+                updatecnt++;
+            }
+        }
+
+
+
+        System.out.println("Count New Videos : " + updatecnt);
+        stat=updatecnt;
+
+        return stat;
 
     }
 
-    public void sendRequestForUpdate(String requesturl, String nextpagetoken, int cnt, String queryGenre){
+    public void sendRequestForUpdate(String requesturl, String nextpagetoken, int cnt, String query,   ArrayList<Video> videostemp){
 
+        ArrayList<Video> videosInDb = (ArrayList<Video>) videoService.findAll();
 
         cnt++;
         if(cnt<25) {
@@ -156,6 +189,10 @@ public class YoutubeAPIController {
                                         if(!vidTitle.getString("title").toLowerCase().toLowerCase().contains("fan made")) {
                                             System.out.println(vidId.getString("videoId") + " -  " + vidTitle.getString("title") + "  " + thumbnail.getString("url"));
 //                            userController.saveMV(vidId.getString("videoId"), vidTitle.getString("title"), thumbnail.getString("url"));
+                                            Video v = new Video(vidId.getString("videoId"),vidTitle.getString("title"),thumbnail.getString("url"));
+
+                                                videostemp.add(v);
+
                                         }
                                     }
                                 }
@@ -174,12 +211,21 @@ public class YoutubeAPIController {
                 e.printStackTrace();
             }
 
+
+
+
+
             System.out.println("NEXT PAGE TOKEN:" + nextpagetoken );
-            String urlwithpagetoken = "https://www.googleapis.com/youtube/v3/search?pageToken="+nextpagetoken+"&part=snippet&maxResults=50&order=date&q=" + queryGenre +"+music+video&type=video&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
-            sendRequestForUpdate(urlwithpagetoken,nextpagetoken,cnt,queryGenre);
+            String urlwithpagetoken = "https://www.googleapis.com/youtube/v3/search?pageToken="+nextpagetoken+"&part=snippet&maxResults=50&order=date&q=" + query +"+music+video&type=video&key=AIzaSyAxsoedlgT5NfsEI_inmsXKflR_DdYs5kU";
+            sendRequestForUpdate(urlwithpagetoken,nextpagetoken,cnt,query,videostemp);
         }
 
+
+
+
     }
+
+
 
 
     @RequestMapping("/youtubeapi")
