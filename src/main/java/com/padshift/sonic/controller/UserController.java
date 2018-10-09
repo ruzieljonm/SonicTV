@@ -89,6 +89,21 @@ public class UserController {
         }
     }
 
+    @RequestMapping("/signoutadmin")
+    public String signout(){
+        return "signinsignup";
+    }
+
+    @RequestMapping("/signoutuser")
+    public String signOutUser(HttpSession session){
+
+        session.invalidate();
+
+        return "signinsignup";
+
+    }
+
+
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String generalSignup(HttpServletRequest request, Model model, HttpSession session) {
@@ -187,12 +202,8 @@ public class UserController {
     public String showHomepage(Model model, HttpSession session) {
 
 
-
-
         String userid = session.getAttribute("userid").toString();
-        System.out.println("tang ina" + userid);
         User user = userService.findByUserId(Integer.parseInt(userid));
-
         System.out.println(user.getUserId() + " "+ user.getUserName());
 
 
@@ -206,7 +217,6 @@ public class UserController {
             rv.setArtist(vid.getArtist());
             rv.setGenre(vid.getGenre());
             rv.setViewCount(vid.getViewCount());
-
             rv.setWeight(computeInitialVideoWeight(vid,user));
             recVideos.add(rv);
         }
@@ -241,10 +251,6 @@ public class UserController {
             vid3 = null;
         }
 
-
-
-
-
         for(int i=18; i<=23; i++) {
             RecVid vid4 = new RecVid(recVideos.get(i).getVideoid(), recVideos.get(i).getTitle(), recVideos.get(i).getArtist(), recVideos.get(i).getGenre(), "https://i.ytimg.com/vi/" + recVideos.get(i).getVideoid() + "/mqdefault.jpg");
             vr4.add(vid4);
@@ -252,100 +258,11 @@ public class UserController {
 
 
         }
-
-
-
         model.addAttribute("r1", vr1);
         model.addAttribute("r2", vr2);
         model.addAttribute("r3", vr3);
         model.addAttribute("r4", vr4);
         return "Homepage";
-
-
-//
-//        ArrayList<UserPreference> userPref = userService.findAllByUserId(user.getUserId());
-//
-//        for(UserPreference usp : userPref){
-//            System.out.println(usp.getGenreId() + " : " + usp.getPrefWeight());
-//        }
-//
-//        Collections.sort(userPref, UserPreference.PrefWeightComparator);
-//        System.out.println("sorted");
-//        for(UserPreference usp : userPref){
-//            System.out.println(usp.getGenreId() + " : " + usp.getPrefWeight());
-//        }
-//
-//
-//        ArrayList<Genre> genres = videoService.findAllGenre();
-//
-//        for(Genre gen : genres){
-//            System.out.println(gen.getGenreName());
-//        }
-//
-//
-//        ArrayList<VVD> vr1 = new ArrayList<VVD>();
-//        ArrayList<VVD> vr2 = new ArrayList<VVD>();
-//        ArrayList<VVD> vr3 = new ArrayList<VVD>();
-//        ArrayList<VVD> vr4 = new ArrayList<VVD>();
-//
-//
-//        String[] topfour = new String[4];
-//
-//        for(int i=0; i<topfour.length; i++){
-//            topfour[i] = (videoService.findGenreByGenreId(userPref.get(i).getGenreId())).getGenreName();
-//        }
-//
-//        topgenre = topfour[0];
-//
-//
-//
-//        ArrayList<VideoDetails> vidListGen1 = videoService.findAllByGenre(topfour[0]);
-//        ArrayList<VideoDetails> vidListGen2 = videoService.findAllByGenre(topfour[1]);
-//        ArrayList<VideoDetails> vidListGen3 = videoService.findAllByGenre(topfour[2]);
-//        ArrayList<VideoDetails> vidListGen4 = videoService.findAllByGenre(topfour[3]);
-//
-//        for(int i=0; i<5; i++){
-//            System.out.println(vidListGen1.get(i).getTitle() +" ------------- " + vidListGen1.get(i).getViewCount());
-//        }
-//
-//        System.out.println("----------IMO MAMA GA SORTING------------");
-//
-//        Collections.sort(vidListGen1);
-//        Collections.sort(vidListGen2);
-//        Collections.sort(vidListGen3);
-//        Collections.sort(vidListGen4);
-//
-//        for(int i=0; i<5; i++){
-//            System.out.println(vidListGen1.get(i).getTitle() +" ------------- " + vidListGen1.get(i).getViewCount());
-//        }
-//
-//
-//        for(int i=0; i<6; i++){
-//            VVD vid1 = new VVD(vidListGen1.get(i).getVideoid(), vidListGen1.get(i).getTitle(), vidListGen1.get(i).getArtist(), vidListGen1.get(i).getGenre(), vidListGen1.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen1.get(i).getVideoid() + "/mqdefault.jpg");
-//            vr1.add(vid1);
-//            vid1 = null;
-//
-//            VVD vid2 = new VVD(vidListGen2.get(i).getVideoid(), vidListGen2.get(i).getTitle(), vidListGen2.get(i).getArtist(), vidListGen2.get(i).getGenre(), vidListGen2.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen2.get(i).getVideoid() + "/mqdefault.jpg");
-//            vr2.add(vid2);
-//            vid2 = null;
-//
-//            VVD vid3 = new VVD(vidListGen3.get(i).getVideoid(), vidListGen3.get(i).getTitle(), vidListGen3.get(i).getArtist(), vidListGen3.get(i).getGenre(), vidListGen3.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen3.get(i).getVideoid() + "/mqdefault.jpg");
-//            vr3.add(vid3);
-//            vid3 = null;
-//
-//            VVD vid4 = new VVD(vidListGen4.get(i).getVideoid(), vidListGen4.get(i).getTitle(), vidListGen4.get(i).getArtist(), vidListGen4.get(i).getGenre(), vidListGen4.get(i).getDate(), "https://i.ytimg.com/vi/" + vidListGen4.get(i).getVideoid() + "/mqdefault.jpg");
-//            vr4.add(vid4);
-//            vid4 = null;
-//
-//
-//        }
-//
-//        model.addAttribute("r1", vr1);
-//        model.addAttribute("r2", vr2);
-//        model.addAttribute("r3", vr3);
-//        model.addAttribute("r4", vr4);
-//        return "Homepage";
-
     }
 
     public float computeInitialVideoWeight(VideoDetails video, User user){
@@ -449,59 +366,63 @@ public class UserController {
 
         float genreAge = 0;
         float genrePT =0;
-//
-//        userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),1);
-//        System.out.println("prefweight:" + userInput.getPrefWeight());
-//
-//        float upPop, upRock, upAlt, upRB, upCntry, upHouse, upReg, upRel, upHH;
-//        upPop = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),1).getPrefWeight();
-//
+        float genreLoc = 0;
 
         if(video.getGenre().equals("Pop Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),1).getPrefWeight();
             genreAge = genreAgePop;
             genrePT = genrePTPop;
+            genreLoc = (float) 35.19;
+
         }
         if(video.getGenre().equals("Rock Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),2).getPrefWeight();
             genreAge = genreAgeRock;
             genrePT = genrePTRock;
+            genreLoc = (float) 6.48;
         }
 
         if(video.getGenre().equals("Alternative Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),3).getPrefWeight();
             genreAge = genreAgeAlt;
             genrePT = genrePTAlt;
+            genreLoc = (float) 6.48;
         }
         if(video.getGenre().equals("R&B/Soul Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),4).getPrefWeight();
             genreAge = genreAgeRBS;
             genrePT = genrePTRBS;
+            genreLoc = (float)15.74;
         }
         if(video.getGenre().equals("Country Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),5).getPrefWeight();
             genreAge = genreAgeCntry;
             genrePT = genrePTCntry;
+            genreLoc = (float)35.19;
         }
         if(video.getGenre().equals("House Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),6).getPrefWeight();
             genreAge = genreAgeHouse;
             genrePT = genrePTHouse;
+            genreLoc = (float) 43.59;
         }
         if(video.getGenre().equals("Reggae Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),7).getPrefWeight();
             genreAge = genreAgeReg;
             genrePT = genrePTReg;
+            genreLoc = 0;
         }
         if(video.getGenre().equals("Religious Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),8).getPrefWeight();
             genreAge = genreAgeRel;
             genrePT = genrePTRel;
+            genreLoc = (float)35.19;
         }
         if(video.getGenre().equals("Hip-Hop/Rap Music")){
             userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),9).getPrefWeight();
             genreAge = genreAgeHH;
             genrePT = genrePTHH;
+            genreLoc = (float) 43.59;
         }
 
         float uipercent, agepercent,pertypepercent;
@@ -525,6 +446,16 @@ public class UserController {
         }else{
             pertypepercent=0;
         }
+
+        Criteria perloc = userService.findCriteriaByCriteriaName("location");
+        float locpercent;
+        if(perloc!=null){
+            locpercent = perloc.getCriteriaPercentage();
+        }else{
+            locpercent=0;
+        }
+
+
         float likes;
         float views = Float.parseFloat(video.getViewCount().toString());
         if(video.getLikes().equals("0")){
@@ -533,13 +464,9 @@ public class UserController {
              likes = Float.parseFloat(video.getLikes().toString());
         }
 
-        vidWeight= (float) ((((userInput/10)*uipercent)+((genreAge/1)*agepercent)+((genrePT/1)*pertypepercent))*likes);
 
-
+        vidWeight= (float) ((((userInput/10)*uipercent)+((genreAge/1)*agepercent)+((genrePT/1)*pertypepercent)+(genreLoc/100)*locpercent  )*likes);
         return vidWeight;
-
-
-
     }
 
 
@@ -548,8 +475,6 @@ public class UserController {
     public String gotoPlayer(HttpServletRequest request, Model model, HttpSession session){
         String vididtoplay = request.getParameter("clicked");
 
-        System.out.println("video id : " + vididtoplay);
-        System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
 
         UserHistory userhist = new UserHistory();
         userhist.setUserId(Integer.parseInt(session.getAttribute("userid").toString()));
@@ -560,7 +485,7 @@ public class UserController {
 
         VideoDetails playvid = videoService.findByVideoid(vididtoplay);
         ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllVideoDetails();
-//        Collections.sort(upnext);
+
         Collections.shuffle(upnext);
         System.out.println(playvid.getTitle() + " " + playvid.getArtist());
 
@@ -586,9 +511,10 @@ public class UserController {
 
         model.addAttribute("emblink", url);
         model.addAttribute("vidtitle", playvid.getTitle());
+        model.addAttribute("vidviews", playvid.getViewCount());
+        model.addAttribute("vidlikes", playvid.getLikes());
 
 
-//        model.addAttribute("upnext")
         model.addAttribute("upnext1", upnext.get(1));
         model.addAttribute("upnext2", upnext.get(2));
         model.addAttribute("upnext3", upnext.get(3));
@@ -634,25 +560,17 @@ public class UserController {
         return "HomeFeed";
     }
 
-    @RequestMapping("/explore")
-    public String showExplore(Model model){
+
+
+    @RequestMapping(value = "/explore", method = RequestMethod.GET)
+    public String explore(Model model){
         ArrayList<Genre> genres = videoService.findAllGenre();
-
         model.addAttribute("genre", genres);
-
         return "Explore";
-    }
-
-    @RequestMapping("/sidemenu")
-    public String sideMenu(HttpServletRequest request, Model model){
-
-        String explore = request.getParameter("explore");
-        System.out.println(explore);
-        System.out.println("bobo");
-        ArrayList<Genre> genres = videoService.findAllGenre();
-
-        model.addAttribute("genre", genres);
-        return showExplore(model);
 
     }
+
+
+
+
 }

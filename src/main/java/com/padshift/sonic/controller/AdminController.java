@@ -56,7 +56,7 @@ public class AdminController {
 
 
     @RequestMapping(value = "/updateMV")
-    public String updateMV(){
+    public String updateMV(Model model){
         ArrayList<Genre> genre = videoService.findAllGenre();
         Status[] stat = new Status[genre.size()];
         for(int i=0; i<stat.length; i++){
@@ -76,7 +76,9 @@ public class AdminController {
 
 
 
-        return "testing";
+
+        model.addAttribute("upstat", stat);
+        return "UpdateStatus";
     }
 
 

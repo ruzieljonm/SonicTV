@@ -27,16 +27,20 @@
                 <p class="pmenu">MENU</p>
             </a>
             <hr>
-            <form id="sidemenu" action="/sidemenu" method="post">
+
                 <ul class="menu">
                     <li><i class="material-icons">&#xE88A;</i><br><span class="sideb">Home</span></li>
-                    <li><i class="material-icons">&#xe02c;</i><br><span class="sideb" onclick="sidemenu.submit();">Explore</span></li><input type="hidden" name="explore" value="1">
-                    <li><i class="material-icons">person</i><br><span class="sideb">Profile</span></li>
-                    <li><i class="material-icons">&#xE8B8;</i><br><span class="sideb">Settings</span></li>
-                    <li><i class="material-icons">&#xE8B6;</i><br><span class="sideb">Search</span></li>
-                </ul>
-            </form>
+                    <form id="explore" action="/explore" method="get">
+                        <li><i class="material-icons">&#xe02c;</i><br><span class="sideb" onclick="explore.submit();">Explore</span></li>
+                    </form>
+                        <li><i class="material-icons">person</i><br><span class="sideb">Profile</span></li>
 
+                    <li><i class="material-icons">&#xE8B6;</i><br><span class="sideb">Search</span></li>
+                    <form action="/signoutuser" id="signout">
+                        <li><i class="material-icons">&#xE8B8;</i><br><span class="sideb" onclick="signout.submit();">Signout</span></li>
+                    </form>
+
+                </ul>
             <i class="material-icons info">&#xE88E;</i>
         </div>
     </div>
@@ -113,4 +117,5 @@
         </table>
 </div>
 </body>
+
 </html>
