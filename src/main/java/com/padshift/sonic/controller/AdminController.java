@@ -2,6 +2,7 @@ package com.padshift.sonic.controller;
 
 import com.padshift.sonic.entities.*;
 
+import com.padshift.sonic.service.AdminService;
 import com.padshift.sonic.service.GenreService;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
@@ -39,6 +40,10 @@ public class AdminController {
 
     @Autowired
     YoutubeAPIController youtubeAPIController;
+
+
+    @Autowired
+    AdminService adminService;
 
 
     @RequestMapping("/adminHomePage")
@@ -387,6 +392,86 @@ public String saveGenretoDB(){
             }
 
         }
+        return "testing";
+    }
+
+    @RequestMapping(value = "/showSeq", method = RequestMethod.GET)
+    public String showSeq(){
+        ArrayList<String> seq = adminService.findDistinctSequenceId();
+
+        for(String s:seq){
+            System.out.println(s.toString());
+        }
+
+//        ArrayList<UserHistory> seq1 = adminService.findAllBySeqid(seq.get(0));
+//
+//        for(UserHistory s : seq1){
+//            System.out.print(" " + s.getVideoid() +", ");
+//        }
+
+
+
+        ArrayList<UserHistory>[] rulesSeq = new ArrayList[seq.size()];
+
+        for(int i=0; i<seq.size(); i++){
+            ArrayList<UserHistory> temp = new ArrayList<>();
+            temp=adminService.findAllBySeqid(seq.get(i).toString());
+            rulesSeq[i]=temp;
+        }
+
+
+
+//        for(int s=0; s<rulesSeq[])
+//        System.out.println(rulesSeq[0].get(0).getVideoid());
+
+
+
+//        ArrayList<String>[] rulesSeqGen = new ArrayList[seq.size()];
+
+        for(int i=0; i<seq.size(); i++){
+            System.out.print(seq.get(i).toString() +" : ");
+
+            for(int s=0; s<rulesSeq[i].size(); s++) {
+                String temp = rulesSeq[i].get(s).getVideoid();
+                System.out.print(" " + temp +", ");
+//                rulesSeqGen[i].add((videoService.findByVideoid(rulesSeq[i].get(s).getVideoid()).getGenre()));
+            }
+            System.out.println();
+        }
+
+
+        ArrayList<String>[] rulesSeqGenre = new ArrayList[seq.size()];
+        for(int i=0; i<rulesSeqGenre.length; i++){
+            rulesSeqGenre[i] = new ArrayList<>();
+        }
+
+        for(int i=0; i<seq.size(); i++){
+          for(int j=0; j<rulesSeq[i].size(); j++) {
+              System.out.println(rulesSeq[i].get(j).getVideoid());
+              String genre = (videoService.findByVideoid(rulesSeq[i].get(j).getVideoid()).getGenre());
+              rulesSeqGenre[i].add(genre);
+          }
+        }
+
+        System.out.println();
+
+        for(int i=0; i<seq.size(); i++){
+            System.out.print(seq.get(i).toString() +" : ");
+            for(int j=0; j<rulesSeq[i].size(); j++) {
+                System.out.print(" "+rulesSeqGenre[i].get(j).toString()+",");
+                }
+            System.out.println();
+            }
+
+
+//        for(int i=0; i<seq.size(); i++) {
+//            System.out.print(seq.get(i).toString() + " : ");
+//            for (int s = 0; s < rulesSeq[i].size(); s++) {
+//                System.out.print(rulesSeqGen[i].get(s).toString());
+//            }
+//            System.out.println();
+//        }
+
         return "testing";
     }
 

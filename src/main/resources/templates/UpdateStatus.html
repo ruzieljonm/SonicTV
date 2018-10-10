@@ -7,27 +7,29 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="tab"></div>
-    <div class="paid"><p>Receipt Paid successfully</p></div>
-    <div class="receipt">
-        <div class="paper">
-            <div class="title">Genre</div>
-            <div class="date">MV Count</div>
-            <table>
-                <tbody>
-                <tr th:each="upstatus : ${upstat}">
-                    <td th:text="${upstatus.genre}"></td><td class="right" th:text="${upstatus.updateStatusCount}"></td>
-                </tr>
+    <div class="container">
+        <div class="tab"></div>
+        <div class="paid"><p>Receipt Paid successfully</p></div>
+            <div class="receipt">
+                <div class="paper">
+                    <div class="title">Genre
+                    </div>
+                    <div class="date">MV Count
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr th:each="upstatus : ${upstat}">
+                            <td th:text="${upstatus.genre}"></td><td class="right" th:text="${upstatus.updateStatusCount}"></td>
+                        </tr>
 
-                <tr><td colspan="2" class="center"><input type="button" value="CONTINUE" onClick="pay()"/></td></tr>
-                </tbody>
-            </table>
+                        <tr><td colspan="2" class="center"><input type="button" value="CONTINUE" onClick="pay()"/></td></tr>
+                        </tbody>
+                    </table>
 
-        </div>
+                </div>
+            <div>
+     </div>
 
-        <div>
-        </div>
 
 </body>
 </html>

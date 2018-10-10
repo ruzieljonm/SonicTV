@@ -8,100 +8,136 @@
 </head>
 <body>
 
-<main class="site-content">
+<div>
+    <div id="cont">
+        <div id="menu-fixed">
 
-        <section class="video-area">
-            <div class="wrapper">
-
-
-                <div class="video-column">
-                    <div class="video-player">
-                        <iframe width="100%" height="480px" align="middle" th:src="${emblink}" frameborder="0"
-                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-
-                    </div>
-
-                    <div class="video-info">
-
-                        <p class="video-popularity">
-                            <span class="title" th:text="${vidtitle}"> </span>
-                            <span th:text="${vidviews}"></span><span class="views" >views<span class="fontawesome-eye-open meta-icon"></span></span>
-                            <spa th:text="${vidlikes}"></spa><span class="likes" >likes<a href="#" id="likeThis" class="like-this"><span
-                                    class="fontawesome-heart meta-icon like-heart"></span></a><span class="like-prompt">Don't forget to like!</span></span>
-                        </p>
-
-
-                    </div>
-                    <h2 style="position:  relative;top: 0px;">RECOMMENDED VIDEOS</h2>
-                    <div class="video-recommendation">
-                        <table>
-                            <tr>
-                                <ul class="items">
-                                    <div class="vidcontainer"  th:each="rv1 : ${r1}">
-                                        <li>
-                                            <a href="javascript:;" onclick="document.getElementById('form1').submit();">
-                                                <img th:src="${rv1.thumbnail}"/>
-                                            </a>
-                                            <input type="hidden" name="clicked" th:value="${rv1.videoid}"/>
-                                            <a href="#">
-                                                <div class="content">
-                                                    <h2 th:text="${rv1.title}"/>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </div>
-                                </ul>
-                            </tr>
-                        </table>
-                    </div>
+            <a href="#cont">
+                <i class="material-icons back">&#xE314;</i>
+            </a>
+            <a href="#menu-fixed">
+                <div class="logo">
+                    <img src="images/logofinal.png" style="width:70px;height:70px;">
                 </div>
+                <p class="pmenu">MENU</p>
+            </a>
+            <hr>
 
-                <div id="video-playlist" class="video-playlist">
-                    <header class="playlist-title">Up next...</header>
+            <ul class="menu">
+                <li><i class="material-icons">&#xE88A;</i><br><span class="sideb">Home</span></li>
+                <form id="explore" action="/explore" method="get">
+                    <li><i class="material-icons">&#xe02c;</i><br><span class="sideb" onclick="explore.submit();">Explore</span></li>
+                </form>
+                <li><i class="material-icons">person</i><br><span class="sideb">Profile</span></li>
 
-                    <!-- HTML 5 allows us to wrap block-level elements in <a> tags. -->
+                <li><i class="material-icons">&#xE8B6;</i><br><span class="sideb">Search</span></li>
+                <form action="/signoutuser" id="signout">
+                    <li><i class="material-icons">&#xE8B8;</i><br><span class="sideb" onclick="signout.submit();">Signout</span></li>
+                </form>
 
-                    <form action="/gotoPlayer" method="post" id="upnv1">
-                        <a href="javascript:;" onclick="document.getElementById('upnv1').submit();"  class="next-video">
-                            <img th:src="${tn1}" alt="">
+            </ul>
+            <i class="material-icons info">&#xE88E;</i>
+        </div>
+    </div>
+    <div>
+        <main class="site-content">
+
+            <section class="video-area">
+                <div class="wrapper">
+
+
+                    <div class="video-column">
+                        <div class="video-player">
+                            <iframe width="100%" height="480px" align="middle" th:src="${emblink}" frameborder="0"
+                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+                        </div>
+
+                        <div class="video-info">
+
+                            <p class="video-popularity">
+                                <span class="title" th:text="${vidtitle}"> </span>
+                                <span th:text="${vidviews}"></span><span class="views" >views<span class="fontawesome-eye-open meta-icon"></span></span>
+                                <spa th:text="${vidlikes}"></spa><span class="likes" >likes<a href="#" id="likeThis" class="like-this"><span
+                                    class="fontawesome-heart meta-icon like-heart"></span></a><span class="like-prompt">Don't forget to like!</span></span>
+                            </p>
+
+
+                        </div>
+                        <h2 style="position:  relative;top: 0px;">RECOMMENDED VIDEOS</h2>
+                        <div class="video-recommendation">
+                            <table>
+                                <tr>
+                                    <ul class="items">
+                                        <div class="vidcontainer"  th:each="rv1 : ${r1}">
+                                            <li>
+                                                <a href="javascript:;" onclick="document.getElementById('form1').submit();">
+                                                    <img th:src="${rv1.thumbnail}"/>
+                                                </a>
+                                                <input type="hidden" name="clicked" th:value="${rv1.videoid}"/>
+                                                <a href="#">
+                                                    <div class="content">
+                                                        <h2 th:text="${rv1.title}"/>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="video-playlist" class="video-playlist">
+                        <header class="playlist-title">Up next...</header>
+
+                        <!-- HTML 5 allows us to wrap block-level elements in <a> tags. -->
+
+                        <form action="/gotoPlayer" method="post" id="upnv1">
+                            <a href="javascript:;" onclick="document.getElementById('upnv1').submit();"  class="next-video">
+                                <img th:src="${tn1}" alt="">
 
                                 <input type="hidden" name="clicked" th:value="${upnext1.videoid}"/>
                                 <h3 class="next-video-title" th:text="${upnext1.title}" ></h3>
 
 
-                            <p class="next-video-info" th:text="${upnext1.artist}">
-                            </p>
-                        </a>
-                    </form>
+                                <p class="next-video-info" th:text="${upnext1.artist}">
+                                </p>
+                            </a>
+                        </form>
 
-                    <form action="/gotoPlayer" method="post" id="upnv2">
-                        <a href="javascript:;" onclick="document.getElementById('upnv2').submit();"  class="next-video">
-                            <img th:src="${tn2}" alt="">
-                            <input type="hidden" name="clicked" th:value="${upnext2.videoid}"/>
-                            <h3 class="next-video-title" th:text="${upnext2.title}"></h3>
+                        <form action="/gotoPlayer" method="post" id="upnv2">
+                            <a href="javascript:;" onclick="document.getElementById('upnv2').submit();"  class="next-video">
+                                <img th:src="${tn2}" alt="">
+                                <input type="hidden" name="clicked" th:value="${upnext2.videoid}"/>
+                                <h3 class="next-video-title" th:text="${upnext2.title}"></h3>
 
-                            <p class="next-video-info" th:text="${upnext2.artist}">
-                            </p>
-                        </a>
-                    </form>
-                    <form action="/gotoPlayer" method="post" id="upnv3">
-                        <a  href="javascript:;" onclick="document.getElementById('upnv3').submit();"  class="next-video">
-                            <img th:src="${tn3}" alt="">
-                            <input type="hidden" name="clicked" th:value="${upnext3.videoid}"/>
-                            <h3 class="next-video-title" th:text="${upnext3.title}"></h3>
+                                <p class="next-video-info" th:text="${upnext2.artist}">
+                                </p>
+                            </a>
+                        </form>
+                        <form action="/gotoPlayer" method="post" id="upnv3">
+                            <a  href="javascript:;" onclick="document.getElementById('upnv3').submit();"  class="next-video">
+                                <img th:src="${tn3}" alt="">
+                                <input type="hidden" name="clicked" th:value="${upnext3.videoid}"/>
+                                <h3 class="next-video-title" th:text="${upnext3.title}"></h3>
 
-                            <p class="next-video-info" th:text="${upnext3.artist}">
-                            </p>
-                        </a>
-                    </form>
+                                <p class="next-video-info" th:text="${upnext3.artist}">
+                                </p>
+                            </a>
+                        </form>
 
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
 
-</main>
+        </main>
+    </div>
+
+</div>
+
 
 </body>
 </html>
