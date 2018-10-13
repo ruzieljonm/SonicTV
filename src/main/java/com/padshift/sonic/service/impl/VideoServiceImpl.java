@@ -91,8 +91,19 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<UserHistory> findAllByUsernameandVideoid(String currentuser, String vididtoplay) {
-        return userHistoryRepository.findAllByUserNameAndVideoid(currentuser, vididtoplay);
+    public List<UserHistory> findAllByUserIdandVideoid(String currentuser, String vididtoplay) {
+        return userHistoryRepository.findAllByUserIdAndVideoid(currentuser, vididtoplay);
+    }
+
+
+    @Override
+    public ArrayList<String> findDistinctVid() {
+        return userHistoryRepository.findDistinctVid();
+    }
+
+    @Override
+    public String findByUserIdandVideoid(String userId, String vidId) {
+        return userHistoryRepository.findRatingByUserIdAndVideoid(userId, vidId);
     }
 
 }

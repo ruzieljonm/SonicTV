@@ -39,5 +39,9 @@ public interface VideoService {
 
     ArrayList<VideoDetails> findAllVideoDetailsByGenre(String genreName);
 
-    List<UserHistory> findAllByUsernameandVideoid(String currentuser, String vididtoplay);
+    List<UserHistory> findAllByUserIdandVideoid(String currentuser, String vididtoplay);
+
+    ArrayList<String> findDistinctVid();
+
+    String findByUserIdandVideoid(String userId, String vidId);
 }

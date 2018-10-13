@@ -1,5 +1,6 @@
 package com.padshift.sonic.controller;
 
+import com.ibm.watson.developer_cloud.assistant.v1.model.Intent;
 import com.ibm.watson.developer_cloud.discovery.v1.Discovery;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
@@ -193,9 +194,6 @@ public class UserController {
     @RequestMapping("/homepagev2")
     public String showHomepage(Model model, HttpSession session) {
 
-
-
-
         String userid = session.getAttribute("userid").toString();
         System.out.println("tang ina" + userid);
         User user = userService.findByUserId(Integer.parseInt(userid));
@@ -257,12 +255,11 @@ public class UserController {
 
         }
 
-
-
         model.addAttribute("r1", vr1);
         model.addAttribute("r2", vr2);
         model.addAttribute("r3", vr3);
         model.addAttribute("r4", vr4);
+
         return "Homepage";
 
 
@@ -564,10 +561,11 @@ public class UserController {
         System.out.println("aaaaaaaaaaa" + session.getAttribute("userid"));
 
         UserHistory userhist = new UserHistory();
-        userhist.setUserId(Integer.parseInt(session.getAttribute("userid").toString()));
+        userhist.setUserId(session.getAttribute("userid").toString());
         userhist.setVideoid(vididtoplay);
         userhist.setSeqid(session.getAttribute("sessionid").toString());
         userhist.setUserName(session.getAttribute("username").toString());
+        userhist.setVidRating("0");
         userService.saveUserHistory(userhist);
 
 
@@ -619,9 +617,10 @@ public class UserController {
     public String submitRating(HttpServletRequest request, Model model, HttpSession session){
         String vididtoplay = (String) session.getAttribute("vididtoplay");
         String vidrating = request.getParameter(vididtoplay);
-        String currentuser = (String) session.getAttribute("username");
-        List<UserHistory> currentuserhist = videoService.findAllByUsernameandVideoid(currentuser, vididtoplay);
+        List<UserHistory> currentuserhist = videoService.findAllByUserIdandVideoid(session.getAttribute("userid").toString(), vididtoplay);
 
+        System.out.println("REGILZZZZZZZZZZZZZZ");
+        System.out.println(currentuserhist.get(0).getUserName()+"========");
         for (int i = 0; i < currentuserhist.size(); i++) {
             System.out.println(currentuserhist.get(i).getUserName()+"-----"+currentuserhist.get(i).getVideoid()+"-----"+vidrating);
             currentuserhist.get(i).setVidRating(vidrating);
@@ -666,7 +665,114 @@ public class UserController {
         model.addAttribute("tn1", thumbnail1);
         model.addAttribute("tn2", thumbnail2);
         model.addAttribute("tn3", thumbnail3);
+
+        ArrayList<String> users = cosineMatrix(session.getAttribute("userid").toString());
+        session.setAttribute("allusers",users);
+
         return "VideoPlayerV2";
+    }
+
+    public ArrayList<String> cosineMatrix(String currentuserId){
+        ArrayList<String> allusers = new ArrayList<>();
+//        ArrayList<User> users = userService.findOtherUser(currentuser);
+        ArrayList<String> users = userService.findDistinctUser(currentuserId);
+        ArrayList<String> vidhistID = videoService.findDistinctVid();
+        ArrayList<String> videohist = new ArrayList<>();
+        ArrayList<String> videorating = new ArrayList<>();
+        String uhist;
+        String currentU = userService.findCurrentByUserId(currentuserId);
+        System.out.println(currentU);
+        allusers.add(currentU);
+        int count = 0;
+
+        for (int i=0; i < users.size(); i++){
+            allusers.add(users.get(i));
+        }
+
+        for (int i = 0; i < allusers.size(); i++) {
+            System.out.println(allusers.get(i));
+        }
+
+        for(int j=0; j < vidhistID.size(); j++){
+            VideoDetails vid = videoService.findByVideoid(vidhistID.get(j));
+            videohist.add(vid.getVideoid());
+            System.out.println("ASDSAD "+videohist.get(j));
+        }
+        String[] currentuserRow = new String[videohist.size()];
+        for(int i=0; i < allusers.size(); i++){
+            System.out.print(allusers.get(i));
+            for(int j=0; j < vidhistID.size(); j++){
+                VideoDetails vid = videoService.findByVideoid(vidhistID.get(j));
+                System.out.println("XXXXX "+allusers.get(i)+" "+vid.getVideoid()+" XXXXXX");
+                uhist =  videoService.findByUserIdandVideoid(allusers.get(i),vid.getVideoid());
+                System.out.println(uhist);
+                if(uhist == null){
+                    uhist = "0";
+                }
+                videorating.add(uhist);
+            }
+        }
+
+        System.out.println(videohist.size());
+        System.out.println(videorating.size());
+        String[] otherRow = new String[videorating.size()];
+
+        for (int i=0; i < videohist.size(); i++){
+            System.out.printf("%15s", videohist.get(i));
+        }
+        System.out.println();
+        for (int i=0; i < allusers.size(); i++){
+            System.out.println(allusers.get(i));
+            for (int j = 0; j < videohist.size(); j++) {
+                System.out.printf("%15s", videorating.get(count));
+                if(i == 0){
+                    currentuserRow[j] = videorating.get(count);
+                }
+                else{
+                    otherRow[count] = videorating.get(count);
+                }
+                count++;
+            }
+            System.out.println("");
+        }
+
+        String[] otheruserRow = new String[videohist.size()];
+
+        count = 0;
+
+        for (int i = 0; i < currentuserRow.length; i++) {
+            System.out.print(currentuserRow[count]+" ");
+            count++;
+        }
+        for (int i=1; i < allusers.size(); i++){
+            for (int j = 0; j < videohist.size(); j++) {
+                otheruserRow[j] = otherRow[count];
+                System.out.print(otheruserRow[j]+" ");
+                count++;
+            }
+            cosineEquation(currentuserRow, otheruserRow, allusers.get(0), allusers.get(i), videohist);
+            System.out.println("");
+        }
+        return users;
+    }
+
+    public Double cosineEquation(String[] currentuserRatings, String[] otheruserRatings, String currentuser, String otheruser, ArrayList<String> allvideo){
+        System.out.println();
+        System.out.println("=====================================================");
+        for (int i=0; i < allvideo.size(); i++){
+            System.out.printf("%15s", allvideo.get(i));
+        }
+        System.out.println();
+        System.out.print(currentuser);
+        for (int i = 0; i < currentuserRatings.length; i++) {
+            System.out.printf("%15s", currentuserRatings[i]);
+        }
+        System.out.println();
+        System.out.print(otheruser);
+        for (int i = 0; i < otheruserRatings.length; i++) {
+            System.out.printf("%15s", otheruserRatings[i]);
+        }
+        return null;
     }
 
     @RequestMapping("/vplayer")

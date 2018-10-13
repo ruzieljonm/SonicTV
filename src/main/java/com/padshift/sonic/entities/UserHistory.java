@@ -10,14 +10,13 @@ import java.io.Serializable;
 @Entity
 @Table(name="userhistory")
 public class UserHistory implements Serializable{
-
     @Id
     @GeneratedValue
     @Column(name="whid")
     private int whid;
 
     @Column(name="userId")
-    private int userId;
+    private String userId;
 
     @Column(name="userName")
     private String userName;
@@ -39,11 +38,11 @@ public class UserHistory implements Serializable{
         this.seqid = seqid;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

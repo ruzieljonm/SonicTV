@@ -67,8 +67,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUserNameAndUserPass(userName, userPass);
     }
 
-
-
     @Override
     public User findByUserId(int userid) {
         return userRepository.findByUserId(userid);
@@ -108,6 +106,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public Criteria findCriteriaByCriteriaId(int editthis) {
         return criteriaRepository.findByCriteriaId(editthis);
+    }
+
+    @Override
+    public ArrayList<String> findDistinctUser(String currentuserId) {
+        return userHistoryRepository.findDistinctUser(currentuserId);
+    }
+
+    @Override
+    public ArrayList<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public String findUserByUserId(String userId) {
+        return userHistoryRepository.findUserByUserId(userId);
+    }
+
+    @Override
+    public String findCurrentByUserId(String currentuserId) {
+        return userHistoryRepository.findCurrentByUserId(currentuserId);
     }
 
 

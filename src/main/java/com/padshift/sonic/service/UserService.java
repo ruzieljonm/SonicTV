@@ -50,4 +50,12 @@ public interface UserService {
     Criteria findCriteriaByCriteriaName(String userinput);
 
     Criteria findCriteriaByCriteriaId(int editthis);
+
+    ArrayList<String> findDistinctUser(String currentuserId);
+
+    ArrayList<User> findAll();
+
+    String findUserByUserId(String userId);
+
+    String findCurrentByUserId(String currentuserId);
 }
