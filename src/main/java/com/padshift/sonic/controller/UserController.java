@@ -7,9 +7,11 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.An
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.CategoriesOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.padshift.sonic.entities.*;
+import com.padshift.sonic.repository.UserHistoryRepository;
 import com.padshift.sonic.service.GenreService;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.hibernate.annotations.SourceType;
 import org.hibernate.mapping.Array;
 import org.json.JSONArray;
@@ -55,6 +57,9 @@ public class UserController {
 
     @Autowired
     GenreService genreService;
+
+
+
 
     @RequestMapping("/sonic")
     public String showLoginPage(HttpSession session, Model model) {
@@ -115,8 +120,6 @@ public class UserController {
         Calendar now = Calendar.getInstance();   // Gets the current date and time
         int year = now.get(Calendar.YEAR);       // The current year
 
-        System.out.println("BIRTHDAY CYST : " + request.getParameter("bday"));
-        System.out.println("TYPE CYST : " + request.getParameter("radio"));
 
         String bday = request.getParameter("bday");
         String upToNCharacters = bday.substring(0, Math.min(bday.length(), 4));
@@ -166,7 +169,6 @@ public class UserController {
     public String submitPreference(HttpServletRequest request, HttpSession session, Model model) {
 
         System.out.println(session.getAttribute("userid") + "usah id");
-
         ArrayList<Genre> genres = genreService.findAll();
         UserPreference[] genrePreference = new UserPreference[genres.size()];
 
@@ -196,7 +198,6 @@ public class UserController {
 
     }
 
-    String topgenre=null;
 
     @RequestMapping("/homepagev2")
     public String showHomepage(Model model, HttpSession session) {
@@ -217,7 +218,7 @@ public class UserController {
             rv.setArtist(vid.getArtist());
             rv.setGenre(vid.getGenre());
             rv.setViewCount(vid.getViewCount());
-            rv.setWeight(computeInitialVideoWeight(vid,user));
+            rv.setWeight(userService.computeInitialVideoWeight(vid,user));
             recVideos.add(rv);
         }
 
@@ -265,209 +266,6 @@ public class UserController {
         return "Homepage";
     }
 
-    public float computeInitialVideoWeight(VideoDetails video, User user){
-        float vidWeight;
-        float userInput = 0;
-
-        float genreAgePop,genreAgeRock, genreAgeAlt, genreAgeRBS, genreAgeCntry, genreAgeHouse, genreAgeReg, genreAgeRel, genreAgeHH;
-
-        if(user.getUserAge()<=24){
-            genreAgePop = (float) 0.50;
-            genreAgeRock = (float) 0.40;
-            genreAgeHH = (float) 0.40;
-            genreAgeAlt = (float) 0.30;
-            genreAgeRBS = (float) 0.20;
-            genreAgeCntry = (float) 0.10;
-            genreAgeHouse = (float) 0.10;
-            genreAgeReg = (float) 0.10;
-            genreAgeRel = (float) 0.10;
-        }else if(user.getUserAge()>=25 && user.getUserAge()<=34){
-            genreAgePop = (float) 0.50;
-            genreAgeRock = (float) 0.40;
-            genreAgeHH = (float) 0.30;
-            genreAgeAlt = (float) 0.20;
-            genreAgeCntry = (float) 0.20;
-            genreAgeRBS = (float) 0.10;
-            genreAgeHouse = (float) 0.10;
-            genreAgeReg = (float) 0.10;
-            genreAgeRel = (float) 0.10;
-        }else if(user.getUserAge()>=35 && user.getUserAge()<=44) {
-            genreAgeRock = (float) 0.50;
-            genreAgePop = (float) 0.40;
-            genreAgeCntry = (float) 0.30;
-            genreAgeAlt = (float) 0.20;
-            genreAgeHH = (float) 0.10;
-            genreAgeRBS = (float) 0.05;
-            genreAgeHouse = (float) 0.05;
-            genreAgeReg = (float) 0.05;
-            genreAgeRel = (float) 0.05;
-        }else if(user.getUserAge()>=45 && user.getUserAge()<=54) {
-            genreAgeRock = (float) 0.50;
-            genreAgePop = (float) 0.40;
-            genreAgeCntry = (float) 0.30;
-            genreAgeAlt = (float) 0.20;
-            genreAgeRBS = (float) 0.10;
-            genreAgeHH = (float) 0.05;
-            genreAgeHouse = (float) 0.05;
-            genreAgeReg = (float) 0.05;
-            genreAgeRel = (float) 0.05;
-        }else if(user.getUserAge()>=55 && user.getUserAge()<=64) {
-            genreAgeRock = (float) 0.50;
-            genreAgeCntry = (float) 0.40;
-            genreAgePop = (float) 0.30;
-            genreAgeRBS = (float) 0.20;
-            genreAgeAlt = (float) 0.10;
-            genreAgeHH = (float) 0.05;
-            genreAgeHouse = (float) 0.05;
-            genreAgeReg = (float) 0.05;
-            genreAgeRel = (float) 0.05;
-        }else{
-            genreAgeRock = (float) 0.50;
-            genreAgeCntry = (float) 0.40;
-            genreAgePop = (float) 0.40;
-            genreAgeRBS = (float) 0.30;
-            genreAgeAlt = (float) 0.20;
-            genreAgeHH = (float) 0.10;
-            genreAgeHouse = (float) 0.05;
-            genreAgeReg = (float) 0.05;
-            genreAgeRel = (float) 0.05;
-        }
-
-        float genrePTPop,genrePTRock, genrePTAlt, genrePTRBS, genrePTCntry, genrePTHouse, genrePTReg, genrePTRel, genrePTHH;
-
-
-        if(user.getUserPersonality().equals("introvert")){
-            genrePTRock = (float) 0.60;
-            genrePTAlt = (float) 0.60;
-            genrePTReg = (float) 0.60;
-            genrePTRel = (float) 0.60;
-
-            genrePTPop = (float) 0.40;
-            genrePTRBS = (float) 0.40;
-            genrePTCntry = (float) 0.40;
-            genrePTHouse = (float) 0.40;
-            genrePTHH = (float) 0.40;
-        }else{
-
-            genrePTRock = (float) 0.40;
-            genrePTAlt = (float) 0.40;
-            genrePTReg = (float) 0.40;
-            genrePTRel = (float) 0.40;
-
-            genrePTPop = (float) 0.60;
-            genrePTRBS = (float) 0.60;
-            genrePTCntry = (float) 0.60;
-            genrePTHouse = (float) 0.60;
-            genrePTHH = (float) 0.60;
-
-        }
-
-        ArrayList<UserPreference> userPref = userService.findAllGenrePreferenceByUserId(user.getUserId());
-
-        float genreAge = 0;
-        float genrePT =0;
-        float genreLoc = 0;
-
-        if(video.getGenre().equals("Pop Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),1).getPrefWeight();
-            genreAge = genreAgePop;
-            genrePT = genrePTPop;
-            genreLoc = (float) 35.19;
-
-        }
-        if(video.getGenre().equals("Rock Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),2).getPrefWeight();
-            genreAge = genreAgeRock;
-            genrePT = genrePTRock;
-            genreLoc = (float) 6.48;
-        }
-
-        if(video.getGenre().equals("Alternative Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),3).getPrefWeight();
-            genreAge = genreAgeAlt;
-            genrePT = genrePTAlt;
-            genreLoc = (float) 6.48;
-        }
-        if(video.getGenre().equals("R&B/Soul Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),4).getPrefWeight();
-            genreAge = genreAgeRBS;
-            genrePT = genrePTRBS;
-            genreLoc = (float)15.74;
-        }
-        if(video.getGenre().equals("Country Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),5).getPrefWeight();
-            genreAge = genreAgeCntry;
-            genrePT = genrePTCntry;
-            genreLoc = (float)35.19;
-        }
-        if(video.getGenre().equals("House Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),6).getPrefWeight();
-            genreAge = genreAgeHouse;
-            genrePT = genrePTHouse;
-            genreLoc = (float) 43.59;
-        }
-        if(video.getGenre().equals("Reggae Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),7).getPrefWeight();
-            genreAge = genreAgeReg;
-            genrePT = genrePTReg;
-            genreLoc = 0;
-        }
-        if(video.getGenre().equals("Religious Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),8).getPrefWeight();
-            genreAge = genreAgeRel;
-            genrePT = genrePTRel;
-            genreLoc = (float)35.19;
-        }
-        if(video.getGenre().equals("Hip-Hop/Rap Music")){
-            userInput = userService.findUserPreferenceByUserIdAndGenreId(user.getUserId(),9).getPrefWeight();
-            genreAge = genreAgeHH;
-            genrePT = genrePTHH;
-            genreLoc = (float) 43.59;
-        }
-
-        float uipercent, agepercent,pertypepercent;
-        Criteria ui = userService.findCriteriaByCriteriaName("userinput");
-        if(ui!=null){
-            uipercent=ui.getCriteriaPercentage();
-        }else{
-            uipercent=0;
-        }
-
-        Criteria age = userService.findCriteriaByCriteriaName("age");
-        if(age!=null){
-            agepercent = age.getCriteriaPercentage();
-        }else{
-            agepercent=0;
-        }
-
-        Criteria pertype = userService.findCriteriaByCriteriaName("personality");
-        if(pertype!=null){
-            pertypepercent = pertype.getCriteriaPercentage();
-        }else{
-            pertypepercent=0;
-        }
-
-        Criteria perloc = userService.findCriteriaByCriteriaName("location");
-        float locpercent;
-        if(perloc!=null){
-            locpercent = perloc.getCriteriaPercentage();
-        }else{
-            locpercent=0;
-        }
-
-
-        float likes;
-        float views = Float.parseFloat(video.getViewCount().toString());
-        if(video.getLikes().equals("0")){
-             likes =1;
-        }else{
-             likes = Float.parseFloat(video.getLikes().toString());
-        }
-
-
-        vidWeight= (float) ((((userInput/10)*uipercent)+((genreAge/1)*agepercent)+((genrePT/1)*pertypepercent)+(genreLoc/100)*locpercent  )*likes);
-        return vidWeight;
-    }
 
 
 
@@ -475,14 +273,12 @@ public class UserController {
     public String gotoPlayer(HttpServletRequest request, Model model, HttpSession session){
         String vididtoplay = request.getParameter("clicked");
 
-
         UserHistory userhist = new UserHistory();
         userhist.setUserId(Integer.parseInt(session.getAttribute("userid").toString()));
         userhist.setVideoid(vididtoplay);
         userhist.setSeqid(session.getAttribute("sessionid").toString());
+
         userService.saveUserHistory(userhist);
-
-
         VideoDetails playvid = videoService.findByVideoid(vididtoplay);
         ArrayList<VideoDetails> upnext = (ArrayList<VideoDetails>) videoService.findAllVideoDetails();
 
@@ -497,17 +293,17 @@ public class UserController {
 
         ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
 
-        videoList = videoService.findAllVideoDetails();
+//        videoList = videoService.findAllVideoDetails();
+//
+//        ArrayList<VVD> vr1 = new ArrayList<VVD>();
+//
+//        for (int i = 0; i < 6; i++) {
+//            VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
+//            vr1.add(vid);
+//            vid = null;
+//        }
 
-        ArrayList<VVD> vr1 = new ArrayList<VVD>();
-
-        for (int i = 0; i < 6; i++) {
-            VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-            vr1.add(vid);
-            vid = null;
-        }
-
-        model.addAttribute("r1", vr1);
+//        model.addAttribute("r1", vr1);
 
         model.addAttribute("emblink", url);
         model.addAttribute("vidtitle", playvid.getTitle());
@@ -569,6 +365,52 @@ public class UserController {
         return "Explore";
 
     }
+
+    @RequestMapping("/srm")
+    public String sequenceRuleMining(HttpSession session){
+        String userid = session.getAttribute("userid").toString();
+        String sessionid = session.getAttribute("sessionid").toString();
+
+        userService.seqRulMin(userid,sessionid);
+
+        return "testing";
+
+    }
+
+
+//    @RequestMapping("/showseq")
+//    public String sequenceRuleMining(HttpSession session){
+//
+//        String userid = session.getAttribute("userid").toString();
+//        String sessionid = session.getAttribute("sessionid").toString();
+//
+//        System.out.println("USER ID : " + userid);
+//        System.out.println("SESSION ID " + sessionid);
+//
+//        userService.seqRulMin(userid,sessionid);
+//
+//        return "testing";
+//
+//
+//
+//
+//    }
+//
+//    @RequestMapping("/showexistingseq")
+//    public void showExSeq(HttpSession session){
+//        String userid = session.getAttribute("userid").toString();
+//        ArrayList<String> seq = userService.findDistinctSequenceId();
+//
+//        for(String s : seq){
+//            System.out.println(s.toString());
+//        }
+//    }
+
+
+
+
+
+
 
 
 

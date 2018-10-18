@@ -1,10 +1,9 @@
 package com.padshift.sonic.repository;
 
 import com.padshift.sonic.entities.UserHistory;
-import com.padshift.sonic.entities.UserPreference;
-import org.hibernate.mapping.Array;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -21,4 +20,10 @@ public interface UserHistoryRepository extends JpaRepository<UserHistory,Long> {
     ArrayList<String> findDistinctSequenceId();
 
     ArrayList<UserHistory> findBySeqid(String s);
+
+    @Query("select distinct seqid from UserHistory where user_id = :uid")
+    ArrayList<String> findDistinctSequenceIdByUserid(@Param("uid") int userid);
+
+
+//    ArrayList<String> findDistinctSeqidByUserid(int i);
 }

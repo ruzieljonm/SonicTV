@@ -1,11 +1,9 @@
 package com.padshift.sonic.service;
 
-import com.padshift.sonic.entities.Criteria;
-import com.padshift.sonic.entities.User;
-import com.padshift.sonic.entities.UserHistory;
-import com.padshift.sonic.entities.UserPreference;
+import com.padshift.sonic.entities.*;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 /**
@@ -40,7 +38,7 @@ public interface UserService {
 
     UserPreference findUserPreferenceByUserIdAndGenreId(int userId, int i);
 
-    void saveCriteria(Criteria criteria);
+//    void saveCriteria(Criteria criteria);
 
     ArrayList<Criteria> findAllCriteria();
 
@@ -50,4 +48,14 @@ public interface UserService {
     Criteria findCriteriaByCriteriaName(String userinput);
 
     Criteria findCriteriaByCriteriaId(int editthis);
+
+
+    float computeInitialVideoWeight(VideoDetails vid, User user);
+
+    void seqRulMin(String userid, String sessionid);
+
+//    void seqRulMin(String userid, String sessionid);
+//
+//
+//    ArrayList<String> findDistinctSequenceId();
 }
