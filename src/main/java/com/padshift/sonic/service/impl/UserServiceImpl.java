@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by ruzieljonm on 27/06/2018.
@@ -337,45 +341,97 @@ public class UserServiceImpl implements UserService {
             userHistPerSeq[i] = userHistoryRepository.findBySeqid(sequences.get(i).toString());
         }
 
+        ArrayList<String> frequentSet = new ArrayList<>();
+
         for(int i=0; i<userHistPerSeq.length; i++){
             System.out.print("Sequence" + "[" +i+ "] : ");
             for(int j=0; j<userHistPerSeq[i].size(); j++) {
                 System.out.print(userHistPerSeq[i].get(j).getVideoid() + ", ");
+                frequentSet.add(userHistPerSeq[i].get(j).getVideoid());
             }
             System.out.println();
         }
 
-
-        ArrayList<UserHistory> currentSeq = userHistoryRepository.findBySeqid(sessionid);
-        System.out.println("Current Session: ");
-        for(int i=0; i<currentSeq.size(); i++){
-            System.out.print(currentSeq.get(i).getVideoid() + ", ");
-        }
+//        List<String> deduped = frequentSet.stream().distinct().collect(Collectors.toList());
 
         ArrayList<Video> allvids = (ArrayList<Video>) videoService.findAll();
 
-        ArrayList<String>[] check = (ArrayList<String>[])new ArrayList[allvids.size()];
+        System.out.println("size of allvids : " + allvids.size());
+        for(int i=0; i<allvids.size(); i++) {
+            if (!frequentSet.contains(allvids.get(i).getVideoid())){
+                allvids.remove(i);
+            }
+        }
 
-        for(int i=0; i<check.length; i++){
+        System.out.println("size of allvids after : " + allvids.size());
 
+
+
+
+        ArrayList<UserHistory> currentSeq = userHistoryRepository.findBySeqid(sessionid);
+        System.out.println("Current Session: ");
+        for(int i=0; i<userHistPerSeq.length; i++){
+            int flag=0;
             for(int j=0; j<currentSeq.size(); j++) {
-                check[i].add(currentSeq.get(j).getVideoid());
+//            System.out.print(currentSeq.get(i).getVideoid() + ", ");
+                if (Arrays.asList(userHistPerSeq[i]).contains(currentSeq.get(j).getVideoid())) {
+                    flag++;
+                }
             }
-            check[i].add(allvids.get(i).getVideoid());
+
+            if(flag==(currentSeq.size()-1)/2){
+                for(int k =0; k<userHistPerSeq[i].size(); k++) {
+                    System.out.println(userHistPerSeq[k].get(i).getVideoid() +", ");
+                }
+            }
         }
 
-        System.out.println("Sequence Rule Mining CM Spade");
-
-        for(int i=0; i<10; i++){
-            for(int j=0; j<check[i].size(); j++) {
-                System.out.println(check[i].get(j));
-            }
-        }
-
-
-
-
-
+//        ArrayList<Video> allvids = (ArrayList<Video>) videoService.findAll();
+//
+//        ArrayList<String>[] check = (ArrayList<String>[])new ArrayList[allvids.size()];
+//
+//        for(int i=0; i<check.length; i++){
+//                check[i] = new ArrayList<>();
+//
+//
+//        }
+//
+//        for(int i=0; i<check.length; i++){
+//
+//            for(int j=0; j<currentSeq.size(); j++) {
+//                check[i].add(currentSeq.get(j).getVideoid());
+//            }
+//            check[i].add(allvids.get(i).getVideoid());
+//        }
+//
+//        System.out.println("Sequence Rule Mining CM Spade");
+//
+////        for(int i=0; i<10; i++){
+////            for(int j=0; j<check[i].size(); j++) {
+////                System.out.print(check[i].get(j) + " - ");
+////            }
+////            System.out.println();
+////        }
+//        System.out.println("SIZE BEFORE CLEANING:" + check.length);
+//        //cleaning
+//
+//            for(int j=0; j<check.length; j++) {
+//                if(!currentSeq.contains(check[i].get(j))){
+//                    for(int q = i; q < check.length - 1; q++){
+//                        check[q] = check[q+1];
+//                    }
+//
+//                }
+//
+//
+//
+//        }
+//        System.out.println("SIZE AFTER CLEANING:" + check.length);
+//
+//
+//
+//
+//
 
 
 
