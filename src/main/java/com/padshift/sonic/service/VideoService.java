@@ -26,7 +26,7 @@ public interface VideoService {
     VideoDetails findByVideoid(String vididtoplay);
 
 
-    List<UserHistory> findAllByUserId(int userid);
+    List<UserHistory> findAllByUserId(String userid);
 
     ArrayList<String> findDistinctGenre();
 

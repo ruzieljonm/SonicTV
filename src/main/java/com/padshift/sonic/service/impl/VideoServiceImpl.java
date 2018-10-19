@@ -59,7 +59,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<UserHistory> findAllByUserId(int userid) {
+    public List<UserHistory> findAllByUserId(String userid) {
         return userHistoryRepository.findByuserId(userid);
     }
 

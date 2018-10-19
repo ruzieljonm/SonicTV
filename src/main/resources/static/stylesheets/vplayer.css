@@ -811,5 +811,16 @@ progress::-webkit-progress-value {
 }
 
 #submit-video-rating{
+    position: relative;
+    bottom: 28px;
+    font-size: 20px;
+    background-color: #16a085;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+}
 
+#submit-video-rating:hover {
+    background-color: #09463a;
+    cursor: pointer;
 }

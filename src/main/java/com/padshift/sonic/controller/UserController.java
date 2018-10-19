@@ -11,6 +11,7 @@ import com.padshift.sonic.entities.*;
 import com.padshift.sonic.service.GenreService;
 import com.padshift.sonic.service.UserService;
 import com.padshift.sonic.service.VideoService;
+import org.hibernate.Session;
 import org.hibernate.annotations.SourceType;
 import org.hibernate.mapping.Array;
 import org.json.JSONArray;
@@ -640,14 +641,33 @@ public class UserController {
 
         ArrayList<VideoDetails> videoList = new ArrayList<VideoDetails>();
         videoList = videoService.findAllVideoDetails();
+        VideoDetails recommVids = new VideoDetails();
 
         ArrayList<VVD> vr1 = new ArrayList<VVD>();
 
+        String[] recommendedVids = cosineMatrix(session.getAttribute("userid").toString());
+        System.out.println(recommendedVids[0]);
+        int j =0;
         for (int i = 0; i < 6; i++) {
-            VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
-            vr1.add(vid);
-            vid = null;
+            if(recommendedVids[j] != null && i < recommendedVids.length){
+                recommVids = videoService.findByVideoid(recommendedVids[i]);
+                VVD vid = new VVD(recommVids.getVideoid(), recommVids.getTitle(), recommVids.getArtist(), recommVids.getGenre(), recommVids.getDate(),"https://i.ytimg.com/vi/" + recommVids.getVideoid() + "/mqdefault.jpg");
+                vr1.add(vid);
+                vid = null;
+                j++;
+            }
+            else{
+                VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
+                vr1.add(vid);
+                vid = null;
+            }
         }
+
+//        for (int i = 0; i < 6; i++) {
+//            VVD vid = new VVD(videoList.get(i).getVideoid(), videoList.get(i).getTitle(), videoList.get(i).getArtist(), videoList.get(i).getGenre(), videoList.get(i).getDate(),"https://i.ytimg.com/vi/" + videoList.get(i).getVideoid() + "/mqdefault.jpg");
+//            vr1.add(vid);
+//            vid = null;
+//        }
 
         model.addAttribute("r1", vr1);
 
@@ -666,13 +686,10 @@ public class UserController {
         model.addAttribute("tn2", thumbnail2);
         model.addAttribute("tn3", thumbnail3);
 
-        ArrayList<String> users = cosineMatrix(session.getAttribute("userid").toString());
-        session.setAttribute("allusers",users);
-
         return "VideoPlayerV2";
     }
 
-    public ArrayList<String> cosineMatrix(String currentuserId){
+    public String[] cosineMatrix(String currentuserId){
         ArrayList<String> allusers = new ArrayList<>();
 //        ArrayList<User> users = userService.findOtherUser(currentuser);
         ArrayList<String> users = userService.findDistinctUser(currentuserId);
@@ -683,6 +700,7 @@ public class UserController {
         String currentU = userService.findCurrentByUserId(currentuserId);
         System.out.println(currentU);
         allusers.add(currentU);
+
         int count = 0;
 
         for (int i=0; i < users.size(); i++){
@@ -740,6 +758,11 @@ public class UserController {
 
         count = 0;
 
+        double[] cosineValue = new double[allusers.size()];
+        double similarUser = 0;
+        double temp;
+        String[] arrUser = new String[allusers.size()];
+        String simUser = "", tempotheruser;
         for (int i = 0; i < currentuserRow.length; i++) {
             System.out.print(currentuserRow[count]+" ");
             count++;
@@ -750,14 +773,66 @@ public class UserController {
                 System.out.print(otheruserRow[j]+" ");
                 count++;
             }
-            cosineEquation(currentuserRow, otheruserRow, allusers.get(0), allusers.get(i), videohist);
+            cosineValue[i] = cosineSimilarity(currentuserRow, otheruserRow, allusers.get(0), allusers.get(i), videohist);
             System.out.println("");
         }
-        return users;
+        String[] similarUserRow = new String[videohist.size()];
+        count = 0;
+
+        for (int i = 0; i < currentuserRow.length; i++) {
+            System.out.print(currentuserRow[count]+" ");
+            count++;
+        }
+        for (int i = 0; i < 3; i++) {
+            arrUser[i] = allusers.get(i);
+        }
+
+//        for (int i = 0; i < cosineValue.length; i++)
+//        {
+//            for (int j = i + 1; j < cosineValue.length; j++)
+//            {
+//                if (cosineValue[i] < cosineValue[j])
+//                {
+//                    temp = cosineValue[i];
+//                    cosineValue[i] = cosineValue[j];
+//                    cosineValue[j] = temp;
+//                }
+//            }
+//        }
+
+        for (int i = 0; i < arrUser.length; i++) {
+            System.out.println(arrUser[i]);
+        }
+        System.out.println("OOOOOO - "+cosineValue.length);
+        for (int i = 0; i < arrUser.length; i++) {
+            for (int j = i + 1; j < cosineValue.length; j++)
+            {
+                if (cosineValue[i] < cosineValue[j])
+                {
+                    temp = cosineValue[i];
+                    tempotheruser = arrUser[i];
+                    cosineValue[i] = cosineValue[j];
+                    arrUser[i] = arrUser[j];
+                    cosineValue[j] = temp;
+                    arrUser[j] = tempotheruser;
+                }
+            }
+        }
+        for (int i = 0; i < arrUser.length; i++) {
+            System.out.println(arrUser[i]+": "+cosineValue[i]);
+        }
+//        System.out.println(simUser);
+//        System.out.println(similarUser);
+        String[] recommVids = ratingPrediction(currentuserRow, allusers.get(0), arrUser, cosineValue, videohist);
+        return recommVids;
     }
 
-    public Double cosineEquation(String[] currentuserRatings, String[] otheruserRatings, String currentuser, String otheruser, ArrayList<String> allvideo){
-        System.out.println();
+    public double cosineSimilarity(String[] currentuserRatings, String[] otheruserRatings, String currentuser, String otheruser, ArrayList<String> allvideo){
+        double nume = 0;
+        double denum = 0;
+        double cosineresult = 0;
+        double multiplier1 = 0, multiplier2 = 0;
+        System.out.println(allvideo.size()+" "+currentuserRatings.length+" "+otheruserRatings.length);
         System.out.println("=====================================================");
         for (int i=0; i < allvideo.size(); i++){
             System.out.printf("%15s", allvideo.get(i));
@@ -765,14 +840,132 @@ public class UserController {
         System.out.println();
         System.out.print(currentuser);
         for (int i = 0; i < currentuserRatings.length; i++) {
-            System.out.printf("%15s", currentuserRatings[i]);
+            System.out.printf("%13s", currentuserRatings[i]);
         }
         System.out.println();
         System.out.print(otheruser);
         for (int i = 0; i < otheruserRatings.length; i++) {
-            System.out.printf("%15s", otheruserRatings[i]);
+            System.out.printf("%13s", otheruserRatings[i]);
         }
-        return null;
+
+        for (int i = 0; i < allvideo.size(); i++) {
+            nume += Integer.parseInt(currentuserRatings[i])*Integer.parseInt(otheruserRatings[i]);
+            multiplier1 += Double.parseDouble(currentuserRatings[i]) * Double.parseDouble(currentuserRatings[i]);
+            multiplier2 += Double.parseDouble(otheruserRatings[i]) * Double.parseDouble(otheruserRatings[i]);
+        }
+
+        System.out.println("");
+        System.out.println("NUMERATOR: " + nume);
+        System.out.println("MULTIPLIER1: "+ multiplier1);
+        System.out.println("MULTIPLIER2: "+ multiplier2);
+        System.out.println("SQUARE1: "+ Math.sqrt(multiplier1));
+        System.out.println("SQUARE2: "+ Math.sqrt(multiplier2));
+        denum = Math.sqrt(multiplier1) * Math.sqrt(multiplier2);
+        System.out.println("DENUMERATOR: "+ denum);
+        cosineresult = nume/denum;
+        System.out.println("RESULT: "+ cosineresult);
+        System.out.println();
+
+//        System.out.println((int)Math.sqrt(25));
+
+        return cosineresult;
+    }
+
+    public String[] ratingPrediction(String[] currentuserRatings, String currentuser, String[] otheruser, double[] cosineValue, ArrayList<String> allvideo){
+        String uhist;
+        double nume = 0;
+        double denum = 0;
+        double[] predictedRate = new double[allvideo.size()];
+        String[] predictedVidId = new String[allvideo.size()];
+        String[][] otherUserRating = new String[otheruser.length-1][allvideo.size()];
+        ArrayList<String> videorating = new ArrayList<>();
+        for(int i=0; i < otheruser.length-1; i++){
+            System.out.print(otheruser[i]);
+            for(int j=0; j < allvideo.size(); j++){
+                VideoDetails vid = videoService.findByVideoid(allvideo.get(j));
+                System.out.println("XXXXX "+otheruser[i]+" "+vid.getVideoid()+" XXXXXX");
+                uhist =  videoService.findByUserIdandVideoid(otheruser[i],vid.getVideoid());
+                System.out.println(uhist);
+                if(uhist == null){
+                    uhist = "0";
+                }
+                otherUserRating[i][j] = uhist;
+                videorating.add(uhist);
+            }
+        }
+
+        for (int i = 0; i < otheruser.length-1; i++) {
+            System.out.println("SIM("+currentuser+","+otheruser[i]+"): "+ cosineValue[i]);
+        }
+        System.out.println("RATING PREDICTION: ");
+        for (int i=0; i < allvideo.size(); i++){
+            System.out.printf("%15s", allvideo.get(i));
+        }
+        System.out.println();
+        System.out.print(currentuser);
+        for (int i = 0; i < currentuserRatings.length; i++) {
+            System.out.printf("%13s", currentuserRatings[i]);
+        }
+        System.out.println();
+        for (int i = 0; i < otheruser.length-1; i++) {
+            System.out.print(otheruser[i]);
+            for (int j = 0; j < allvideo.size(); j++) {
+                System.out.printf("%13s", otherUserRating[i][j]);
+            }
+            System.out.println(" ");
+        }
+
+        for (int i = 0; i < allvideo.size(); i++) {
+            for (int j = 0; j < otheruser.length-1; j++) {
+                if(Double.parseDouble(currentuserRatings[i]) == 0){
+                    nume += cosineValue[j] * Double.parseDouble(otherUserRating[j][i]);
+                    denum += cosineValue[j];
+                    predictedRate[i] = nume/denum;
+                    predictedVidId[i] = allvideo.get(i);
+                }
+            }
+            nume = 0;
+            denum = 0;
+        }
+        double temp = 0;
+        String tempvidId = "";
+        for (int i = 0; i < predictedVidId.length; i++) {
+//            System.out.println(predictedVidId[i]+": "+predictedRate[i]);
+            for (int j = i + 1; j < predictedVidId.length; j++)
+            {
+                if (predictedRate[i] < predictedRate[j])
+                {
+                    temp = predictedRate[i];
+                    tempvidId = predictedVidId[i];
+                    predictedRate[i] = predictedRate[j];
+                    predictedVidId[i] = predictedVidId[j];
+                    predictedRate[j] = temp;
+                    predictedVidId[j] = tempvidId;
+                }
+            }
+        }
+        for (int i = 0; i < predictedVidId.length; i++) {
+            System.out.println(predictedVidId[i]+": "+predictedRate[i]);
+        }
+        DecimalFormat numberFormat = new DecimalFormat("#");
+//        System.out.println(numberFormat.format(predictedRate[1])+"KASGDKSJGADJKGASD");
+//        updateRating(predictedVidId, predictedRate, currentuser);
+        return predictedVidId;
+    }
+
+    public void updateRating(String[] predictedVidId, double[] predictedRate, String currentuser){
+        DecimalFormat numberFormat = new DecimalFormat("#");
+        for (int i = 0; i < predictedVidId.length; i++) {
+            UserHistory currentuserhist = new UserHistory();
+            if(predictedVidId[i] != null) {
+                currentuserhist.setUserId(currentuser);
+                currentuserhist.setVideoid(predictedVidId[i]);
+                currentuserhist.setVidRating(numberFormat.format(predictedRate[i]));
+                userService.saveUserHistory(currentuserhist);
+                currentuserhist = null;
+
+            }
+        }
     }
 
     @RequestMapping("/vplayer")

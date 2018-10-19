@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Repository("userHistoryRepository")
 public interface UserHistoryRepository extends JpaRepository<UserHistory,Long> {
-    List<UserHistory> findByuserId(int userid);
+    List<UserHistory> findByuserId(String userid);
 
     List<UserHistory> findAllByUserIdAndVideoid(String userId, String videoid);
 
