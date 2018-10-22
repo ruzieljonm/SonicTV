@@ -377,6 +377,8 @@ public class UserController {
 
     }
 
+    //revived huhu
+
 
 //    @RequestMapping("/showseq")
 //    public String sequenceRuleMining(HttpSession session){
